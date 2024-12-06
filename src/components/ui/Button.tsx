@@ -6,13 +6,14 @@ import { MainStyles } from "@/src/constants/Style";
 interface ButtonProps {
   onPress: () => void;
   children: ReactNode;
+  disabled?: boolean;
   style?: ViewStyle;
 }
 
-export default function Button({ onPress, children, style }: ButtonProps) {
+export default function Button({ onPress, children, style, disabled = false }: ButtonProps) {
   return (
     <View style={[styles.container, style]}>
-      <Pressable style={({ pressed }) => pressed && styles.pressed} onPress={onPress}>
+      <Pressable style={({ pressed }) => pressed && styles.pressed} onPress={onPress} disabled={disabled}>
         <View style={styles.button}>
           <Text style={styles.text}>{children}</Text>
         </View>

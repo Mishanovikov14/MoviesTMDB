@@ -1,8 +1,9 @@
 export const Colors = {
-    GREEN: "#60AB55",
-    YELLOW: "#BCAD4C",
+    LIGHT_GREY: "#CFCDCDFF",
+    DARK_GREY: "#898989FF",
     PRIMARY: "#FFD324FF",
     DARK: "#000000",
+    ERROR: "red"
 };
 
 export const ThemeColors = {
