@@ -1,7 +1,7 @@
 import { Alert, Keyboard, StyleSheet, Text, View } from "react-native";
 import { Colors, ThemeColors } from "@/src/constants/Colors";
 import Button from "@/src/components/ui/Button";
-import { Link, Stack } from "expo-router";
+import { Link, Stack, router } from "expo-router";
 import { MainStyles } from "@/src/constants/Style";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
@@ -10,6 +10,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from "@/src/constants/schemas/AuthSchemas";
 import { FIREBASE_AUTH } from "@/src/lib/FirebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { useAppDispatch } from "@/src/store/store";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { setToken, setUser } from "@/src/store/auth/authSlice";
 
 type FormData = {
   email: string;
@@ -19,6 +22,7 @@ type FormData = {
 export default function signInPage() {
   const [loading, setLoading] = useState(false);
   const auth = FIREBASE_AUTH;
+  const dispatch = useAppDispatch();
 
   const {
     control,
@@ -33,11 +37,26 @@ export default function signInPage() {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
 
-      console.log("Login response: ", userCredential);
+      const userInfo = {
+        uid: userCredential.user.uid,
+        email: userCredential.user.email,
+        displayName: userCredential.user.displayName,
+        photoURL: userCredential.user.photoURL,
+      };
 
-      console.log("User credential: ", userCredential.user);
+      // Здесь предполагается, что вы получаете токен для сессии ??
+      const token = await userCredential.user.getIdToken();
 
-      Alert.alert("Login");
+      // Сохранить данные пользователя и токен в AsyncStorage
+      await AsyncStorage.setItem("userSession", JSON.stringify(userInfo)); // Сохраняем данные пользователя
+      await AsyncStorage.setItem("authToken", token); // Сохраняем токен
+
+      dispatch(setUser(userInfo));
+      dispatch(setToken(token));
+
+      console.log("Login response: ", JSON.stringify(userCredential, null, 3));
+
+      router.replace("/(tabs)/home");
 
       reset();
     } catch (error) {

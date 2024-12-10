@@ -1,7 +1,7 @@
 import { Alert, Keyboard, StyleSheet, Text, View } from "react-native";
 import { Colors, ThemeColors } from "@/src/constants/Colors";
 import Button from "@/src/components/ui/Button";
-import { Stack } from "expo-router";
+import { Stack, router } from "expo-router";
 import { MainStyles } from "@/src/constants/Style";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
@@ -39,7 +39,7 @@ export default function signUpPage() {
         displayName: userName,
       });
 
-      console.log("Profile updated successfully for user:", user.uid);
+      router.back();
     } catch (error) {
       //TODO: Normal error handling
       Alert.alert(JSON.stringify(error));
