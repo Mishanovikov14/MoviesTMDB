@@ -56,7 +56,7 @@ export default function signInPage() {
 
       console.log("Login response: ", JSON.stringify(userCredential, null, 3));
 
-      router.replace("/(tabs)/home");
+      router.replace("/(tabs)/(movies)/movies");
 
       reset();
     } catch (error) {
