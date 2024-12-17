@@ -1,30 +1,45 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
-import Button from "../../../components/ui/Button";
-import { FIREBASE_AUTH } from "../../../lib/FirebaseConfig";
-import { Colors, ThemeColors } from "../../../constants/Colors";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { ThemeColors } from "../../../constants/Colors";
 import { useAppSelector } from "@/src/store/store";
+import Loader from "@/src/components/ui/Loader";
+import { usePopularMovies } from "@/src/api/movies";
+import HorizontalFlatList from "@/src/components/HorizontalFlatList";
+import VerticalCard from "@/src/components/cards/VerticalCard";
+import HorizontalCard from "@/src/components/cards/HorizontalCard";
 
 export default function MoviesScreen() {
-  const authInfo = useAppSelector((state) => state.auth);
-  console.log("Store data: ", JSON.stringify(authInfo, null, 3));
-  //FIREBASE_AUTH.signOut() is used for signOut
+  // const authInfo = useAppSelector((state) => state.auth);
+  // console.log("Store data: ", JSON.stringify(authInfo, null, 3));
+  const { data: movies, error, isLoading } = usePopularMovies();
+
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (error) {
+    return <Text>Failed to fetch Movies</Text>;
+  }
+
+  const popularData = movies?.popular.results;
+  const inTheaterData = movies?.inTheater.results;
+  const upcomingData = movies?.upcoming.results;
+  const topRatedData = movies?.topRated.results;
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Movies Screen</Text>
-    </View>
+    <ScrollView style={styles.container}>
+      <HorizontalFlatList title={"Popular"} movies={popularData} Item={VerticalCard} />
+      <HorizontalFlatList title={"In Theaters"} movies={inTheaterData} Item={HorizontalCard} />
+      <HorizontalFlatList title={"Upcoming"} movies={upcomingData} Item={VerticalCard} />
+      <HorizontalFlatList title={"Top Rated"} movies={topRatedData} Item={VerticalCard} />
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    padding: 20,
+    padding: 16,
     backgroundColor: ThemeColors.dark.background,
-  },
-
-  text: {
-    color: Colors.PRIMARY,
   },
 });

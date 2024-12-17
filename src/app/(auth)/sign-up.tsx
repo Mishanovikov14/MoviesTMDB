@@ -1,10 +1,10 @@
-import { Alert, Keyboard, StyleSheet, Text, View } from "react-native";
+import { Alert, Keyboard, StyleSheet, Text, TextInput, View } from "react-native";
 import { Colors, ThemeColors } from "@/src/constants/Colors";
 import Button from "@/src/components/ui/Button";
 import { Stack, router } from "expo-router";
 import { MainStyles } from "@/src/constants/Style";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import FormInputController from "@/src/components/controllers/FormInputController";
 import { signUpSchema } from "@/src/constants/schemas/AuthSchemas";
@@ -20,13 +20,16 @@ type FormData = {
 
 export default function signUpPage() {
   const [loading, setLoading] = useState(false);
+  const emailRef = useRef<TextInput>(null);
+  const passwordRef = useRef<TextInput>(null);
+  const confirmPasswordRef = useRef<TextInput>(null);
   const auth = FIREBASE_AUTH;
 
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(signUpSchema) });
+  } = useForm<FormData>({ resolver: yupResolver(signUpSchema) });
 
   async function signUp({ userName, email, password }: FormData) {
     setLoading(true);
@@ -38,8 +41,6 @@ export default function signUpPage() {
       await updateProfile(user, {
         displayName: userName,
       });
-
-      router.back();
     } catch (error) {
       //TODO: Normal error handling
       Alert.alert(JSON.stringify(error));
@@ -62,33 +63,57 @@ export default function signUpPage() {
         control={control}
         placeholder={"User Name"}
         errors={errors}
+        props={{
+          blurOnSubmit: false,
+          returnKeyType: "next",
+          onSubmitEditing: () => emailRef.current?.focus(),
+        }}
       />
 
       <Text style={styles.label}>Email</Text>
       <FormInputController
+        ref={emailRef}
         name={"email"}
         control={control}
         placeholder={"Email"}
         errors={errors}
-        props={{ keyboardType: "email-address", autoCapitalize: "none" }}
+        props={{
+          keyboardType: "email-address",
+          autoCapitalize: "none",
+          blurOnSubmit: false,
+          returnKeyType: "next",
+          onSubmitEditing: () => passwordRef.current?.focus(),
+        }}
       />
 
       <Text style={styles.label}>Password</Text>
       <FormInputController
+        ref={passwordRef}
         name={"password"}
         control={control}
         placeholder={"Password"}
         errors={errors}
-        props={{ secureTextEntry: true, autoCapitalize: "none" }}
+        props={{
+          secureTextEntry: true,
+          autoCapitalize: "none",
+          blurOnSubmit: false,
+          returnKeyType: "next",
+          onSubmitEditing: () => confirmPasswordRef.current?.focus(),
+        }}
       />
 
       <Text style={styles.label}>Confirm Password</Text>
       <FormInputController
+        ref={confirmPasswordRef}
         name={"confirmPassword"}
         control={control}
         placeholder={"Confirm Password"}
         errors={errors}
-        props={{ secureTextEntry: true, autoCapitalize: "none" }}
+        props={{
+          secureTextEntry: true,
+          autoCapitalize: "none",
+          onSubmitEditing: handleSubmit(signUp),
+        }}
       />
 
       <Button onPress={handleSubmit(signUp)} disabled={loading} style={styles.button}>

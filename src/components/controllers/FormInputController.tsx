@@ -1,4 +1,5 @@
 import { Colors } from "@/src/constants/Colors";
+import { Ref, forwardRef } from "react";
 import { Control, Controller, FieldErrors, FieldValues, Path } from "react-hook-form";
 import { TextInput, StyleSheet, TextInputProps, Text } from "react-native";
 
@@ -10,36 +11,39 @@ interface FormInputControllerProps<T extends FieldValues> {
   props?: TextInputProps;
 }
 
-export default function FormInputController<T extends FieldValues>({
-  name,
-  control,
-  placeholder,
-  errors,
-  props,
-}: FormInputControllerProps<T>) {
-  return (
-    <>
-      <Controller
-        name={name}
-        control={control}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            value={value}
-            onChangeText={onChange}
-            onBlur={onBlur}
-            placeholder={placeholder}
-            style={[styles.input, { borderColor: errors[name]?.message ? Colors.ERROR : Colors.PRIMARY }]}
-            {...props}
-          />
-        )}
-      />
+const FormInputController = forwardRef(
+  <T extends FieldValues>(
+    { name, control, placeholder, errors, props }: FormInputControllerProps<T>,
+    ref: Ref<TextInput>
+  ) => {
+    return (
+      <>
+        <Controller
+          name={name}
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              ref={ref}
+              value={value}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              placeholder={placeholder}
+              style={[
+                styles.input,
+                { borderColor: errors[name]?.message ? Colors.ERROR : Colors.PRIMARY },
+              ]}
+              {...props}
+            />
+          )}
+        />
 
-      {errors[name]?.message && (
-        <Text style={styles.textError}>{errors[name]?.message as string || "Error"}</Text>
-      )}
-    </>
-  );
-}
+        {errors[name]?.message && (
+          <Text style={styles.textError}>{(errors[name]?.message as string) || "Error"}</Text>
+        )}
+      </>
+    );
+  }
+);
 
 const styles = StyleSheet.create({
   input: {
@@ -55,3 +59,5 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
 });
+
+export default FormInputController;

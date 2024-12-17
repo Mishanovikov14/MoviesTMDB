@@ -12,7 +12,6 @@ interface AuthState {
     displayName: string | null;
     photoURL: string | null;
   };
-  token: string | null;
 }
 
 // const initialState: CounterState = {
@@ -21,26 +20,21 @@ interface AuthState {
 
 const initialState: AuthState = {
   user: null,
-  token: null,
 };
 
 export const counterSlice = createSlice({
   name: "auth",
   initialState,
   selectors: {
-    selectSessionToken: (sliceState: AuthState) => sliceState.token,
+    selectUser: (sliceState: AuthState) => sliceState.user,
   },
   reducers: {
     setUser(state, action: PayloadAction<AuthState["user"]>) {
       state.user = action.payload;
     },
-    setToken(state, action: PayloadAction<string>) {
-      state.token = action.payload;
-    },
 
     clearUser(state) {
       state.user = null;
-      state.token = null; // Очищаем токен
     },
 
     // increment: (state) => {
@@ -57,8 +51,8 @@ export const counterSlice = createSlice({
   },
 });
 
-export const { setUser, setToken, clearUser } = counterSlice.actions;
+export const { setUser, clearUser } = counterSlice.actions;
 
-export const { selectSessionToken } = counterSlice.selectors;
+export const { selectUser } = counterSlice.selectors;
 
 export default counterSlice.reducer;

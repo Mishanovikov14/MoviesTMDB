@@ -6,8 +6,8 @@ export default function AuthLayout() {
   return (
     <Tabs
       screenOptions={{
-        headerStyle: { backgroundColor: Colors.DARK },
-        tabBarStyle: { backgroundColor: Colors.DARK },
+        headerStyle: { backgroundColor: Colors.DARK, height: 110 },
+        tabBarStyle: { backgroundColor: Colors.DARK, borderTopWidth: 0 },
         tabBarActiveTintColor: Colors.PRIMARY,
         tabBarInactiveTintColor: Colors.LIGHT_GREY,
       }}
