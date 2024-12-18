@@ -2,13 +2,14 @@ import { FlatList, StyleSheet, Text, View } from "react-native";
 import { Colors } from "../constants/Colors";
 import { MainStyles } from "../constants/Style";
 import ButtonWithArrow from "./ui/ButtonWithArrow";
-import { MovieCard } from "../constants/Types";
+import { ListItem, MovieCard } from "../constants/Types";
 import { ComponentType } from "react";
+import { router } from "expo-router";
 
 type cardData = {
   title: string;
   movies: MovieCard[];
-  Item: ComponentType<{ data: MovieCard }>;
+  Item: ComponentType<ListItem>;
 }
 
 export default function HorizontalFlatList({ title, movies, Item }: cardData) {
@@ -18,7 +19,7 @@ export default function HorizontalFlatList({ title, movies, Item }: cardData) {
         <Text style={styles.sectionTitleText}>{title}</Text>
         <ButtonWithArrow
           onPress={() => {
-            console.log("See all");
+            router.push("/(tabs)/(movies)/allMovies");
           }}
         >
           See all

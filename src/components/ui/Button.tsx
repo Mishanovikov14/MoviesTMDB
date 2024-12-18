@@ -1,14 +1,7 @@
-import { Pressable, StyleSheet, Text, View, ViewStyle } from "react-native";
-import { ReactNode } from "react";
-import { Colors, ThemeColors } from "@/src/constants/Colors";
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Colors } from "@/src/constants/Colors";
 import { MainStyles } from "@/src/constants/Style";
-
-interface ButtonProps {
-  onPress: () => void;
-  children: ReactNode;
-  disabled?: boolean;
-  style?: ViewStyle;
-}
+import { ButtonProps } from "@/src/constants/Types";
 
 export default function Button({ onPress, children, style, disabled = false }: ButtonProps) {
   return (

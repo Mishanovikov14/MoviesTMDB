@@ -1,7 +1,7 @@
 import { Alert, Keyboard, StyleSheet, Text, TextInput, View } from "react-native";
 import { Colors, ThemeColors } from "@/src/constants/Colors";
 import Button from "@/src/components/ui/Button";
-import { Stack, router } from "expo-router";
+import { Stack } from "expo-router";
 import { MainStyles } from "@/src/constants/Style";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRef, useState } from "react";

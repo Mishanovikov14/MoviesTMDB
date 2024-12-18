@@ -1,13 +1,10 @@
 import { StyleSheet, Text, View } from "react-native";
 import { Colors, ThemeColors } from "@/src/constants/Colors";
-import { useLocalSearchParams } from "expo-router";
 
-export default function MovieDetailsScreen() {
-  const { id } = useLocalSearchParams();
-  
+export default function AllTVShowsScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Movie Details Screen</Text>
+      <Text style={styles.text}>All TV Shows Screen</Text>
     </View>
   );
 }

@@ -1,23 +1,22 @@
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, Image, Pressable } from "react-native";
 import { MainStyles } from "../../constants/Style";
 import { Colors } from "../../constants/Colors";
-import { MovieCard } from "@/src/constants/Types";
+import { ListItem } from "@/src/constants/Types";
+import { Link } from "expo-router";
 
-type cardData = {
-  data: MovieCard
-}
-
-export default function VerticalCard({ data }: cardData) {
+export default function VerticalCard({ data }: ListItem) {
   return (
-    <View style={styles.itemContainer}>
-      <Image
-        source={{ uri: `https://image.tmdb.org/t/p/w342${data.poster_path}` }}
-        style={styles.image}
-      />
-      <Text style={styles.itemTitle} numberOfLines={2}>
-        {data.original_title}
-      </Text>
-    </View>
+    <Link href={`/(tabs)/(movies)/${data.id}`} asChild>
+      <Pressable style={styles.itemContainer}>
+        <Image
+          source={{ uri: `https://image.tmdb.org/t/p/w342${data.poster_path}` }}
+          style={styles.image}
+        />
+        <Text style={styles.itemTitle} numberOfLines={2}>
+          {data.original_title}
+        </Text>
+      </Pressable>
+    </Link>
   );
 }
 
@@ -39,5 +38,6 @@ const styles = StyleSheet.create({
   itemTitle: {
     fontSize: MainStyles.SMALL_FONTSIZE,
     color: Colors.PRIMARY,
+    textAlign: "center",
   },
 });

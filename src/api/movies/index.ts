@@ -75,7 +75,7 @@ const fetchMovies = async () => {
   return { popular, inTheater, upcoming, topRated };
 };
 
-export const usePopularMovies = () => {
+export const useMovies = () => {
   return useQuery({
     queryKey: ["movies"],
     queryFn: fetchMovies,

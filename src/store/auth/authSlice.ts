@@ -1,18 +1,10 @@
+import { AuthState } from "@/src/constants/Types";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 // export interface CounterState {
 //   value: number;
 // }
-
-interface AuthState {
-  user: null | {
-    uid: string;
-    email: string | null;
-    displayName: string | null;
-    photoURL: string | null;
-  };
-}
 
 // const initialState: CounterState = {
 //   value: 0,

@@ -1,13 +1,8 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import React, { ReactNode } from "react";
 import { Colors } from "@/src/constants/Colors";
 import { MainStyles } from "@/src/constants/Style";
 import Ionicons from "@expo/vector-icons/build/Ionicons";
-
-interface ButtonProps {
-  onPress: () => void;
-  children: ReactNode;
-}
+import { ButtonProps } from "@/src/constants/Types";
 
 export default function ButtonWithArrow({ onPress, children }: ButtonProps) {
   return (
