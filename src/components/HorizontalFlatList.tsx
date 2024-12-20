@@ -2,34 +2,37 @@ import { FlatList, StyleSheet, Text, View } from "react-native";
 import { Colors } from "../constants/Colors";
 import { MainStyles } from "../constants/Style";
 import ButtonWithArrow from "./ui/ButtonWithArrow";
-import { ListItem, MovieCard } from "../constants/Types";
+import { ListItem, MovieCard, PersonCard, PersonListItem } from "../constants/Types";
 import { ComponentType } from "react";
-import { router } from "expo-router";
+import { RelativePathString, router } from "expo-router";
 
-type cardData = {
+type WithId = { id: number };
+
+type cardData<T extends WithId> = {
   title: string;
-  movies: MovieCard[];
-  Item: ComponentType<ListItem>;
+  data: T[];
+  Item: ComponentType<{ data: T}>;
+  path: string;
 }
 
-export default function HorizontalFlatList({ title, movies, Item }: cardData) {
+export default function HorizontalFlatList<T extends WithId>({ title, data, Item, path }: cardData<T>) {
   return (
     <View style={styles.sectionContainer}>
       <View style={styles.sectionTitle}>
         <Text style={styles.sectionTitleText}>{title}</Text>
         <ButtonWithArrow
           onPress={() => {
-            router.push("/(tabs)/(movies)/allMovies");
+            router.push(path as RelativePathString);
           }}
         >
           See all
         </ButtonWithArrow>
       </View>
       <FlatList
-        data={movies}
+        data={data}
         horizontal
         showsHorizontalScrollIndicator={false}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item, index) => item.id.toString() + index}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
         renderItem={({ item }) => <Item data={item}/>}
       />

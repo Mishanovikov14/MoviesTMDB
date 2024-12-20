@@ -1,0 +1,58 @@
+import { StyleSheet, Text, Image, Pressable } from "react-native";
+import { MainStyles } from "../../constants/Style";
+import { Colors } from "../../constants/Colors";
+import { PersonListItem } from "@/src/constants/Types";
+import { Link } from "expo-router";
+
+export default function PersonCard({ data }: PersonListItem) {
+  return (
+    <Link href={`/(persons)/${data.id}`} asChild>
+      <Pressable style={styles.itemContainer}>
+        <Image
+          source={
+            data.profile_path
+              ? { uri: `https://image.tmdb.org/t/p/w342${data.profile_path}` }
+              : require("../../../assets/images/avatar.png")
+          }
+          style={[styles.image, !data.profile_path && {
+            resizeMode: "center",
+          }]}
+        />
+        <Text style={styles.name} numberOfLines={2}>
+          {data.name}
+        </Text>
+        <Text style={styles.characterName} numberOfLines={2}>
+          {data.character}
+        </Text>
+      </Pressable>
+    </Link>
+  );
+}
+
+const styles = StyleSheet.create({
+  itemContainer: {
+    width: 122,
+    alignItems: "center",
+  },
+
+  image: {
+    width: 110,
+    height: 110,
+    borderRadius: 55,
+    marginBottom: 5,
+    borderColor: Colors.LIGHT_GREY,
+    borderWidth: 2,
+  },
+
+  name: {
+    fontSize: MainStyles.SMALL_FONTSIZE,
+    color: Colors.SECONDARY,
+    textAlign: "center",
+  },
+
+  characterName: {
+    fontSize: MainStyles.SMALL_FONTSIZE,
+    color: Colors.LIGHT_GREY,
+    textAlign: "center",
+  },
+});

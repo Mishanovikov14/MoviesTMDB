@@ -1,7 +1,8 @@
 export const Colors = {
     LIGHT_GREY: "#CFCDCDFF",
     DARK_GREY: "#898989FF",
-    PRIMARY: "#FFD324FF",
+    SECONDARY: "#FFD324FF",
+    PRIMARY: "#FFBB00FF",
     DARK: "#000000",
     ERROR: "red"
 };

@@ -18,8 +18,40 @@ export type MovieCard = {
   vote_count: number;
 };
 
+export type PersonCard = {
+  adult: boolean;
+  profile_path: string;
+  id: number;
+  known_for_department: string;
+  name: string;
+  original_name: string;
+  gender: number;
+  character: string;
+  credit_id: string;
+  popularity: number;
+  cast_id: number;
+  order: number;
+};
+
+export type Video = {
+  iso_639_1: string;
+  iso_3166_1: string;
+  name: string;
+  key: string;
+  site: string;
+  size: number;
+  type: string;
+  official: boolean;
+  published_at: string;
+  id: string;
+};
+
 export type ListItem = {
   data: MovieCard;
+};
+
+export type PersonListItem = {
+  data: PersonCard;
 };
 
 export type AuthState = {

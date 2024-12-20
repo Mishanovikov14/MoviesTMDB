@@ -1,6 +1,5 @@
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { ThemeColors } from "../../../constants/Colors";
-import { useAppSelector } from "@/src/store/store";
+import { Colors, ThemeColors } from "../../../constants/Colors";
 import Loader from "@/src/components/ui/Loader";
 import { useMovies } from "@/src/api/movies";
 import HorizontalFlatList from "@/src/components/HorizontalFlatList";
@@ -8,17 +7,18 @@ import VerticalCard from "@/src/components/cards/VerticalCard";
 import HorizontalCard from "@/src/components/cards/HorizontalCard";
 
 export default function MoviesScreen() {
-  // const authInfo = useAppSelector((state) => state.auth);
-  // console.log("Store data: ", JSON.stringify(authInfo, null, 3));
   const { data: movies, error, isLoading } = useMovies();
-
 
   if (isLoading) {
     return <Loader />;
   }
 
   if (error) {
-    return <Text>Failed to fetch Movies</Text>;
+    return (
+      <View style={styles.errorContainer}>
+        <Text style={styles.text}>Failed to fetch Movies. Please try again!</Text>
+      </View>
+    );
   }
 
   const popularData = movies?.popular.results;
@@ -28,10 +28,10 @@ export default function MoviesScreen() {
 
   return (
     <ScrollView style={styles.container}>
-      <HorizontalFlatList title={"Popular"} movies={popularData} Item={VerticalCard} />
-      <HorizontalFlatList title={"Now in Theaters"} movies={inTheaterData} Item={HorizontalCard} />
-      <HorizontalFlatList title={"Upcoming"} movies={upcomingData} Item={VerticalCard} />
-      <HorizontalFlatList title={"Top Rated"} movies={topRatedData} Item={HorizontalCard} />
+      <HorizontalFlatList title={"Popular"} data={popularData} Item={VerticalCard} path="/(tabs)/(movies)/allMovies"/>
+      <HorizontalFlatList title={"Now in Theaters"} data={inTheaterData} Item={HorizontalCard} path="/(tabs)/(movies)/allMovies"/>
+      <HorizontalFlatList title={"Upcoming"} data={upcomingData} Item={VerticalCard} path="/(tabs)/(movies)/allMovies"/>
+      <HorizontalFlatList title={"Top Rated"} data={topRatedData} Item={HorizontalCard} path="/(tabs)/(movies)/allMovies"/>
     </ScrollView>
   );
 }
@@ -41,5 +41,17 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     backgroundColor: ThemeColors.dark.background,
+  },
+
+  errorContainer: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: ThemeColors.dark.background,
+    justifyContent: "center",
+  },
+
+  text: {
+    color: Colors.PRIMARY,
+    alignSelf: "center",
   },
 });

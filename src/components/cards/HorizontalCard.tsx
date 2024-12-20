@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, Pressable } from "react-native";
+import { StyleSheet, Text, Image, Pressable } from "react-native";
 import { MainStyles } from "../../constants/Style";
 import { Colors } from "../../constants/Colors";
 import { ListItem } from "@/src/constants/Types";
@@ -9,11 +9,15 @@ export default function HorizontalCard({ data }: ListItem) {
     <Link href={`/(tabs)/(movies)/${data.id}`} asChild>
       <Pressable style={styles.itemContainer}>
         <Image
-          source={{ uri: `https://image.tmdb.org/t/p/w342${data.backdrop_path}` }}
+          source={
+            data.backdrop_path
+              ? { uri: `https://image.tmdb.org/t/p/w342${data.backdrop_path}` }
+              : require("../../../assets/images/no-pictures.png")
+          }
           style={styles.image}
         />
         <Text style={styles.itemTitle} numberOfLines={2}>
-          {data.original_title}
+          {data.title}
         </Text>
         <Text style={styles.itemDescription} numberOfLines={2}>
           {data.overview}
@@ -40,7 +44,7 @@ const styles = StyleSheet.create({
 
   itemTitle: {
     fontSize: MainStyles.SMALL_FONTSIZE,
-    color: Colors.PRIMARY,
+    color: Colors.SECONDARY,
     textAlign: "center",
   },
 

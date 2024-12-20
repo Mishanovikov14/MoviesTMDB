@@ -9,11 +9,15 @@ export default function VerticalCard({ data }: ListItem) {
     <Link href={`/(tabs)/(movies)/${data.id}`} asChild>
       <Pressable style={styles.itemContainer}>
         <Image
-          source={{ uri: `https://image.tmdb.org/t/p/w342${data.poster_path}` }}
+          source={
+            data.poster_path
+              ? { uri: `https://image.tmdb.org/t/p/w342${data.poster_path}` }
+              : require("../../../assets/images/no-pictures.png")
+          }
           style={styles.image}
         />
         <Text style={styles.itemTitle} numberOfLines={2}>
-          {data.original_title}
+          {data.title}
         </Text>
       </Pressable>
     </Link>
@@ -37,7 +41,7 @@ const styles = StyleSheet.create({
 
   itemTitle: {
     fontSize: MainStyles.SMALL_FONTSIZE,
-    color: Colors.PRIMARY,
+    color: Colors.SECONDARY,
     textAlign: "center",
   },
 });

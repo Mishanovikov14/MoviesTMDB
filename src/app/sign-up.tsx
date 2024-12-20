@@ -1,7 +1,7 @@
 import { Alert, Keyboard, StyleSheet, Text, TextInput, View } from "react-native";
 import { Colors, ThemeColors } from "@/src/constants/Colors";
 import Button from "@/src/components/ui/Button";
-import { Stack } from "expo-router";
+import { Stack, router } from "expo-router";
 import { MainStyles } from "@/src/constants/Style";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRef, useState } from "react";
@@ -10,6 +10,7 @@ import FormInputController from "@/src/components/controllers/FormInputControlle
 import { signUpSchema } from "@/src/constants/schemas/AuthSchemas";
 import { FIREBASE_AUTH } from "@/src/lib/FirebaseConfig";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type FormData = {
   userName: string;
@@ -41,14 +42,17 @@ export default function signUpPage() {
       await updateProfile(user, {
         displayName: userName,
       });
+
+      await AsyncStorage.setItem("isSignedIn", "true");
+
+      router.replace("/(tabs)/(movies)/movies");
     } catch (error) {
       //TODO: Normal error handling
       Alert.alert(JSON.stringify(error));
       console.log("Error: ", error);
     } finally {
       setLoading(false);
-
-      //Remove keyboard from a screen
+      
       Keyboard.dismiss();
     }
   }

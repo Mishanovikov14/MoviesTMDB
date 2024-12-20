@@ -1,4 +1,4 @@
-import { Stack, router } from "expo-router";
+import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { Colors } from "../constants/Colors";
 import { useEffect } from "react";
@@ -38,13 +38,9 @@ export function MainLayout() {
           photoURL: user.photoURL,
         };
 
-        dispatch(setUser(userInfo));
-
-        router.replace("/(tabs)/(movies)/movies");
+        dispatch(setUser(userInfo));   
       } else {
         dispatch(clearUser());
-
-        router.replace("/login");
       }
     });
   };
@@ -56,10 +52,17 @@ export function MainLayout() {
   return (
     <>
       <StatusBar style="light" backgroundColor={Colors.DARK} />
-      <Stack>
-        <Stack.Screen name="index" options={{ headerShown: false }} />
-        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+      <Stack
+        screenOptions={{
+          headerStyle: { backgroundColor: Colors.DARK },
+          headerTintColor: Colors.PRIMARY,
+          headerTitleAlign: "center",
+        }}
+      >
+        <Stack.Screen name="index" options={{ title: "Sign In" }} />
+        <Stack.Screen name="sign-up" options={{ title: "Sign Up" }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="(persons)" options={{ headerShown: false }} />
       </Stack>
     </>
   );

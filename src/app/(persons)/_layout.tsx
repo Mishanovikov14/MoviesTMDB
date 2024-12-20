@@ -1,7 +1,7 @@
 import { Colors } from "@/src/constants/Colors";
 import { Stack } from "expo-router";
 
-export default function AuthLayout() {
+export default function PersonLayout() {
   return (
     <Stack
       screenOptions={{
@@ -10,8 +10,7 @@ export default function AuthLayout() {
         headerTitleAlign: "center",
       }}
     >
-      <Stack.Screen name="login" options={{title: "Login"}}/>
-      <Stack.Screen name="sign-up" options={{title: "Sign-Up"}}/>
+      <Stack.Screen name="persons" options={{title: "Cust&Crew"}}/>
     </Stack>
   );
 }

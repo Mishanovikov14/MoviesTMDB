@@ -1,13 +1,25 @@
 import Button from "@/src/components/ui/Button";
 import { Colors, ThemeColors } from "@/src/constants/Colors";
 import { FIREBASE_AUTH } from "@/src/lib/FirebaseConfig";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { router } from "expo-router";
 import { StyleSheet, Text, View } from "react-native";
 
 export default function ProfileScreen() {
+    // const authInfo = useAppSelector((state) => state.auth);
+  // console.log("Store data: ", JSON.stringify(authInfo, null, 3));
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Profile</Text>
-      <Button onPress={() => FIREBASE_AUTH.signOut()}>Sign Out</Button>
+      <Button
+        onPress={async () => {
+          FIREBASE_AUTH.signOut();
+          await AsyncStorage.setItem("isSignedIn", "false");
+          router.replace("/");
+        }}
+      >
+        Sign Out
+      </Button>
     </View>
   );
 }
