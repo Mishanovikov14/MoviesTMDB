@@ -4,11 +4,18 @@ import { useAllMovies } from "@/src/api/movies";
 import Loader from "@/src/components/ui/Loader";
 import { useSearchParams } from "expo-router/build/hooks";
 import RowItem from "@/src/components/RowItem";
+import { Stack } from "expo-router";
 
 const AllMoviesScreen = () => {
   const searchParams = useSearchParams();
-  // const type = (searchParams.get('type') as "popular" | "inTheater" | "topRated" | "upcoming");
-  const type = searchParams.get('type');
+  const type = searchParams.get('type') || "";
+
+  const All_TYPE: Record<string, string> = {
+    popular: "Popular",
+    inTheater: "In Theater",
+    topRated: "Top Rated",
+    upcoming: "Upcomming Movies",
+  }
 
   const {
     data,
@@ -17,7 +24,7 @@ const AllMoviesScreen = () => {
     isFetchingNextPage,
     isLoading,
     error,
-  } = useAllMovies(type || "");
+  } = useAllMovies(type);
 
   if (isLoading) {
     return <Loader />;
@@ -44,20 +51,13 @@ const AllMoviesScreen = () => {
       }
     });
 
-  console.log(JSON.stringify(movies[0], null, 3))
-
   return (
     <View style={styles.container}>
+      <Stack.Screen options={{title: All_TYPE[type]}}/>
       <FlatList
         data={movies}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          // <View style={{ padding: 10 }}>
-          //   <Text style={styles.text}>{item.title}</Text>
-          // </View>
-
-          <RowItem  data={item}/>
-        )}
+        renderItem={({ item }) => <RowItem data={item}/>}
         onEndReached={() => {
           if (hasNextPage) {
             fetchNextPage();
