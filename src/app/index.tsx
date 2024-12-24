@@ -91,6 +91,7 @@ export default function signInPage() {
       <Text style={styles.label}>Email</Text>
       <FormInputController
         name={"email"}
+        // @ts-ignore
         control={control}
         placeholder={"Email"}
         errors={errors}
@@ -107,6 +108,7 @@ export default function signInPage() {
       <FormInputController
         ref={passwordRef}
         name={"password"}
+        // @ts-ignore
         control={control}
         placeholder={"Password"}
         errors={errors}

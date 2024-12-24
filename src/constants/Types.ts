@@ -69,3 +69,10 @@ export type ButtonProps = {
   disabled?: boolean;
   style?: ViewStyle;
 };
+
+export type MoviePage = {
+  page: number;
+  results: MovieCard[];
+  total_pages: number;
+  total_results: number;
+}

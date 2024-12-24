@@ -64,6 +64,7 @@ export default function signUpPage() {
       <Text style={styles.label}>User Name</Text>
       <FormInputController
         name={"userName"}
+        // @ts-ignore
         control={control}
         placeholder={"User Name"}
         errors={errors}
@@ -78,6 +79,7 @@ export default function signUpPage() {
       <FormInputController
         ref={emailRef}
         name={"email"}
+        // @ts-ignore
         control={control}
         placeholder={"Email"}
         errors={errors}
@@ -94,6 +96,7 @@ export default function signUpPage() {
       <FormInputController
         ref={passwordRef}
         name={"password"}
+        // @ts-ignore
         control={control}
         placeholder={"Password"}
         errors={errors}
@@ -110,6 +113,7 @@ export default function signUpPage() {
       <FormInputController
         ref={confirmPasswordRef}
         name={"confirmPassword"}
+        // @ts-ignore
         control={control}
         placeholder={"Confirm Password"}
         errors={errors}

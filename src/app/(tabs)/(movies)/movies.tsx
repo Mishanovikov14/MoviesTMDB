@@ -21,17 +21,17 @@ export default function MoviesScreen() {
     );
   }
 
-  const popularData = movies?.popular.results;
-  const inTheaterData = movies?.inTheater.results;
-  const upcomingData = movies?.upcoming.results;
-  const topRatedData = movies?.topRated.results;
+  const popularData = movies?.popular?.results || [];
+  const inTheaterData = movies?.inTheater?.results || [];
+  const upcomingData = movies?.upcoming?.results || [];
+  const topRatedData = movies?.topRated?.results || [];
 
   return (
     <ScrollView style={styles.container}>
-      <HorizontalFlatList title={"Popular"} data={popularData} Item={VerticalCard} path="/(tabs)/(movies)/allMovies"/>
-      <HorizontalFlatList title={"Now in Theaters"} data={inTheaterData} Item={HorizontalCard} path="/(tabs)/(movies)/allMovies"/>
-      <HorizontalFlatList title={"Upcoming"} data={upcomingData} Item={VerticalCard} path="/(tabs)/(movies)/allMovies"/>
-      <HorizontalFlatList title={"Top Rated"} data={topRatedData} Item={HorizontalCard} path="/(tabs)/(movies)/allMovies"/>
+      <HorizontalFlatList title={"Popular"} data={popularData} Item={VerticalCard} path={`/(tabs)/(movies)/allMovies?type=popular`}/>
+      <HorizontalFlatList title={"Now in Theaters"} data={inTheaterData} Item={HorizontalCard} path="/(tabs)/(movies)/allMovies?type=inTheater"/>
+      <HorizontalFlatList title={"Upcoming"} data={upcomingData} Item={VerticalCard} path="/(tabs)/(movies)/allMovies?type=upcoming"/>
+      <HorizontalFlatList title={"Top Rated"} data={topRatedData} Item={HorizontalCard} path="/(tabs)/(movies)/allMovies?type=topRated"/>
     </ScrollView>
   );
 }
