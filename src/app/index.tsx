@@ -97,6 +97,8 @@ export default function signInPage() {
         props={{
           blurOnSubmit: false,
           returnKeyType: "next",
+          autoCapitalize: "none",
+          keyboardType: "email-address",
           onSubmitEditing: () => passwordRef.current?.focus(),
         }}
       />
