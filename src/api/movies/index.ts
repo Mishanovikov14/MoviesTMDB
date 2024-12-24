@@ -70,7 +70,7 @@ const fetchMovieDetails = async (id: string) => {
   const response = await fetch(detailsUrl, options);
 
   if (!response.ok) {
-    throw new Error("Error while fetching top rated movies!");
+    throw new Error("Error while fetching movie details!");
   }
 
   const data = await response.json();

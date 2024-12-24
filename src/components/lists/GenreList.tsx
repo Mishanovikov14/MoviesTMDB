@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
-import { Colors } from "../constants/Colors";
-import { MainStyles } from "../constants/Style";
+import { Colors } from "../../constants/Colors";
+import { MainStyles } from "../../constants/Style";
 
 type Genre = {
   id: number;

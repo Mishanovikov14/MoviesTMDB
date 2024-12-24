@@ -2,7 +2,7 @@ import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { Colors, ThemeColors } from "../../../constants/Colors";
 import Loader from "@/src/components/ui/Loader";
 import { useMovies } from "@/src/api/movies";
-import HorizontalFlatList from "@/src/components/HorizontalFlatList";
+import HorizontalFlatList from "@/src/components/lists/HorizontalFlatList";
 import VerticalCard from "@/src/components/cards/VerticalCard";
 import HorizontalCard from "@/src/components/cards/HorizontalCard";
 

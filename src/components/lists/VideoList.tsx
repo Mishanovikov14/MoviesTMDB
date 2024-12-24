@@ -1,8 +1,8 @@
 import { StyleSheet, Text, View } from "react-native";
-import { MainStyles } from "../constants/Style";
-import YoutubeVideo from "./YoutubeVideo";
-import { Colors } from "../constants/Colors";
-import { Video } from "../constants/Types";
+import { MainStyles } from "../../constants/Style";
+import YoutubeVideo from "../YoutubeVideo";
+import { Colors } from "../../constants/Colors";
+import { Video } from "../../constants/Types";
 
 export default function VideoList({ title, videos }: {title: string, videos: Video[]}) {
   return (

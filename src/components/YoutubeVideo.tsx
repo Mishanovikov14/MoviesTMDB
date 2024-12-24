@@ -35,7 +35,7 @@ export default function YoutubeVideo({ videoId }: { videoId: string }) {
 const styles = StyleSheet.create({
   container: {
     borderWidth: 2,
-    borderColor: Colors.LIGHT_GREY,
+    borderColor: Colors.DARK,
     borderRadius: 5,
     marginBottom: 24,
   },

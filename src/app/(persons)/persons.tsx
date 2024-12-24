@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 import { Colors, ThemeColors } from "@/src/constants/Colors";
 
-export default function PersonScreen() {
+export default function PersonsScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>PersonScreen</Text>
