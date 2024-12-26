@@ -10,7 +10,7 @@ export default function PersonLayout() {
         headerTitleAlign: "center",
       }}
     >
-      <Stack.Screen name="persons" options={{title: "Cust&Crew"}}/>
+      <Stack.Screen name="persons" options={{title: "Cust & Crew"}}/>
     </Stack>
   );
 }

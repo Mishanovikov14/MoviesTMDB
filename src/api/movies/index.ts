@@ -13,8 +13,15 @@ const options = {
 };
 
 //Ukrainian language = uk
-export const fetchMoviesByType = async (type: string, pageParam = 1): Promise<MoviePage> => {
-  const response = await fetch(`${baseUrl}/movie/${type}?language=en-US&page=${pageParam}&region=UA`, options);
+export const fetchMoviesByType = async (
+  type: string,
+  pageParam = 1,
+  id?: string
+): Promise<MoviePage> => {
+  const response = await fetch(
+    `${baseUrl}/movie/${id ? id + "/" + type : type}?language=en-US&page=${pageParam}&region=UA`,
+    options
+  );
 
   if (!response.ok) {
     throw new Error("Error while fetching movies!");
@@ -56,7 +63,7 @@ export const useMovies = () => {
   });
 };
 
-export const useAllMovies = (type: string) => {
+export const useAllMovies = (type: string, id?: string) => {
   const All_MOVIES_TYPE: Record<string, { key: string; queryParam: string }> = {
     popular: {
       key: "popularmovie",
@@ -74,7 +81,11 @@ export const useAllMovies = (type: string) => {
       key: "upcommingmovie",
       queryParam: "top_rated",
     },
-  }
+    similar: {
+      key: "similarmovie",
+      queryParam: "similar",
+    },
+  };
 
   const queryParam = All_MOVIES_TYPE[type]?.queryParam;
 
@@ -85,9 +96,9 @@ export const useAllMovies = (type: string) => {
   const key = All_MOVIES_TYPE[type].key;
 
   return useInfiniteQuery<MoviePage>({
-    queryKey: [key],
+    queryKey: [key, id],
     // @ts-ignore
-    queryFn: ({ pageParam }: { pageParam: number }) => fetchMoviesByType(queryParam, pageParam),
+    queryFn: ({ pageParam }: { pageParam: number }) => fetchMoviesByType(queryParam, pageParam, id),
     getNextPageParam: (lastPage: MoviePage) => {
       const nextPage = lastPage.page + 1;
       return nextPage <= lastPage.total_pages ? nextPage : undefined;

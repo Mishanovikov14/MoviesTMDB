@@ -28,7 +28,7 @@ export default function MoviesScreen() {
 
   return (
     <ScrollView style={styles.container}>
-      <HorizontalFlatList title={"Popular"} data={popularData} Item={VerticalCard} path={`/(tabs)/(movies)/allMovies?type=popular`}/>
+      <HorizontalFlatList title={"Popular"} data={popularData} Item={VerticalCard} path="/(tabs)/(movies)/allMovies?type=popular"/>
       <HorizontalFlatList title={"Now in Theaters"} data={inTheaterData} Item={HorizontalCard} path="/(tabs)/(movies)/allMovies?type=inTheater"/>
       <HorizontalFlatList title={"Upcoming"} data={upcomingData} Item={VerticalCard} path="/(tabs)/(movies)/allMovies?type=upcoming"/>
       <HorizontalFlatList title={"Top Rated"} data={topRatedData} Item={HorizontalCard} path="/(tabs)/(movies)/allMovies?type=topRated"/>

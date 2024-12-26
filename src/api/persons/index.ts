@@ -26,7 +26,7 @@ const fetchPersonDetails = async (id: string) => {
 
 export const usePersonDetails = (id: string) => {
   return useQuery({
-    queryKey: ["movies", id],
+    queryKey: ["person", id],
     queryFn: () => fetchPersonDetails(id),
   });
 };

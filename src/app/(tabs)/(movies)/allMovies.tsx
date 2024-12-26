@@ -1,30 +1,28 @@
 import { Colors, ThemeColors } from "@/src/constants/Colors";
-import { StyleSheet, FlatList, Text, View, ActivityIndicator } from 'react-native';
+import { StyleSheet, FlatList, Text, View } from "react-native";
 import { useAllMovies } from "@/src/api/movies";
 import Loader from "@/src/components/ui/Loader";
 import { useSearchParams } from "expo-router/build/hooks";
 import RowItem from "@/src/components/RowItem";
 import { Stack } from "expo-router";
 
-const AllMoviesScreen = () => {
+export default function AllMoviesScreen() {
   const searchParams = useSearchParams();
-  const type = searchParams.get('type') || "";
+  const type = searchParams.get("type") || "";
+  const id = searchParams.get("id") || "";
 
   const All_TYPE: Record<string, string> = {
     popular: "Popular",
     inTheater: "In Theater",
     topRated: "Top Rated",
     upcoming: "Upcomming Movies",
-  }
+    similar: "Similar",
+  };
 
-  const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    isLoading,
-    error,
-  } = useAllMovies(type);
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, error } = useAllMovies(
+    type,
+    id
+  );
 
   if (isLoading) {
     return <Loader />;
@@ -41,8 +39,8 @@ const AllMoviesScreen = () => {
   const seen = new Set();
   const movies = data.pages
     // @ts-ignore
-    .flatMap(arr => arr.results)
-    .filter(item => {
+    .flatMap((arr) => arr.results)
+    .filter((item) => {
       if (seen.has(item.id)) {
         return false;
       } else {
@@ -53,26 +51,22 @@ const AllMoviesScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Stack.Screen options={{title: All_TYPE[type]}}/>
+      <Stack.Screen options={{ title: All_TYPE[type] }} />
       <FlatList
         data={movies}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => <RowItem data={item}/>}
+        renderItem={({ item }) => <RowItem data={item} />}
         onEndReached={() => {
           if (hasNextPage) {
             fetchNextPage();
           }
         }}
         onEndReachedThreshold={0.5}
-        ListFooterComponent={
-          isFetchingNextPage ? <ActivityIndicator size="small" /> : null
-        }
+        ListFooterComponent={isFetchingNextPage ? <Loader /> : null}
       />
     </View>
   );
-};
-
-export default AllMoviesScreen;
+}
 
 const styles = StyleSheet.create({
   container: {

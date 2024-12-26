@@ -63,6 +63,13 @@ export type AuthState = {
   };
 };
 
+export type CreditsState = {
+  credits: null | {
+    cast: PersonCard[];
+    crew: PersonCard[];
+  }
+}
+
 export type ButtonProps = {
   onPress: () => void;
   children: ReactNode;

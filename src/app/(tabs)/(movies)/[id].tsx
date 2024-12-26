@@ -13,14 +13,20 @@ import VideoList from "@/src/components/lists/VideoList";
 import { Video } from "@/src/constants/Types";
 import VerticalCard from "@/src/components/cards/VerticalCard";
 import { formatDate } from "@/src/utils/dateFormating";
+import { useAppDispatch } from "@/src/store/store";
+import { clearCredits, setCredits } from "@/src/store/credits/creditsSlice";
 
 export default function MovieDetailsScreen() {
   const { id: idString } = useLocalSearchParams();
   const id = typeof idString === "string" ? idString : idString[0];
 
+  const dispatch = useAppDispatch();
+
   const { data: details, error, isLoading } = useMovieDetails(id);
 
   if (isLoading) {
+    dispatch(clearCredits());
+
     return (
       <>
         <Stack.Screen options={{ title: "" }} />
@@ -40,6 +46,8 @@ export default function MovieDetailsScreen() {
 
   //cast and crew
   const credits = details.credits;
+  dispatch(setCredits(credits));  
+  
   const videos = details.videos.results.filter(
     (video: Video) => video.type === "Trailer" && video.official === true
   );
@@ -47,7 +55,7 @@ export default function MovieDetailsScreen() {
   const genres = details.genres;
   const similar = details.similar.results;
 
-  console.log(JSON.stringify(castData[0], null, 3));
+  // console.log(JSON.stringify(castData[0], null, 3));
 
   return (
     <ScrollView style={styles.container}>
@@ -102,7 +110,7 @@ export default function MovieDetailsScreen() {
             title={"Cast & Crew"}
             data={castData}
             Item={PersonCard}
-            path="/(persons)/persons"
+            path={`/(persons)/persons?id=${id}`}
           />
         )}
 
@@ -113,7 +121,7 @@ export default function MovieDetailsScreen() {
             title={"Similar"}
             data={similar}
             Item={VerticalCard}
-            path="/(tabs)/(movies)/allMovies"
+            path={`/(tabs)/(movies)/allMovies?type=similar&id=${id}`}
           />
         )}
       </View>
