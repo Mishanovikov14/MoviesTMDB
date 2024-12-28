@@ -1,4 +1,4 @@
-import { Alert, Keyboard, StyleSheet, Text, TextInput, View } from "react-native";
+import { Keyboard, StyleSheet, Text, TextInput, View } from "react-native";
 import { Colors, ThemeColors } from "@/src/constants/Colors";
 import Button from "@/src/components/ui/Button";
 import { Stack, router } from "expo-router";
@@ -11,6 +11,8 @@ import { signUpSchema } from "@/src/constants/schemas/AuthSchemas";
 import { FIREBASE_AUTH } from "@/src/lib/FirebaseConfig";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useAppDispatch } from "../store/store";
+import { showModal } from "../store/modal/modalSlice";
 
 type FormData = {
   userName: string;
@@ -25,6 +27,7 @@ export default function signUpPage() {
   const passwordRef = useRef<TextInput>(null);
   const confirmPasswordRef = useRef<TextInput>(null);
   const auth = FIREBASE_AUTH;
+  const dispatch = useAppDispatch();
 
   const {
     control,
@@ -47,9 +50,13 @@ export default function signUpPage() {
 
       router.replace("/(tabs)/(movies)/movies");
     } catch (error) {
-      //TODO: Normal error handling
-      Alert.alert(JSON.stringify(error));
-      console.log("Error: ", error);
+      dispatch(
+        showModal({
+          title: "Something went wrong",
+          message: JSON.stringify(error),
+          borderColor: Colors.ERROR,
+        })
+      );
     } finally {
       setLoading(false);
       

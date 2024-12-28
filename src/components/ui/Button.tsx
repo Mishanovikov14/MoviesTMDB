@@ -17,13 +17,13 @@ export default function Button({ onPress, children, style, disabled = false }: B
 
 const styles = StyleSheet.create({
   container: {
-    minWidth: 200
+    minWidth: 200,
+    backgroundColor: Colors.PRIMARY,
+    borderRadius: 4,
   },
 
   button: {
-    borderRadius: 4,
     padding: 8,
-    backgroundColor: Colors.PRIMARY,
   },
 
   text: {

@@ -6,7 +6,7 @@ import { Link } from "expo-router";
 
 export default function PersonCard({ data }: PersonListItem) {
   return (
-    <Link href={`/(persons)/${data.id}`} asChild>
+    <Link href={`/(tabs)/(movies)/(persons)/${data.id}`} asChild>
       <Pressable style={styles.itemContainer}>
         <Image
           source={

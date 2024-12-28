@@ -40,6 +40,7 @@ export default function AllMoviesScreen() {
   const movies = data.pages
     // @ts-ignore
     .flatMap((arr) => arr.results)
+    // @ts-ignore
     .filter((item) => {
       if (seen.has(item.id)) {
         return false;

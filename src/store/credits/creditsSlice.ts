@@ -13,7 +13,6 @@ export const creditsSlice = createSlice({
     selectCast: (sliceState: CreditsState) => sliceState.credits?.cast ?? [],
     selectCrew: (sliceState: CreditsState) => sliceState.credits?.crew ?? [],
   },
-
   reducers: {
     setCredits(state, action: PayloadAction<CreditsState["credits"]>) {
       state.credits = action.payload;

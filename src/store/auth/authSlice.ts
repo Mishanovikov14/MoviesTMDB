@@ -17,9 +17,6 @@ const initialState: AuthState = {
 export const counterSlice = createSlice({
   name: "auth",
   initialState,
-  selectors: {
-    selectUser: (sliceState: AuthState) => sliceState.user,
-  },
   reducers: {
     setUser(state, action: PayloadAction<AuthState["user"]>) {
       state.user = action.payload;
@@ -44,7 +41,5 @@ export const counterSlice = createSlice({
 });
 
 export const { setUser, clearUser } = counterSlice.actions;
-
-export const { selectUser } = counterSlice.selectors;
 
 export default counterSlice.reducer;

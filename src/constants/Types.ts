@@ -83,3 +83,8 @@ export type MoviePage = {
   total_pages: number;
   total_results: number;
 }
+
+export type Favorites = {
+  movieIds: string[];
+  tvShowIds: string[];
+} | null;

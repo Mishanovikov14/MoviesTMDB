@@ -10,7 +10,7 @@ import VerticalCard from "@/src/components/cards/VerticalCard";
 import HorizontalFlatList from "@/src/components/lists/HorizontalFlatList";
 
 export default function PersonDetailsScreen() {
-  const { id: idString } = useLocalSearchParams();
+  const { personId: idString } = useLocalSearchParams();
   const id = typeof idString === "string" ? idString : idString[0];
 
   const { data: details, error, isLoading } = usePersonDetails(id);
@@ -33,8 +33,8 @@ export default function PersonDetailsScreen() {
     );
   }
 
-  // const tvCredits = details.tv_credits.cast; //? crew
-  // const movieCredits = details.movie_credits.cast; //? crew
+  const tvCredits = details.tv_credits.cast; //? crew
+  const movieCredits = details.movie_credits.cast; //? crew
 
   return (
     <ScrollView style={styles.container}>
@@ -45,7 +45,7 @@ export default function PersonDetailsScreen() {
           source={
             details.profile_path
               ? { uri: `https://image.tmdb.org/t/p/w342${details.profile_path}` }
-              : require("../../../assets/images/no-pictures.png")
+              : require("../../../../../assets/images/no-pictures.png")
           }
         />
         <View>
@@ -62,16 +62,16 @@ export default function PersonDetailsScreen() {
         <TextWithTitle title="Biography" text={details.biography} />
       </View>
 
-      {/* {movieCredits.length > 0 && (
+      {movieCredits.length > 0 && (
         <HorizontalFlatList
           title={"Movies"}
           data={movieCredits}
           Item={VerticalCard}
-          path="/(tabs)/(movies)/allMovies"
+          path="/(tabs)/(movies)/allMovies?type=popular"
         />
       )}
 
-      {tvCredits.length > 0 && (
+      {/* {tvCredits.length > 0 && (
         <HorizontalFlatList
           title={"TV Shows"}
           data={tvCredits}

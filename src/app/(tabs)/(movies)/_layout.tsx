@@ -12,6 +12,7 @@ export default function MovieLayout() {
     >
       <Stack.Screen name="movies" options={{title: "Movies"}}/>
       <Stack.Screen name="allMovies" options={{title: ""}}/>
+      <Stack.Screen name="(persons)" options={{headerShown: false}}/>
     </Stack>
   );
 }

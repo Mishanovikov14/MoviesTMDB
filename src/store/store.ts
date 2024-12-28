@@ -1,12 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./auth/authSlice";
 import creditsReducer from "./credits/creditsSlice";
+import favoriteReducer from "./favorites/favoriteSlice";
+import modalReducer from './modal/modalSlice';
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     credits: creditsReducer,
+    favorites: favoriteReducer,
+    modal: modalReducer,
   },
 });
 

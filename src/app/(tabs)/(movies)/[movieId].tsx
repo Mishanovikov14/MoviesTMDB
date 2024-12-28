@@ -13,16 +13,45 @@ import VideoList from "@/src/components/lists/VideoList";
 import { Video } from "@/src/constants/Types";
 import VerticalCard from "@/src/components/cards/VerticalCard";
 import { formatDate } from "@/src/utils/dateFormating";
-import { useAppDispatch } from "@/src/store/store";
+import { useAppDispatch, useAppSelector } from "@/src/store/store";
 import { clearCredits, setCredits } from "@/src/store/credits/creditsSlice";
+import { useAddToFavorite } from "@/src/api/favourite";
+import {
+  selectFavoriteMovies,
+  selectFavoriteTVShows,
+  setFavorites,
+} from "@/src/store/favorites/favoriteSlice";
+import { useEffect, useState } from "react";
+import FavoriteButton from "@/src/components/ui/FavoriteButton";
+import { showModal } from "@/src/store/modal/modalSlice";
+import CustomAlert from "@/src/components/ui/CustomAlert";
 
 export default function MovieDetailsScreen() {
-  const { id: idString } = useLocalSearchParams();
+  const { movieId: idString } = useLocalSearchParams();
+  const { mutateAsync } = useAddToFavorite();
   const id = typeof idString === "string" ? idString : idString[0];
+
+  const favoriteIds = useAppSelector(selectFavoriteMovies) || [];
+  const favoriteTVIds = useAppSelector(selectFavoriteTVShows) || [];
+
+  const [isFavorite, setIsFavorite] = useState(favoriteIds.includes(id));
+  const [isReverting, setIsReverting] = useState(false);
 
   const dispatch = useAppDispatch();
 
   const { data: details, error, isLoading } = useMovieDetails(id);
+
+  useEffect(() => {
+    if (isReverting) {
+      dispatch(
+        showModal({
+          title: "Something went wrong",
+          message: "Plese try again!",
+          borderColor: Colors.ERROR,
+        })
+      );
+    }
+  }, [isReverting, dispatch]);
 
   if (isLoading) {
     dispatch(clearCredits());
@@ -46,8 +75,8 @@ export default function MovieDetailsScreen() {
 
   //cast and crew
   const credits = details.credits;
-  dispatch(setCredits(credits));  
-  
+  dispatch(setCredits(credits));
+
   const videos = details.videos.results.filter(
     (video: Video) => video.type === "Trailer" && video.official === true
   );
@@ -57,9 +86,35 @@ export default function MovieDetailsScreen() {
 
   // console.log(JSON.stringify(castData[0], null, 3));
 
+  const handleAddFavorite = async () => {
+    const updatedFavoriteIds = isFavorite
+      ? favoriteIds.filter((item) => item !== id)
+      : [...favoriteIds, id];
+
+    const favorites = { movieIds: updatedFavoriteIds, tvShowIds: favoriteTVIds };
+
+    setIsFavorite(!isFavorite);
+
+    try {
+      await mutateAsync(favorites);
+    } catch (error) {
+      setIsReverting(true);
+      setIsFavorite(isFavorite);
+      dispatch(setFavorites({ movieIds: favoriteIds, tvShowIds: favoriteTVIds }));
+    } finally {
+      setIsReverting(false);
+    }
+  };
+
   return (
     <ScrollView style={styles.container}>
-      <Stack.Screen options={{ title: details.title }} />
+      <Stack.Screen
+        options={{
+          title: details.title,
+          headerRight: () => <FavoriteButton isFavorite={isFavorite} onPress={handleAddFavorite} />,
+        }}
+      />
+
       <LinearGradient
         style={styles.backdropContainer}
         colors={["rgba(0, 0, 0, 0)", "rgba(0, 0, 0, 0.2)", "rgba(0, 0, 0, 0.7)"]}
@@ -110,7 +165,7 @@ export default function MovieDetailsScreen() {
             title={"Cast & Crew"}
             data={castData}
             Item={PersonCard}
-            path={`/(persons)/persons?id=${id}`}
+            path={`/(tabs)/(movies)/(persons)/persons?id=${id}`}
           />
         )}
 
