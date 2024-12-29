@@ -4,7 +4,7 @@ import { Colors } from "../constants/Colors";
 import { useEffect } from "react";
 import { User, onAuthStateChanged } from "firebase/auth";
 import { FIREBASE_AUTH, FIREBASE_DB } from "../lib/FirebaseConfig";
-import { store, useAppDispatch, useAppSelector } from "../store/store";
+import { store, useAppDispatch } from "../store/store";
 import { Provider } from "react-redux";
 import { clearUser, setUser } from "../store/auth/authSlice";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";

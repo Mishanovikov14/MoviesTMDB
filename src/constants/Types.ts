@@ -48,10 +48,12 @@ export type Video = {
 
 export type ListItem = {
   data: MovieCard;
+  tab: string;
 };
 
 export type PersonListItem = {
   data: PersonCard;
+  tab: string;
 };
 
 export type AuthState = {

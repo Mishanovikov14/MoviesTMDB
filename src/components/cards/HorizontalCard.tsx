@@ -4,9 +4,9 @@ import { Colors } from "../../constants/Colors";
 import { ListItem } from "@/src/constants/Types";
 import { Link } from "expo-router";
 
-export default function HorizontalCard({ data }: ListItem) {
+export default function HorizontalCard({ data, tab }: ListItem) {
   return (
-    <Link href={`/(tabs)/(movies)/${data.id}`} asChild>
+    <Link href={`/(tabs)/${tab}/${data.id}`} asChild>
       <Pressable style={styles.itemContainer}>
         <Image
           source={

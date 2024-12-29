@@ -4,9 +4,9 @@ import { Colors } from "../../constants/Colors";
 import { PersonListItem } from "@/src/constants/Types";
 import { Link } from "expo-router";
 
-export default function PersonCard({ data }: PersonListItem) {
+export default function PersonCard({ data, tab }: PersonListItem) {
   return (
-    <Link href={`/(tabs)/(movies)/(persons)/${data.id}`} asChild>
+    <Link href={`/(tabs)/${tab}/(persons)/${data.id}`} asChild>
       <Pressable style={styles.itemContainer}>
         <Image
           source={

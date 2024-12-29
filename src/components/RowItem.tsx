@@ -4,9 +4,9 @@ import { ListItem } from "@/src/constants/Types";
 import { Link } from "expo-router";
 import { MainStyles } from "../constants/Style";
 
-export default function RowItem({ data }: ListItem) {
+export default function RowItem({ data, tab }: ListItem) {
   return (
-    <Link href={`/(tabs)/(movies)/${data.id}`} asChild>
+    <Link href={`/(tabs)/${tab}/${data.id}`} asChild>
       <Pressable style={styles.itemContainer}>
         <Image
           source={

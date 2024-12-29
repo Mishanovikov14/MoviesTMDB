@@ -1,10 +1,11 @@
-import { Colors, ThemeColors } from "@/src/constants/Colors";
-import { StyleSheet, FlatList, Text, View } from "react-native";
+import { ThemeColors } from "@/src/constants/Colors";
+import { StyleSheet, FlatList, View } from "react-native";
 import { useAllMovies } from "@/src/api/movies";
 import Loader from "@/src/components/ui/Loader";
 import { useSearchParams } from "expo-router/build/hooks";
 import RowItem from "@/src/components/RowItem";
 import { Stack } from "expo-router";
+import ErrorBlock from "@/src/components/ui/ErrorBlock";
 
 export default function AllMoviesScreen() {
   const searchParams = useSearchParams();
@@ -29,11 +30,7 @@ export default function AllMoviesScreen() {
   }
 
   if (error) {
-    return (
-      <View style={styles.errorContainer}>
-        <Text style={styles.text}>Failed to fetch Movies. Please try again!</Text>
-      </View>
-    );
+    return <ErrorBlock text="Failed to fetch Movies. Please try again!"/>
   }
 
   const seen = new Set();
@@ -56,7 +53,7 @@ export default function AllMoviesScreen() {
       <FlatList
         data={movies}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => <RowItem data={item} />}
+        renderItem={({ item }) => <RowItem data={item} tab="(movies)"/>}
         onEndReached={() => {
           if (hasNextPage) {
             fetchNextPage();
@@ -75,16 +72,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 20,
     backgroundColor: ThemeColors.dark.background,
-  },
-
-  errorContainer: {
-    flex: 1,
-    padding: 16,
-    backgroundColor: ThemeColors.dark.background,
-    justifyContent: "center",
-  },
-
-  text: {
-    color: Colors.PRIMARY,
   },
 });

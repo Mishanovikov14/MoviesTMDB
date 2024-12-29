@@ -4,10 +4,10 @@ import { Colors } from "../../constants/Colors";
 import { ListItem } from "@/src/constants/Types";
 import { Link, router } from "expo-router";
 
-export default function VerticalCard({ data }: ListItem) {
+export default function VerticalCard({ data, tab }: ListItem) {
   return (
-    // <Link href={`/(tabs)/(movies)/${data.id}`} asChild>
-      <Pressable style={styles.itemContainer} onPress={() => router.push(`/(tabs)/(movies)/${data.id}`)}>
+    <Link href={`/(tabs)/${tab}/${data.id}`} asChild>
+      <Pressable style={styles.itemContainer} >
         <Image
           source={
             data.poster_path
@@ -20,7 +20,7 @@ export default function VerticalCard({ data }: ListItem) {
           {data.title}
         </Text>
       </Pressable>
-    // </Link>
+    </Link>
   );
 }
 
