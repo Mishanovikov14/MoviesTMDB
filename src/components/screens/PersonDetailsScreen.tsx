@@ -68,7 +68,7 @@ export default function PersonDetailsScreen({tab}: {tab: string}) {
           title={"Movies"}
           data={movieCredits}
           Item={VerticalCard}
-          path={`/(tabs)/${tab}/allMovies?type=popular`}
+          path={``}
           tab={tab}
         />
       )}

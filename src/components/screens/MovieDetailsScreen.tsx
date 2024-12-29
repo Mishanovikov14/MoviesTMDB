@@ -95,13 +95,10 @@ export default function MovieDetailsScreen({tab}: {tab: string}) {
   // console.log(JSON.stringify(castData[0], null, 3));
 
   const handleAddFavorite = async () => {
-    console.log("Start", favoriteIds)
-    console.log("Current", id)
     const updatedFavoriteIds = isFavorite
       ? favoriteIds.filter((item) => item !== id)
       : [...favoriteIds, id];
 
-      console.log("Final", updatedFavoriteIds)
     const favorites = { movieIds: updatedFavoriteIds, tvShowIds: favoriteTVIds };
 
     setIsFavorite(!isFavorite);

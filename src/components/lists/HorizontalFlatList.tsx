@@ -21,13 +21,13 @@ export default function HorizontalFlatList<T extends WithId>({ title, data, Item
     <View style={styles.sectionContainer}>
       <View style={styles.sectionTitle}>
         <Text style={styles.sectionTitleText}>{title}</Text>
-        <ButtonWithArrow
+        {path.length > 0 && <ButtonWithArrow
           onPress={() => {
             router.push(path as RelativePathString);
           }}
         >
           See all
-        </ButtonWithArrow>
+        </ButtonWithArrow>}
       </View>
       <FlatList
         data={data}
