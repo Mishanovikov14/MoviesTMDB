@@ -11,7 +11,7 @@ export default function MovieLayout() {
       }}
     >
       <Stack.Screen name="tv-shows" options={{title: "TV Shows"}}/>
-      <Stack.Screen name="allShows" options={{title: "All EV Shows"}}/>
+      <Stack.Screen name="allShows" options={{title: ""}}/>
     </Stack>
   );
 }

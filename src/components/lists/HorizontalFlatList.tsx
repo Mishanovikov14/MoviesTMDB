@@ -2,7 +2,6 @@ import { FlatList, StyleSheet, Text, View } from "react-native";
 import { Colors } from "../../constants/Colors";
 import { MainStyles } from "../../constants/Style";
 import ButtonWithArrow from "../ui/ButtonWithArrow";
-import { ListItem, MovieCard, PersonCard, PersonListItem } from "../../constants/Types";
 import { ComponentType } from "react";
 import { RelativePathString, router } from "expo-router";
 

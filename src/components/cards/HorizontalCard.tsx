@@ -5,6 +5,8 @@ import { ListItem } from "@/src/constants/Types";
 import { Link } from "expo-router";
 
 export default function HorizontalCard({ data, tab }: ListItem) {
+  const title = "title" in data ? data.title : data.name;
+
   return (
     <Link href={`/(tabs)/${tab}/${data.id}`} asChild>
       <Pressable style={styles.itemContainer}>
@@ -17,7 +19,7 @@ export default function HorizontalCard({ data, tab }: ListItem) {
           style={styles.image}
         />
         <Text style={styles.itemTitle} numberOfLines={2}>
-          {data.title}
+          {title}
         </Text>
         <Text style={styles.itemDescription} numberOfLines={2}>
           {data.overview}

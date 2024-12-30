@@ -10,11 +10,12 @@ import VerticalCard from "@/src/components/cards/VerticalCard";
 import HorizontalFlatList from "@/src/components/lists/HorizontalFlatList";
 import ErrorBlock from "../ui/ErrorBlock";
 
-export default function PersonDetailsScreen({tab}: {tab: string}) {
+export default function PersonDetailsScreen({ tab }: { tab: string }) {
   const { personId: idString } = useLocalSearchParams();
   const id = typeof idString === "string" ? idString : idString[0];
 
   const { data: details, error, isLoading } = usePersonDetails(id);
+  const isMovieTab = tab === "(movies)";
 
   if (isLoading) {
     return (
@@ -29,7 +30,7 @@ export default function PersonDetailsScreen({tab}: {tab: string}) {
     return (
       <>
         <Stack.Screen options={{ title: "" }} />
-        <ErrorBlock text="Failed to fetch Person Details. Please try again!"/>
+        <ErrorBlock text="Failed to fetch Person Details. Please try again!" />
       </>
     );
   }
@@ -38,7 +39,7 @@ export default function PersonDetailsScreen({tab}: {tab: string}) {
   const movieCredits = details.movie_credits.cast; //? crew
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <Stack.Screen options={{ title: details.name }} />
       <View style={styles.personDetailsContainer}>
         <Image
@@ -63,7 +64,7 @@ export default function PersonDetailsScreen({tab}: {tab: string}) {
         <TextWithTitle title="Biography" text={details.biography} />
       </View>
 
-      {movieCredits.length > 0 && (
+      {isMovieTab && movieCredits.length > 0 && (
         <HorizontalFlatList
           title={"Movies"}
           data={movieCredits}
@@ -73,15 +74,15 @@ export default function PersonDetailsScreen({tab}: {tab: string}) {
         />
       )}
 
-      {/* {tvCredits.length > 0 && (
+      {!isMovieTab && tvCredits.length > 0 && (
         <HorizontalFlatList
-          title={"TV Shows"}
+          title={"Movies"}
           data={tvCredits}
           Item={VerticalCard}
-          path="/(tabs)/(movies)/allShows"
-          tab="(movies)"
+          path={``}
+          tab={tab}
         />
-      )} */}
+      )}
     </ScrollView>
   );
 }

@@ -2,9 +2,11 @@ import { StyleSheet, Text, Image, Pressable } from "react-native";
 import { MainStyles } from "../../constants/Style";
 import { Colors } from "../../constants/Colors";
 import { ListItem } from "@/src/constants/Types";
-import { Link, router } from "expo-router";
+import { Link } from "expo-router";
 
 export default function VerticalCard({ data, tab }: ListItem) {
+  const title = "title" in data ? data.title : data.name;
+
   return (
     <Link href={`/(tabs)/${tab}/${data.id}`} asChild>
       <Pressable style={styles.itemContainer} >
@@ -17,7 +19,7 @@ export default function VerticalCard({ data, tab }: ListItem) {
           style={styles.image}
         />
         <Text style={styles.itemTitle} numberOfLines={2}>
-          {data.title}
+          {title}
         </Text>
       </Pressable>
     </Link>

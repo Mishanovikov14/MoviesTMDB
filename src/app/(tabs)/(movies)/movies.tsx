@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet } from "react-native";
-import { Colors, ThemeColors } from "../../../constants/Colors";
+import { ThemeColors } from "../../../constants/Colors";
 import Loader from "@/src/components/ui/Loader";
 import { useMovies } from "@/src/api/movies";
 import HorizontalFlatList from "@/src/components/lists/HorizontalFlatList";
@@ -24,7 +24,7 @@ export default function MoviesScreen() {
   const topRatedData = movies?.topRated?.results || [];
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <HorizontalFlatList title={"Popular"} data={popularData} Item={VerticalCard} path="/(tabs)/(movies)/allMovies?type=popular" tab="(movies)"/>
       <HorizontalFlatList title={"Now in Theaters"} data={inTheaterData} Item={HorizontalCard} path="/(tabs)/(movies)/allMovies?type=inTheater" tab="(movies)"/>
       <HorizontalFlatList title={"Upcoming"} data={upcomingData} Item={VerticalCard} path="/(tabs)/(movies)/allMovies?type=upcoming" tab="(movies)"/>

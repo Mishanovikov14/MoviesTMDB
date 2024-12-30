@@ -1,7 +1,6 @@
 import { ScrollView, StyleSheet } from "react-native";
 import { Colors, ThemeColors } from "@/src/constants/Colors";
 import { Stack, useLocalSearchParams } from "expo-router";
-import { useMovieDetails } from "@/src/api/movies";
 import Loader from "@/src/components/ui/Loader";
 import HorizontalFlatList from "@/src/components/lists/HorizontalFlatList";
 import PersonCard from "@/src/components/cards/PersonCard";
@@ -21,9 +20,10 @@ import FavoriteButton from "@/src/components/ui/FavoriteButton";
 import { showModal } from "@/src/store/modal/modalSlice";
 import ErrorBlock from "../ui/ErrorBlock";
 import DetailsHeader from "../DetailsHeader";
+import { useTVShowDetails } from "@/src/api/tv-Shows";
 
-export default function MovieDetailsScreen({ tab }: { tab: string }) {
-  const { movieId: idString } = useLocalSearchParams();
+export default function TVShowDetailsScreen({ tab }: { tab: string }) {
+  const { tvShowId: idString } = useLocalSearchParams();
   const { mutateAsync } = useAddToFavorite();
   const id = typeof idString === "string" ? idString : idString[0];
 
@@ -35,7 +35,7 @@ export default function MovieDetailsScreen({ tab }: { tab: string }) {
 
   const dispatch = useAppDispatch();
 
-  const { data: details, error, isLoading } = useMovieDetails(id);
+  const { data: details, error, isLoading } = useTVShowDetails(id);
 
   useEffect(() => {
     if (isReverting) {
@@ -92,10 +92,10 @@ export default function MovieDetailsScreen({ tab }: { tab: string }) {
 
   const handleAddFavorite = async () => {
     const updatedFavoriteIds = isFavorite
-      ? favoriteIds.filter((item) => item !== id)
-      : [...favoriteIds, id];
+      ? favoriteTVIds.filter((item) => item !== id)
+      : [...favoriteTVIds, id];
 
-    const favorites = { movieIds: updatedFavoriteIds, tvShowIds: favoriteTVIds };
+    const favorites = { movieIds: favoriteIds, tvShowIds: updatedFavoriteIds };
 
     setIsFavorite(!isFavorite);
 
@@ -116,7 +116,7 @@ export default function MovieDetailsScreen({ tab }: { tab: string }) {
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <Stack.Screen
         options={{
-          title: details.title,
+          title: details.name,
           headerRight: () => <FavoriteButton isFavorite={isFavorite} onPress={handleAddFavorite} />,
         }}
       />
@@ -140,7 +140,7 @@ export default function MovieDetailsScreen({ tab }: { tab: string }) {
           title={"Similar"}
           data={similar}
           Item={VerticalCard}
-          path={`/(tabs)/${tab}/allMovies?type=similar&id=${id}`}
+          path={`/(tabs)/${tab}/allShows?type=similar&id=${id}`}
           tab={tab}
         />
       )}

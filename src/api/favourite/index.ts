@@ -3,6 +3,7 @@ import { setDoc, doc } from "firebase/firestore";
 import { FIREBASE_AUTH, FIREBASE_DB } from "@/src/lib/FirebaseConfig";
 import { Favorites } from "@/src/constants/Types";
 import { fetchMovieDetails } from "../movies";
+import { fetchShowDetails } from "../tv-Shows";
 
 const auth = FIREBASE_AUTH;
 const db = FIREBASE_DB;
@@ -21,7 +22,7 @@ export const useAddToFavorite = () => {
 
 const fetchFavoriteMovies = async (favoriteIds: string[], favoriteShowIds: string[]) => {
   const movieCallbacks = favoriteIds.map((id) => fetchMovieDetails(id));
-  const showCallbacks = favoriteShowIds.map((id) => fetchMovieDetails(id)); //TODO: change on TV show
+  const showCallbacks = favoriteShowIds.map((id) => fetchShowDetails(id));
 
   const data = await Promise.all([...movieCallbacks, ...showCallbacks]);
 

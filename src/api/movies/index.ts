@@ -32,19 +32,6 @@ export const fetchMoviesByType = async (
   return data;
 };
 
-export const fetchMovieDetails = async (id: string) => {
-  const detailsUrl = `${baseUrl}/movie/${id}?append_to_response=credits,videos,similar&language=en-US`;
-  const response = await fetch(detailsUrl, options);
-
-  if (!response.ok) {
-    throw new Error("Error while fetching movie details!");
-  }
-
-  const data = await response.json();
-
-  return data;
-};
-
 const fetchMovies = async () => {
   const [popular, inTheater, upcoming, topRated] = await Promise.all([
     fetchMoviesByType("popular"),
@@ -104,6 +91,19 @@ export const useAllMovies = (type: string, id?: string) => {
       return nextPage <= lastPage.total_pages ? nextPage : undefined;
     },
   });
+};
+
+export const fetchMovieDetails = async (id: string) => {
+  const detailsUrl = `${baseUrl}/movie/${id}?append_to_response=credits,videos,similar&language=en-US`;
+  const response = await fetch(detailsUrl, options);
+
+  if (!response.ok) {
+    throw new Error("Error while fetching movie details!");
+  }
+
+  const data = await response.json();
+
+  return data;
 };
 
 export const useMovieDetails = (id: string) => {

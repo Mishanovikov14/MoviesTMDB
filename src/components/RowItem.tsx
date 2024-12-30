@@ -5,6 +5,8 @@ import { Link } from "expo-router";
 import { MainStyles } from "../constants/Style";
 
 export default function RowItem({ data, tab }: ListItem) {
+  const title = "title" in data ? data.title : data.name;
+
   return (
     <Link href={`/(tabs)/${tab}/${data.id}`} asChild>
       <Pressable style={styles.itemContainer}>
@@ -17,12 +19,12 @@ export default function RowItem({ data, tab }: ListItem) {
           style={styles.image}
         />
         <View style={styles.textContainer}>
-            <Text style={styles.itemTitle} numberOfLines={2}>
-            {data.title}
-            </Text>
-            <Text style={styles.itemDescription} numberOfLines={8}>
+          <Text style={styles.itemTitle} numberOfLines={2}>
+            {title}
+          </Text>
+          <Text style={styles.itemDescription} numberOfLines={8}>
             {data.overview}
-            </Text>
+          </Text>
         </View>
       </Pressable>
     </Link>
@@ -39,7 +41,7 @@ const styles = StyleSheet.create({
 
   textContainer: {
     flex: 1,
-    marginLeft: 20
+    marginLeft: 20,
   },
 
   image: {
@@ -54,7 +56,7 @@ const styles = StyleSheet.create({
   itemTitle: {
     fontSize: MainStyles.FONTSIZE,
     color: Colors.SECONDARY,
-    marginBottom: 10
+    marginBottom: 10,
   },
 
   itemDescription: {
