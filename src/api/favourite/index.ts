@@ -20,23 +20,41 @@ export const useAddToFavorite = () => {
   });
 };
 
-const fetchFavoriteMovies = async (favoriteIds: string[], favoriteShowIds: string[]) => {
-  const movieCallbacks = favoriteIds.map((id) => fetchMovieDetails(id));
-  const showCallbacks = favoriteShowIds.map((id) => fetchShowDetails(id));
+const fetchFavoriteMovies = async (favoriteMoviesIds: string[]) => {
+  const movieCallbacks = favoriteMoviesIds.map((id) => fetchMovieDetails(id));
 
-  const data = await Promise.all([...movieCallbacks, ...showCallbacks]);
+  const data = await Promise.all(movieCallbacks);
 
   return data;
 };
 
-export const useFavoriteMovies = (favoriteIds: string[], favoriteShowIds: string[]) => {
+const fetchFavoriteShows = async (favoriteShowIds: string[]) => {
+  const showCallbacks = favoriteShowIds.map((id) => fetchShowDetails(id));
+
+  const data = await Promise.all(showCallbacks);
+
+  return data;
+};
+
+export const useFavoriteMovies = (favoriteMoviesIds: string[]) => {
   return useQuery({
-    queryKey: ["favoriteMovies", favoriteIds],
+    queryKey: ["favoritemovies", favoriteMoviesIds],
     queryFn: async () => {
-      const response = await fetchFavoriteMovies(favoriteIds, favoriteShowIds);
+      const response = await fetchFavoriteMovies(favoriteMoviesIds);
       return response;
     },
-    refetchOnMount: true,
-    enabled: favoriteIds.length > 0,
+    enabled: favoriteMoviesIds.length > 0,
   });
 };
+
+export const useFavoriteShows = (favoriteShowIds: string[]) => {
+  return useQuery({
+    queryKey: ["favoriteshows", favoriteShowIds],
+    queryFn: async () => {
+      const response = await fetchFavoriteShows(favoriteShowIds);
+      return response;
+    },
+    enabled: favoriteShowIds.length > 0,
+  });
+};
+

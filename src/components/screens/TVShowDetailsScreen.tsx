@@ -27,10 +27,10 @@ export default function TVShowDetailsScreen({ tab }: { tab: string }) {
   const { mutateAsync } = useAddToFavorite();
   const id = typeof idString === "string" ? idString : idString[0];
 
-  const favoriteIds = useAppSelector(selectFavoriteMovies) || [];
+  const favoriteMoviesIds = useAppSelector(selectFavoriteMovies) || [];
   const favoriteTVIds = useAppSelector(selectFavoriteTVShows) || [];
 
-  const [isFavorite, setIsFavorite] = useState(favoriteIds.includes(id));
+  const [isFavorite, setIsFavorite] = useState(favoriteTVIds.includes(id));
   const [isReverting, setIsReverting] = useState(false);
 
   const dispatch = useAppDispatch();
@@ -91,11 +91,12 @@ export default function TVShowDetailsScreen({ tab }: { tab: string }) {
   // console.log(JSON.stringify(castData[0], null, 3));
 
   const handleAddFavorite = async () => {
+    console.log("Favorite", favoriteTVIds)
     const updatedFavoriteIds = isFavorite
       ? favoriteTVIds.filter((item) => item !== id)
       : [...favoriteTVIds, id];
 
-    const favorites = { movieIds: favoriteIds, tvShowIds: updatedFavoriteIds };
+    const favorites = { movieIds: favoriteMoviesIds, tvShowIds: updatedFavoriteIds };
 
     setIsFavorite(!isFavorite);
 
@@ -103,10 +104,12 @@ export default function TVShowDetailsScreen({ tab }: { tab: string }) {
       await mutateAsync(favorites);
 
       dispatch(setFavorites(favorites));
+    console.log("Updated Favorite", favorites)
+
     } catch (error) {
       setIsReverting(true);
       setIsFavorite(isFavorite);
-      dispatch(setFavorites({ movieIds: favoriteIds, tvShowIds: favoriteTVIds }));
+      dispatch(setFavorites({ movieIds: favoriteMoviesIds, tvShowIds: favoriteTVIds }));
     } finally {
       setIsReverting(false);
     }
