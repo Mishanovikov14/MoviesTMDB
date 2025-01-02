@@ -2,11 +2,14 @@ import { StyleSheet, Text, Image, Pressable } from "react-native";
 import { MainStyles } from "../../constants/Style";
 import { Colors } from "../../constants/Colors";
 import { PersonListItem } from "@/src/constants/Types";
-import { Link } from "expo-router";
+import { Href, Link } from "expo-router";
 
-export default function PersonCard({ data }: PersonListItem) {
+export default function PersonCard({ data, dynamicPath }: PersonListItem) {
+  const link = dynamicPath + data.id as Href;
+
   return (
-    <Link href={`/(persons)/${data.id}`} asChild>
+    <Link href={link} asChild>
+    {/* <Link href={`/(tabs)/${tab}/(persons)/${data.id}`} asChild> */}
       <Pressable style={styles.itemContainer}>
         <Image
           source={
@@ -40,8 +43,6 @@ const styles = StyleSheet.create({
     height: 110,
     borderRadius: 55,
     marginBottom: 5,
-    borderColor: Colors.LIGHT_GREY,
-    borderWidth: 2,
   },
 
   name: {

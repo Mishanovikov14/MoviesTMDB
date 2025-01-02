@@ -18,6 +18,23 @@ export type MovieCard = {
   vote_count: number;
 };
 
+export type TVShowCard = {
+  adult: boolean;
+  backdrop_path: string;
+  genre_ids: number[];
+  id: number;
+  origin_country: string[];
+  original_language: string;
+  original_name: string;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  first_air_date: string;
+  name: string;
+  vote_average: number;
+  vote_count: number;
+};
+
 export type PersonCard = {
   adult: boolean;
   profile_path: string;
@@ -26,7 +43,8 @@ export type PersonCard = {
   name: string;
   original_name: string;
   gender: number;
-  character: string;
+  character?: string;
+  job?: string;
   credit_id: string;
   popularity: number;
   cast_id: number;
@@ -47,11 +65,13 @@ export type Video = {
 };
 
 export type ListItem = {
-  data: MovieCard;
+  data: MovieCard | TVShowCard;
+  dynamicPath: string;
 };
 
 export type PersonListItem = {
   data: PersonCard;
+  dynamicPath: string;
 };
 
 export type AuthState = {
@@ -63,9 +83,46 @@ export type AuthState = {
   };
 };
 
+export type CreditsState = {
+  credits: null | {
+    cast: PersonCard[];
+    crew: PersonCard[];
+  }
+}
+
 export type ButtonProps = {
   onPress: () => void;
   children: ReactNode;
   disabled?: boolean;
   style?: ViewStyle;
+};
+
+export type MoviePage = {
+  page: number;
+  pages: MovieCard[][];
+  results: MovieCard[];
+  total_pages: number;
+  total_results: number;
+}
+
+export type TVShowPage = {
+  page: number;
+  pages: TVShowCard[][];
+  results: TVShowCard[];
+  total_pages: number;
+  total_results: number;
+}
+
+export type Favorites = {
+  movieIds: string[];
+  tvShowIds: string[];
+} | null;
+
+export type Genre = {
+  id: number;
+  name: string;
+};
+
+export type Genres = {
+  genres: Genre[];
 };

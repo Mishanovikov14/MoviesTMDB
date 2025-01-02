@@ -1,23 +1,21 @@
-import { StyleSheet, Text, View } from "react-native";
-import { Colors, ThemeColors } from "@/src/constants/Colors";
+import { useAllMovies } from "@/src/api/movies";
+import { useSearchParams } from "expo-router/build/hooks";
+import AllItemsScreen from "@/src/components/screens/AllItemsScreen";
 
 export default function AllMoviesScreen() {
+  const searchParams = useSearchParams();
+  const type = searchParams.get("type") || "";
+  const id = searchParams.get("id") || "";
+
+  const All_TYPE: Record<string, string> = {
+    popular: "Popular",
+    inTheater: "In Theater",
+    topRated: "Top Rated",
+    upcoming: "Upcomming Movies",
+    similar: "Similar",
+  };
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>All Movies Screen</Text>
-    </View>
+    <AllItemsScreen type={type} id={id} title={All_TYPE[type]} fetchFunction={useAllMovies} dynamicPath="/(tabs)/(movies)/"/>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    padding: 20,
-    backgroundColor: ThemeColors.dark.background,
-  },
-
-  text: {
-    color: Colors.PRIMARY,
-  },
-});

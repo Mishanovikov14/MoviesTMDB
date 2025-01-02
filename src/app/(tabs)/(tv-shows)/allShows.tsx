@@ -1,23 +1,21 @@
-import { StyleSheet, Text, View } from "react-native";
-import { Colors, ThemeColors } from "@/src/constants/Colors";
+import { useSearchParams } from "expo-router/build/hooks";
+import { useAllTVShows } from "@/src/api/tv-Shows";
+import AllItemsScreen from "@/src/components/screens/AllItemsScreen";
 
-export default function AllTVShowsScreen() {
+export default function AllMoviesScreen() {
+  const searchParams = useSearchParams();
+  const type = searchParams.get("type") || "";
+  const id = searchParams.get("id") || "";
+
+  const All_TYPE: Record<string, string> = {
+    popular: "Popular",
+    onTheAir: "On the air",
+    topRated: "Top Rated",
+    airingToday: "Airing Today",
+    similar: "Similar",
+  };
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>All TV Shows Screen</Text>
-    </View>
+    <AllItemsScreen type={type} id={id} title={All_TYPE[type]} fetchFunction={useAllTVShows} dynamicPath="/(tabs)/(tv-shows)/"/>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    padding: 20,
-    backgroundColor: ThemeColors.dark.background,
-  },
-
-  text: {
-    color: Colors.PRIMARY,
-  },
-});

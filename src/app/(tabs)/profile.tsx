@@ -6,8 +6,6 @@ import { router } from "expo-router";
 import { StyleSheet, Text, View } from "react-native";
 
 export default function ProfileScreen() {
-    // const authInfo = useAppSelector((state) => state.auth);
-  // console.log("Store data: ", JSON.stringify(authInfo, null, 3));
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Profile</Text>

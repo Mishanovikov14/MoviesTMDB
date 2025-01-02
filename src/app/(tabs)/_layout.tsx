@@ -29,12 +29,11 @@ export default function AuthLayout() {
         }}
       />
       <Tabs.Screen
-        name="favourite"
+        name="(favorite)"
         options={{
-          title: "Favourite",
+          title: "Favorite",
           tabBarIcon: ({ color }) => <Ionicons name="heart" size={24} color={color} />,
-          headerTintColor: Colors.PRIMARY,
-          headerTitleAlign: "center",
+          headerShown: false,
         }}
       />
       <Tabs.Screen

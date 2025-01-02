@@ -8,12 +8,14 @@ import TextWithTitle from "@/src/components/ui/TextWithTitle";
 import { formatDate } from "@/src/utils/dateFormating";
 import VerticalCard from "@/src/components/cards/VerticalCard";
 import HorizontalFlatList from "@/src/components/lists/HorizontalFlatList";
+import ErrorBlock from "../ui/ErrorBlock";
 
-export default function PersonDetailsScreen() {
-  const { id: idString } = useLocalSearchParams();
+export default function PersonDetailsScreen({ tab }: { tab: string }) {
+  const { personId: idString } = useLocalSearchParams();
   const id = typeof idString === "string" ? idString : idString[0];
 
   const { data: details, error, isLoading } = usePersonDetails(id);
+  const isMovieTab = tab === "(movies)";
 
   if (isLoading) {
     return (
@@ -26,18 +28,18 @@ export default function PersonDetailsScreen() {
 
   if (error) {
     return (
-      <View style={styles.errorContainer}>
+      <>
         <Stack.Screen options={{ title: "" }} />
-        <Text style={styles.text}>Failed to fetch Person Details. Please try again!</Text>
-      </View>
+        <ErrorBlock text="Failed to fetch Person Details. Please try again!" />
+      </>
     );
   }
 
-  // const tvCredits = details.tv_credits.cast; //? crew
-  // const movieCredits = details.movie_credits.cast; //? crew
+  const tvCredits = details.tv_credits.cast; //? crew
+  const movieCredits = details.movie_credits.cast; //? crew
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <Stack.Screen options={{ title: details.name }} />
       <View style={styles.personDetailsContainer}>
         <Image
@@ -62,23 +64,25 @@ export default function PersonDetailsScreen() {
         <TextWithTitle title="Biography" text={details.biography} />
       </View>
 
-      {/* {movieCredits.length > 0 && (
+      {isMovieTab && movieCredits.length > 0 && (
         <HorizontalFlatList
           title={"Movies"}
           data={movieCredits}
           Item={VerticalCard}
-          path="/(tabs)/(movies)/allMovies"
+          path={``}
+          dynamicPath={`/(tabs)/${tab}/(persons)/`}
         />
       )}
 
-      {tvCredits.length > 0 && (
+      {!isMovieTab && tvCredits.length > 0 && (
         <HorizontalFlatList
-          title={"TV Shows"}
+          title={"Movies"}
           data={tvCredits}
           Item={VerticalCard}
-          path="/(tabs)/(movies)/allShows"
+          path={``}
+          dynamicPath={`/(tabs)/${tab}/(persons)/`}
         />
-      )} */}
+      )}
     </ScrollView>
   );
 }
@@ -86,13 +90,6 @@ export default function PersonDetailsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: ThemeColors.dark.background,
-  },
-
-  errorContainer: {
-    flex: 1,
-    justifyContent: "center",
     padding: 20,
     backgroundColor: ThemeColors.dark.background,
   },
@@ -113,11 +110,6 @@ const styles = StyleSheet.create({
     borderColor: Colors.LIGHT_GREY,
     borderWidth: 2,
     marginRight: 10,
-  },
-
-  text: {
-    color: Colors.PRIMARY,
-    fontSize: MainStyles.FONTSIZE,
   },
 
   personName: {

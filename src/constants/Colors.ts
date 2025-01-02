@@ -4,7 +4,8 @@ export const Colors = {
     SECONDARY: "#FFD324FF",
     PRIMARY: "#FFBB00FF",
     DARK: "#000000",
-    ERROR: "red"
+    ERROR: "#FF0202FF",
+    FAVORITE: "#CC0404E3",
 };
 
 export const ThemeColors = {

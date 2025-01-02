@@ -2,11 +2,16 @@ import { StyleSheet, Text, Image, Pressable } from "react-native";
 import { MainStyles } from "../../constants/Style";
 import { Colors } from "../../constants/Colors";
 import { ListItem } from "@/src/constants/Types";
-import { Link } from "expo-router";
+import { Href, Link } from "expo-router";
 
-export default function HorizontalCard({ data }: ListItem) {
+export default function HorizontalCard({ data, dynamicPath }: ListItem) {
+  const title = "title" in data ? data.title : data.name;
+  const link = dynamicPath + data.id as Href;
+
   return (
-    <Link href={`/(tabs)/(movies)/${data.id}`} asChild>
+    <Link href={link} asChild>
+
+    {/* <Link href={`/(tabs)/${tab}/${data.id}`} asChild> */}
       <Pressable style={styles.itemContainer}>
         <Image
           source={
@@ -17,7 +22,7 @@ export default function HorizontalCard({ data }: ListItem) {
           style={styles.image}
         />
         <Text style={styles.itemTitle} numberOfLines={2}>
-          {data.title}
+          {title}
         </Text>
         <Text style={styles.itemDescription} numberOfLines={2}>
           {data.overview}

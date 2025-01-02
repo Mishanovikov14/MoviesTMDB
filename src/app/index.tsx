@@ -1,4 +1,4 @@
-import { Alert, Keyboard, StyleSheet, Text, TextInput, View } from "react-native";
+import { Keyboard, StyleSheet, Text, TextInput, View } from "react-native";
 import { Colors, ThemeColors } from "@/src/constants/Colors";
 import Button from "@/src/components/ui/Button";
 import { Link, Redirect, Stack, router } from "expo-router";
@@ -12,6 +12,8 @@ import { FIREBASE_AUTH } from "@/src/lib/FirebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Loader from "../components/ui/Loader";
+import { useAppDispatch } from "../store/store";
+import { showModal } from "../store/modal/modalSlice";
 
 type FormData = {
   email: string;
@@ -25,6 +27,7 @@ export default function signInPage() {
 
   const passwordRef = useRef<TextInput>(null);
   const auth = FIREBASE_AUTH;
+  const dispatch = useAppDispatch();
 
   const {
     control,
@@ -45,9 +48,13 @@ export default function signInPage() {
 
       router.replace("/(tabs)/(movies)/movies");
     } catch (error) {
-      //TODO: Normal error handling
-      Alert.alert(JSON.stringify(error));
-      console.log("Error: ", error);
+      dispatch(
+        showModal({
+          title: "Something went wrong",
+          message: JSON.stringify(error),
+          borderColor: Colors.ERROR,
+        })
+      );
     } finally {
       setLoading(false);
 
@@ -77,20 +84,32 @@ export default function signInPage() {
   }, []);
 
   if (initLoading) {
-    return <Loader />;
+    return (
+      <>
+        <Stack.Screen options={{ headerShown: false }} />
+        <Loader />
+      </>
+    );
   }
 
   if (isLoggedIn) {
-    return <Redirect href={"/(tabs)/(movies)/movies"} />;
+    return (
+      <>
+        <Stack.Screen options={{ headerShown: false }} />
+        <Loader />
+        <Redirect href={"/(tabs)/(movies)/movies"} />
+      </>
+    );
   }
 
   return (
     <View style={styles.container}>
-      <Stack.Screen options={{ title: "Sign in" }} />
+      <Stack.Screen options={{ title: "Sign in", headerShown: true }} />
 
       <Text style={styles.label}>Email</Text>
       <FormInputController
         name={"email"}
+        // @ts-ignore
         control={control}
         placeholder={"Email"}
         errors={errors}
@@ -107,6 +126,7 @@ export default function signInPage() {
       <FormInputController
         ref={passwordRef}
         name={"password"}
+        // @ts-ignore
         control={control}
         placeholder={"Password"}
         errors={errors}

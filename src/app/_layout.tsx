@@ -3,30 +3,30 @@ import { StatusBar } from "expo-status-bar";
 import { Colors } from "../constants/Colors";
 import { useEffect } from "react";
 import { User, onAuthStateChanged } from "firebase/auth";
-import { FIREBASE_AUTH } from "../lib/FirebaseConfig";
-import { store, useAppDispatch, useAppSelector } from "../store/store";
+import { FIREBASE_AUTH, FIREBASE_DB } from "../lib/FirebaseConfig";
+import { store, useAppDispatch } from "../store/store";
 import { Provider } from "react-redux";
 import { clearUser, setUser } from "../store/auth/authSlice";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { doc, getDoc } from "firebase/firestore";
+import { setFavorites } from "../store/favorites/favoriteSlice";
+import CustomAlert from "../components/ui/CustomAlert";
 
 export default function RootLayout() {
   const client = new QueryClient();
+
   return (
     <Provider store={store}>
       <QueryClientProvider client={client}>
         <MainLayout />
       </QueryClientProvider>
+      <CustomAlert />
     </Provider>
   );
 }
 
 export function MainLayout() {
   const dispatch = useAppDispatch();
-
-  //--------------------------------------------
-  //example of select usage
-  // const user = useAppSelector(selectUser);
-  //--------------------------------------------
 
   const monitorAuthState = () => {
     onAuthStateChanged(FIREBASE_AUTH, async (user: User | null) => {
@@ -38,7 +38,16 @@ export function MainLayout() {
           photoURL: user.photoURL,
         };
 
-        dispatch(setUser(userInfo));   
+        const docRef = doc(FIREBASE_DB, "Favorites", user.uid);
+        const favorites = await getDoc(docRef);
+
+        if (!favorites.exists()) {
+          throw new Error("Error while fetching favorites!");
+        } else {
+          dispatch(setFavorites(favorites.data()));
+        }
+
+        dispatch(setUser(userInfo));
       } else {
         dispatch(clearUser());
       }
@@ -62,7 +71,6 @@ export function MainLayout() {
         <Stack.Screen name="index" options={{ title: "Sign In" }} />
         <Stack.Screen name="sign-up" options={{ title: "Sign Up" }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="(persons)" options={{ headerShown: false }} />
       </Stack>
     </>
   );
