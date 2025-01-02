@@ -38,9 +38,11 @@ export default function TVShowDetailsScreen({ tab }: { tab: string }) {
   const { data: details, error, isLoading } = useTVShowDetails(id);
 
   let dynamicPath = `/(tabs)/${tab}/`;
+  let path = `/(tabs)/${tab}/allShows?type=similar&id=${id}`;
 
   if (tab === "(favorite)") {
     dynamicPath = `/(tabs)/${tab}/(tv-shows)/`;
+    path = `/(tabs)/${tab}/(tv-show)/similarTVShows?id=${id}`;
   }
 
   useEffect(() => {
@@ -144,7 +146,7 @@ export default function TVShowDetailsScreen({ tab }: { tab: string }) {
           title={"Similar"}
           data={similar}
           Item={VerticalCard}
-          path={`/(tabs)/${tab}/allShows?type=similar&id=${id}`}
+          path={path}
           dynamicPath={dynamicPath}
         />
       )}

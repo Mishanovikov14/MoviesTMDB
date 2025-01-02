@@ -38,9 +38,11 @@ export default function MovieDetailsScreen({ tab }: { tab: string }) {
   const { data: details, error, isLoading } = useMovieDetails(id);
 
   let dynamicPath = `/(tabs)/${tab}/`;
+  let path = `/(tabs)/${tab}/allMovies?type=similar&id=${id}`;
 
   if (tab === "(favorite)") {
     dynamicPath = `/(tabs)/${tab}/(movie)/`;
+    path = `/(tabs)/${tab}/(movie)/similarMovies?id=${id}`;
   }
 
   useEffect(() => {
@@ -144,7 +146,7 @@ export default function MovieDetailsScreen({ tab }: { tab: string }) {
           title={"Similar"}
           data={similar}
           Item={VerticalCard}
-          path={`/(tabs)/${tab}/allMovies?type=similar&id=${id}`}
+          path={path}
           dynamicPath={dynamicPath}
         />
       )}

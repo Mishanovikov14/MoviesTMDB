@@ -99,6 +99,7 @@ export type ButtonProps = {
 
 export type MoviePage = {
   page: number;
+  pages: MovieCard[][];
   results: MovieCard[];
   total_pages: number;
   total_results: number;
@@ -106,6 +107,7 @@ export type MoviePage = {
 
 export type TVShowPage = {
   page: number;
+  pages: TVShowCard[][];
   results: TVShowCard[];
   total_pages: number;
   total_results: number;
