@@ -40,8 +40,6 @@ const styles = StyleSheet.create({
     height: 110,
     borderRadius: 55,
     marginBottom: 5,
-    borderColor: Colors.LIGHT_GREY,
-    borderWidth: 2,
   },
 
   name: {

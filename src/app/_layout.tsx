@@ -14,6 +14,7 @@ import CustomAlert from "../components/ui/CustomAlert";
 
 export default function RootLayout() {
   const client = new QueryClient();
+
   return (
     <Provider store={store}>
       <QueryClientProvider client={client}>

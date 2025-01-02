@@ -43,7 +43,8 @@ export type PersonCard = {
   name: string;
   original_name: string;
   gender: number;
-  character: string;
+  character?: string;
+  job?: string;
   credit_id: string;
   popularity: number;
   cast_id: number;

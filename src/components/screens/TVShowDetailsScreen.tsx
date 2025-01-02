@@ -91,7 +91,6 @@ export default function TVShowDetailsScreen({ tab }: { tab: string }) {
   // console.log(JSON.stringify(castData[0], null, 3));
 
   const handleAddFavorite = async () => {
-    console.log("Favorite", favoriteTVIds)
     const updatedFavoriteIds = isFavorite
       ? favoriteTVIds.filter((item) => item !== id)
       : [...favoriteTVIds, id];
@@ -104,8 +103,6 @@ export default function TVShowDetailsScreen({ tab }: { tab: string }) {
       await mutateAsync(favorites);
 
       dispatch(setFavorites(favorites));
-    console.log("Updated Favorite", favorites)
-
     } catch (error) {
       setIsReverting(true);
       setIsFavorite(isFavorite);
@@ -131,7 +128,7 @@ export default function TVShowDetailsScreen({ tab }: { tab: string }) {
           title={"Cast & Crew"}
           data={castData}
           Item={PersonCard}
-          path={`/(tabs)/${tab}/(persons)/persons?id=${id}`}
+          path={`/(tabs)/${tab}/(persons)/(credits)/castList`}
           tab={tab}
         />
       )}

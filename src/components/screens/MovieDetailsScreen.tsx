@@ -128,7 +128,7 @@ export default function MovieDetailsScreen({ tab }: { tab: string }) {
           title={"Cast & Crew"}
           data={castData}
           Item={PersonCard}
-          path={`/(tabs)/${tab}/(persons)/persons?id=${id}`}
+          path={`/(tabs)/${tab}/(persons)/(credits)/castList`}
           tab={tab}
         />
       )}

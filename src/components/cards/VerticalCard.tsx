@@ -2,14 +2,14 @@ import { StyleSheet, Text, Image, Pressable } from "react-native";
 import { MainStyles } from "../../constants/Style";
 import { Colors } from "../../constants/Colors";
 import { ListItem } from "@/src/constants/Types";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 
 export default function VerticalCard({ data, tab }: ListItem) {
   const title = "title" in data ? data.title : data.name;
 
   return (
-    <Link href={`/(tabs)/${tab}/${data.id}`} asChild>
-      <Pressable style={styles.itemContainer} >
+    // <Link href={`/(tabs)/${tab}/${data.id}`} asChild>
+      <Pressable style={styles.itemContainer} onPress={() => router.push(`/(tabs)/${tab}/${data.id}`)}>
         <Image
           source={
             data.poster_path
@@ -22,7 +22,7 @@ export default function VerticalCard({ data, tab }: ListItem) {
           {title}
         </Text>
       </Pressable>
-    </Link>
+    // </Link>
   );
 }
 
