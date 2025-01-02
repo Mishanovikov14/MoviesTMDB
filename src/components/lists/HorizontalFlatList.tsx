@@ -10,12 +10,12 @@ type WithId = { id: number };
 type cardData<T extends WithId> = {
   title: string;
   data: T[];
-  Item: ComponentType<{ data: T, tab: string}>;
+  Item: ComponentType<{ data: T, dynamicPath: string}>;
   path: string;
-  tab: string;
+  dynamicPath: string;
 }
 
-export default function HorizontalFlatList<T extends WithId>({ title, data, Item, path, tab }: cardData<T>) {
+export default function HorizontalFlatList<T extends WithId>({ title, data, Item, path, dynamicPath }: cardData<T>) {
   return (
     <View style={styles.sectionContainer}>
       <View style={styles.sectionTitle}>
@@ -34,7 +34,7 @@ export default function HorizontalFlatList<T extends WithId>({ title, data, Item
         showsHorizontalScrollIndicator={false}
         keyExtractor={(item, index) => item.id.toString() + index}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
-        renderItem={({ item }) => <Item data={item} tab={tab}/>}
+        renderItem={({ item }) => <Item data={item} dynamicPath={dynamicPath}/>}
       />
     </View>
   );

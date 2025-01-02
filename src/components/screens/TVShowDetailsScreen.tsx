@@ -37,6 +37,12 @@ export default function TVShowDetailsScreen({ tab }: { tab: string }) {
 
   const { data: details, error, isLoading } = useTVShowDetails(id);
 
+  let dynamicPath = `/(tabs)/${tab}/`;
+
+  if (tab === "(favorite)") {
+    dynamicPath = `/(tabs)/${tab}/(tv-shows)/`;
+  }
+
   useEffect(() => {
     if (isReverting) {
       dispatch(
@@ -88,8 +94,6 @@ export default function TVShowDetailsScreen({ tab }: { tab: string }) {
   const genres = details.genres;
   const similar = details.similar.results;
 
-  // console.log(JSON.stringify(castData[0], null, 3));
-
   const handleAddFavorite = async () => {
     const updatedFavoriteIds = isFavorite
       ? favoriteTVIds.filter((item) => item !== id)
@@ -129,7 +133,7 @@ export default function TVShowDetailsScreen({ tab }: { tab: string }) {
           data={castData}
           Item={PersonCard}
           path={`/(tabs)/${tab}/(persons)/(credits)/castList`}
-          tab={tab}
+          dynamicPath={dynamicPath + "(persons)/"}
         />
       )}
 
@@ -141,7 +145,7 @@ export default function TVShowDetailsScreen({ tab }: { tab: string }) {
           data={similar}
           Item={VerticalCard}
           path={`/(tabs)/${tab}/allShows?type=similar&id=${id}`}
-          tab={tab}
+          dynamicPath={dynamicPath}
         />
       )}
     </ScrollView>

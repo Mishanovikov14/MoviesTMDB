@@ -9,13 +9,14 @@ import { useTVShows } from "@/src/api/tv-Shows";
 
 export default function TVShowsScreen() {
   const { data: tvShows, error, isLoading } = useTVShows();
+  const dynamicPath = "/(tabs)/(tv-shows)/";
 
   if (isLoading) {
     return <Loader />;
   }
 
   if (error) {
-    return <ErrorBlock text="Failed to fetch TV Shows. Please try again!"/>
+    return <ErrorBlock text="Failed to fetch TV Shows. Please try again!" />;
   }
 
   const popularData = tvShows?.popular?.results || [];
@@ -25,10 +26,34 @@ export default function TVShowsScreen() {
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <HorizontalFlatList title={"Popular"} data={popularData} Item={VerticalCard} path="/(tabs)/(tv-shows)/allShows?type=popular" tab="(tv-shows)"/>
-      <HorizontalFlatList title={"Top Rated"} data={topRatedData} Item={HorizontalCard} path="/(tabs)/(tv-shows)/allShows?type=topRated" tab="(tv-shows)"/>
-      <HorizontalFlatList title={"Airing today"} data={airingTodayData} Item={VerticalCard} path="/(tabs)/(tv-shows)/allShows?type=airingToday" tab="(tv-shows)"/>
-      <HorizontalFlatList title={"On the Air"} data={onTheAirData} Item={VerticalCard} path="/(tabs)/(tv-shows)/allShows?type=onTheAir" tab="(tv-shows)"/>
+      <HorizontalFlatList
+        title={"Popular"}
+        data={popularData}
+        Item={VerticalCard}
+        path="/(tabs)/(tv-shows)/allShows?type=popular"
+        dynamicPath={dynamicPath}
+      />
+      <HorizontalFlatList
+        title={"Top Rated"}
+        data={topRatedData}
+        Item={HorizontalCard}
+        path="/(tabs)/(tv-shows)/allShows?type=topRated"
+        dynamicPath={dynamicPath}
+      />
+      <HorizontalFlatList
+        title={"Airing today"}
+        data={airingTodayData}
+        Item={VerticalCard}
+        path="/(tabs)/(tv-shows)/allShows?type=airingToday"
+        dynamicPath={dynamicPath}
+      />
+      <HorizontalFlatList
+        title={"On the Air"}
+        data={onTheAirData}
+        Item={VerticalCard}
+        path="/(tabs)/(tv-shows)/allShows?type=onTheAir"
+        dynamicPath={dynamicPath}
+      />
     </ScrollView>
   );
 }

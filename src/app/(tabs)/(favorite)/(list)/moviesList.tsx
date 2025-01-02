@@ -10,14 +10,14 @@ import { FlatList, StyleSheet, View } from "react-native";
 export default function FavouriteMoviesScreen() {
   const favoriteIds = useAppSelector(selectFavoriteMovies) || [];
 
-  const {data: movies, isLoading, error} = useFavoriteMovies(favoriteIds);
+  const { data: movies, isLoading, error } = useFavoriteMovies(favoriteIds);
 
   if (isLoading) {
     return <Loader />;
   }
 
   if (error) {
-    return <ErrorBlock text="Failed to fetch Favorites Movies. Please try again!"/>
+    return <ErrorBlock text="Failed to fetch Favorites Movies. Please try again!" />;
   }
 
   return (
@@ -25,7 +25,7 @@ export default function FavouriteMoviesScreen() {
       <FlatList
         data={movies}
         keyExtractor={(item, index) => item.id.toString() + index}
-        renderItem={({ item }) => <RowItem data={item} tab="(favorite)"/>}
+        renderItem={({ item }) => <RowItem data={item} dynamicPath="/(tabs)/(favorite)/(movie)/" />}
       />
     </View>
   );

@@ -1,14 +1,15 @@
 import { StyleSheet, Text, Image, Pressable, View } from "react-native";
 import { Colors } from "../constants/Colors";
 import { PersonListItem } from "@/src/constants/Types";
-import { Link } from "expo-router";
+import { Href, Link } from "expo-router";
 import { MainStyles } from "../constants/Style";
 
-export default function PersonRowItem({ data, tab }: PersonListItem) {
-  // const title = "title" in data ? data.title : data.name;
+export default function PersonRowItem({ data, dynamicPath }: PersonListItem) {
+  const link = dynamicPath + data.id as  Href;
 
   return (
-    <Link href={`/(tabs)/${tab}/(persons)/${data.id}`} asChild>
+    <Link href={link} asChild>
+    {/* <Link href={`/(tabs)/${tab}/(persons)/${data.id}`} asChild> */}
       <Pressable style={styles.itemContainer}>
         <Image
           source={

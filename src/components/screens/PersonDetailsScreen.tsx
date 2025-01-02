@@ -70,7 +70,7 @@ export default function PersonDetailsScreen({ tab }: { tab: string }) {
           data={movieCredits}
           Item={VerticalCard}
           path={``}
-          tab={tab}
+          dynamicPath={`/(tabs)/${tab}/(persons)/`}
         />
       )}
 
@@ -80,7 +80,7 @@ export default function PersonDetailsScreen({ tab }: { tab: string }) {
           data={tvCredits}
           Item={VerticalCard}
           path={``}
-          tab={tab}
+          dynamicPath={`/(tabs)/${tab}/(persons)/`}
         />
       )}
     </ScrollView>

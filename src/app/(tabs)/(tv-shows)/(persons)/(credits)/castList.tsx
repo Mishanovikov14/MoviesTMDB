@@ -5,14 +5,14 @@ import { selectCast } from "@/src/store/credits/creditsSlice";
 import PersonRowItem from "@/src/components/PersonRowItem";
 
 export default function PersonsScreen() {
-  const cast = useAppSelector(selectCast);
+  const cast = useAppSelector(selectCast) || [];
 
   return (
     <View style={styles.container}>
       <FlatList
         data={cast}
         keyExtractor={(item, index) => item.id.toString() + index}
-        renderItem={({ item }) => <PersonRowItem data={item} tab="(tv-shows)" />}
+        renderItem={({ item }) => <PersonRowItem data={item} dynamicPath="/(tabs)/(tv-shows)/(persons)/" />}
       />
     </View>
   );

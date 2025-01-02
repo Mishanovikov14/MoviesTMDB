@@ -66,12 +66,12 @@ export type Video = {
 
 export type ListItem = {
   data: MovieCard | TVShowCard;
-  tab: string;
+  dynamicPath: string;
 };
 
 export type PersonListItem = {
   data: PersonCard;
-  tab: string;
+  dynamicPath: string;
 };
 
 export type AuthState = {

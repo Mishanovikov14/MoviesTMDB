@@ -53,7 +53,7 @@ export default function AllMoviesScreen() {
       <FlatList
         data={movies}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => <RowItem data={item} tab="(movies)"/>}
+        renderItem={({ item }) => <RowItem data={item} dynamicPath="/(tabs)/(movies)/"/>}
         onEndReached={() => {
           if (hasNextPage) {
             fetchNextPage();

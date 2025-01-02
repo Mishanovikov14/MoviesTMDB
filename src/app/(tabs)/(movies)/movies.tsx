@@ -9,13 +9,14 @@ import ErrorBlock from "@/src/components/ui/ErrorBlock";
 
 export default function MoviesScreen() {
   const { data: movies, error, isLoading } = useMovies();
+  const dynamicPath = "/(tabs)/(movies)/";
 
   if (isLoading) {
     return <Loader />;
   }
 
   if (error) {
-    return <ErrorBlock text="Failed to fetch Movies. Please try again!"/>
+    return <ErrorBlock text="Failed to fetch Movies. Please try again!" />;
   }
 
   const popularData = movies?.popular?.results || [];
@@ -25,10 +26,34 @@ export default function MoviesScreen() {
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <HorizontalFlatList title={"Popular"} data={popularData} Item={VerticalCard} path="/(tabs)/(movies)/allMovies?type=popular" tab="(movies)"/>
-      <HorizontalFlatList title={"Now in Theaters"} data={inTheaterData} Item={HorizontalCard} path="/(tabs)/(movies)/allMovies?type=inTheater" tab="(movies)"/>
-      <HorizontalFlatList title={"Upcoming"} data={upcomingData} Item={VerticalCard} path="/(tabs)/(movies)/allMovies?type=upcoming" tab="(movies)"/>
-      <HorizontalFlatList title={"Top Rated"} data={topRatedData} Item={HorizontalCard} path="/(tabs)/(movies)/allMovies?type=topRated" tab="(movies)"/>
+      <HorizontalFlatList
+        title={"Popular"}
+        data={popularData}
+        Item={VerticalCard}
+        path="/(tabs)/(movies)/allMovies?type=popular"
+        dynamicPath={dynamicPath}
+      />
+      <HorizontalFlatList
+        title={"Now in Theaters"}
+        data={inTheaterData}
+        Item={HorizontalCard}
+        path="/(tabs)/(movies)/allMovies?type=inTheater"
+        dynamicPath={dynamicPath}
+      />
+      <HorizontalFlatList
+        title={"Upcoming"}
+        data={upcomingData}
+        Item={VerticalCard}
+        path="/(tabs)/(movies)/allMovies?type=upcoming"
+        dynamicPath={dynamicPath}
+      />
+      <HorizontalFlatList
+        title={"Top Rated"}
+        data={topRatedData}
+        Item={HorizontalCard}
+        path="/(tabs)/(movies)/allMovies?type=topRated"
+        dynamicPath={dynamicPath}
+      />
     </ScrollView>
   );
 }
