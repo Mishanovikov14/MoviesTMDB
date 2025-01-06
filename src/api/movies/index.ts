@@ -108,7 +108,7 @@ export const fetchMovieDetails = async (id: string) => {
 
 export const useMovieDetails = (id: string) => {
   return useQuery({
-    queryKey: ["movies", id],
+    queryKey: ["movieDetails", id],
     queryFn: () => fetchMovieDetails(id),
   });
 };
