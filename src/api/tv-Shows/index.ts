@@ -44,7 +44,7 @@ const fetchTVShows = async () => {
 
 export const useTVShows = () => {
   return useQuery({
-    queryKey: ["tvshows"],
+    queryKey: ["tvShows"],
     queryFn: fetchTVShows,
   });
 };
@@ -107,7 +107,7 @@ export const fetchShowDetails = async (id: string) => {
 
 export const useTVShowDetails = (id: string) => {
   return useQuery({
-    queryKey: ["tvshow", id],
+    queryKey: ["tvShowDetails", id],
     queryFn: () => fetchShowDetails(id),
   });
 };

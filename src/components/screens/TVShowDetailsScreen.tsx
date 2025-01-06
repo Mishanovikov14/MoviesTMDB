@@ -15,12 +15,13 @@ import {
   selectFavoriteTVShows,
   setFavorites,
 } from "@/src/store/favorites/favoriteSlice";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import FavoriteButton from "@/src/components/ui/FavoriteButton";
 import { showModal } from "@/src/store/modal/modalSlice";
 import ErrorBlock from "../ui/ErrorBlock";
 import DetailsHeader from "../DetailsHeader";
 import { useTVShowDetails } from "@/src/api/tv-Shows";
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function TVShowDetailsScreen({ tab }: { tab: string }) {
   const { tvShowId: idString } = useLocalSearchParams();
@@ -45,6 +46,18 @@ export default function TVShowDetailsScreen({ tab }: { tab: string }) {
     path = `/(tabs)/${tab}/(tv-show)/similarTVShows?id=${id}`;
   }
 
+  useFocusEffect(
+    useCallback(() => {
+      if (isLoading) {
+        dispatch(clearCredits());
+      }
+  
+      if (details?.credits) {
+        dispatch(setCredits(details.credits));
+      }
+    }, [details?.credits, isLoading, dispatch])
+  );
+
   useEffect(() => {
     if (isReverting) {
       dispatch(
@@ -56,18 +69,6 @@ export default function TVShowDetailsScreen({ tab }: { tab: string }) {
       );
     }
   }, [isReverting, dispatch]);
-
-  useEffect(() => {
-    if (isLoading) {
-      dispatch(clearCredits());
-    }
-  }, [isLoading, dispatch]);
-
-  useEffect(() => {
-    if (details?.credits) {
-      dispatch(setCredits(details.credits));
-    }
-  }, [details?.credits, dispatch]);
 
   if (isLoading) {
     return (

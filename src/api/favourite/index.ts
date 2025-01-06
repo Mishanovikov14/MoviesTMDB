@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { setDoc, doc } from "firebase/firestore";
+import { setDoc, doc, getDoc } from "firebase/firestore";
 import { FIREBASE_AUTH, FIREBASE_DB } from "@/src/lib/FirebaseConfig";
 import { Favorites } from "@/src/constants/Types";
 import { fetchMovieDetails } from "../movies";
@@ -16,8 +16,19 @@ export const useAddToFavorite = () => {
       }
 
       await setDoc(doc(db, "Favorites", auth.currentUser.uid), data);
-    }
+    },
   });
+};
+
+export const fetchFavorites = async (userId: string) => {
+  const docRef = doc(FIREBASE_DB, "Favorites", userId);
+  const favorites = await getDoc(docRef);
+
+  if (!favorites.exists()) {
+    throw new Error("Error while fetching favorites!");
+  }
+
+  return favorites.data();
 };
 
 const fetchFavoriteMovies = async (favoriteMoviesIds: string[]) => {
@@ -38,7 +49,7 @@ const fetchFavoriteShows = async (favoriteShowIds: string[]) => {
 
 export const useFavoriteMovies = (favoriteMoviesIds: string[]) => {
   return useQuery({
-    queryKey: ["favoritemovies", favoriteMoviesIds],
+    queryKey: ["favoriteMovies", favoriteMoviesIds],
     queryFn: async () => {
       const response = await fetchFavoriteMovies(favoriteMoviesIds);
       return response;
@@ -49,7 +60,7 @@ export const useFavoriteMovies = (favoriteMoviesIds: string[]) => {
 
 export const useFavoriteShows = (favoriteShowIds: string[]) => {
   return useQuery({
-    queryKey: ["favoriteshows", favoriteShowIds],
+    queryKey: ["favoriteShows", favoriteShowIds],
     queryFn: async () => {
       const response = await fetchFavoriteShows(favoriteShowIds);
       return response;
@@ -57,4 +68,3 @@ export const useFavoriteShows = (favoriteShowIds: string[]) => {
     enabled: favoriteShowIds.length > 0,
   });
 };
-

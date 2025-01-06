@@ -14,6 +14,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Loader from "../components/ui/Loader";
 import { useAppDispatch } from "../store/store";
 import { showModal } from "../store/modal/modalSlice";
+import { setFavorites } from "../store/favorites/favoriteSlice";
+import { fetchFavorites } from "../api/favourite";
 
 type FormData = {
   email: string;
@@ -40,9 +42,14 @@ export default function signInPage() {
     setLoading(true);
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const data = await signInWithEmailAndPassword(auth, email, password);
 
       await AsyncStorage.setItem("isSignedIn", "true");
+      await AsyncStorage.setItem("userId", data.user.uid);
+
+      const favorites = await fetchFavorites(data.user.uid);
+
+      dispatch(setFavorites(favorites));
 
       reset();
 
@@ -68,11 +75,24 @@ export default function signInPage() {
 
   const checkLoginStatus = async () => {
     try {
-      const value = await AsyncStorage.getItem("isSignedIn");
+      const isSignedIn = await AsyncStorage.getItem("isSignedIn");
+      const userId = await AsyncStorage.getItem("userId");
 
-      setIsLoggedIn(value === "true");
+      if (isSignedIn === "true") {
+        const favorites = await fetchFavorites(userId!);
+
+        dispatch(setFavorites(favorites));
+
+        setIsLoggedIn(isSignedIn === "true");
+      }
     } catch (error) {
-      console.error("Error fetching login status:", error);
+      dispatch(
+        showModal({
+          title: "Something went wrong",
+          message: JSON.stringify(error),
+          borderColor: Colors.ERROR,
+        })
+      );
       setIsLoggedIn(false);
     } finally {
       setInitLoading(false);

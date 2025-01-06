@@ -13,6 +13,8 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useAppDispatch } from "../store/store";
 import { showModal } from "../store/modal/modalSlice";
+import { useAddToFavorite } from "../api/favourite";
+import { setFavorites } from "../store/favorites/favoriteSlice";
 
 type FormData = {
   userName: string;
@@ -28,6 +30,7 @@ export default function signUpPage() {
   const confirmPasswordRef = useRef<TextInput>(null);
   const auth = FIREBASE_AUTH;
   const dispatch = useAppDispatch();
+  const { mutateAsync } = useAddToFavorite();
 
   const {
     control,
@@ -47,6 +50,13 @@ export default function signUpPage() {
       });
 
       await AsyncStorage.setItem("isSignedIn", "true");
+      await AsyncStorage.setItem("userId", user.uid);
+
+      const favorites = {"movieIds": [], "tvShowIds": []}
+
+      await mutateAsync(favorites);
+
+      dispatch(setFavorites(favorites));
 
       router.replace("/(tabs)/(movies)/movies");
     } catch (error) {
