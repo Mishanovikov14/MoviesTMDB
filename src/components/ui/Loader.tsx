@@ -1,5 +1,5 @@
 
-import { Colors, ThemeColors } from "@/src/constants/Colors";
+import { Colors } from "@/src/constants/Colors";
 import { View, ActivityIndicator, StyleSheet } from "react-native";
 
 export default function Loader() {
@@ -15,6 +15,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: ThemeColors.dark.background,
+    backgroundColor: Colors.DARK,
   },
 });

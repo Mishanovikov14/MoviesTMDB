@@ -6,7 +6,7 @@ import { useState } from "react";
 export default function YoutubeVideo({ videoId }: { videoId: string }) {
   const [playing, setPlaying] = useState(false);
   const screenWidth = Dimensions.get("window").width - 40;
-  const playerHeight = (screenWidth * 9) / 16;
+  const playerHeight = (screenWidth * 9) / 16 + 4;
 
   return (
     <Pressable

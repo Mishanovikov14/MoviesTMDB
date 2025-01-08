@@ -1,5 +1,5 @@
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
-import { Colors, ThemeColors } from "@/src/constants/Colors";
+import { Colors } from "@/src/constants/Colors";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { usePersonDetails } from "@/src/api/persons";
 import Loader from "@/src/components/ui/Loader";
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: ThemeColors.dark.background,
+    backgroundColor: Colors.DARK,
   },
 
   personDetailsContainer: {

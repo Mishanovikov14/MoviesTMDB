@@ -1,5 +1,5 @@
 import { Keyboard, StyleSheet, Text, TextInput, View } from "react-native";
-import { Colors, ThemeColors } from "@/src/constants/Colors";
+import { Colors } from "@/src/constants/Colors";
 import Button from "@/src/components/ui/Button";
 import { Stack, router } from "expo-router";
 import { MainStyles } from "@/src/constants/Style";
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     padding: 20,
-    backgroundColor: ThemeColors.dark.background,
+    backgroundColor: Colors.DARK,
   },
 
   button: {

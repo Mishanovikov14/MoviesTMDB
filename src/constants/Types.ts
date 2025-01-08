@@ -1,3 +1,4 @@
+import { Ionicons } from "@expo/vector-icons";
 import { ReactNode } from "react";
 import { ViewStyle } from "react-native";
 
@@ -75,7 +76,7 @@ export type PersonListItem = {
 };
 
 export type AuthState = {
-  user: null | {
+  user: {
     uid: string;
     email: string | null;
     displayName: string | null;
@@ -92,7 +93,8 @@ export type CreditsState = {
 
 export type ButtonProps = {
   onPress: () => void;
-  children: ReactNode;
+  children?: ReactNode;
+  iconName?: keyof typeof Ionicons.glyphMap;
   disabled?: boolean;
   style?: ViewStyle;
 };

@@ -1,4 +1,4 @@
-import { ThemeColors } from "@/src/constants/Colors";
+import { Colors } from "@/src/constants/Colors";
 import { StyleSheet, FlatList, View } from "react-native";
 import Loader from "@/src/components/ui/Loader";
 import RowItem from "@/src/components/RowItem";
@@ -75,6 +75,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     padding: 20,
-    backgroundColor: ThemeColors.dark.background,
+    backgroundColor: Colors.DARK,
   },
 });

@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet } from "react-native";
-import { Colors, ThemeColors } from "@/src/constants/Colors";
+import { Colors } from "@/src/constants/Colors";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { useMovieDetails } from "@/src/api/movies";
 import Loader from "@/src/components/ui/Loader";
@@ -51,7 +51,7 @@ export default function MovieDetailsScreen({ tab }: { tab: string }) {
       if (isLoading) {
         dispatch(clearCredits());
       }
-  
+
       if (details?.credits) {
         dispatch(setCredits(details.credits));
       }
@@ -158,6 +158,6 @@ export default function MovieDetailsScreen({ tab }: { tab: string }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: ThemeColors.dark.background,
+    backgroundColor: Colors.DARK,
   },
 });

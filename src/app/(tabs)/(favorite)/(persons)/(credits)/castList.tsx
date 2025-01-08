@@ -1,4 +1,4 @@
-import { ThemeColors } from "@/src/constants/Colors";
+import { Colors } from "@/src/constants/Colors";
 import { StyleSheet, FlatList, View } from "react-native";
 import { useAppSelector } from "@/src/store/store";
 import { selectCast } from "@/src/store/credits/creditsSlice";
@@ -23,6 +23,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     padding: 20,
-    backgroundColor: ThemeColors.dark.background,
+    backgroundColor: Colors.DARK,
   },
 });

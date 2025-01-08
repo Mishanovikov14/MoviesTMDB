@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet } from "react-native";
-import { ThemeColors } from "../../../constants/Colors";
+import { Colors } from "../../../constants/Colors";
 import Loader from "@/src/components/ui/Loader";
 import HorizontalFlatList from "@/src/components/lists/HorizontalFlatList";
 import VerticalCard from "@/src/components/cards/VerticalCard";
@@ -62,6 +62,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: ThemeColors.dark.background,
+    backgroundColor: Colors.DARK,
   },
 });

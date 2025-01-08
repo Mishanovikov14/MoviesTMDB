@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet } from "react-native";
-import { Colors, ThemeColors } from "@/src/constants/Colors";
+import { Colors } from "@/src/constants/Colors";
 import { Stack, useLocalSearchParams } from "expo-router";
 import Loader from "@/src/components/ui/Loader";
 import HorizontalFlatList from "@/src/components/lists/HorizontalFlatList";
@@ -158,6 +158,6 @@ export default function TVShowDetailsScreen({ tab }: { tab: string }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: ThemeColors.dark.background,
+    backgroundColor: Colors.DARK,
   },
 });
