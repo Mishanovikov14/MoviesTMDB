@@ -1,5 +1,6 @@
+import HeaderWithSearch from "@/src/components/HeaderWithSearch";
 import { Colors } from "@/src/constants/Colors";
-import { Stack } from "expo-router";
+import { router, Stack } from "expo-router";
 
 export default function MovieLayout() {
   return (
@@ -10,9 +11,18 @@ export default function MovieLayout() {
         headerTitleAlign: "center",
       }}
     >
-      <Stack.Screen name="movies" options={{title: "Movies"}}/>
-      <Stack.Screen name="allMovies" options={{title: ""}}/>
-      <Stack.Screen name="(persons)" options={{headerShown: false}}/>
+      <Stack.Screen
+        name="movies"
+        options={{
+          headerTitleAlign: "left",
+          headerTitle: () => (
+            <HeaderWithSearch title="Movies" onPress={() => router.push("/(tabs)/(movies)/search")} />
+          ),
+        }}
+      />
+      <Stack.Screen name="allMovies" options={{ title: "" }} />
+      <Stack.Screen name="search" options={{ title: "" }} />
+      <Stack.Screen name="(persons)" options={{ headerShown: false }} />
     </Stack>
   );
 }

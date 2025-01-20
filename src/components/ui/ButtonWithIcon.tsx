@@ -5,7 +5,8 @@ import { Ionicons } from "@expo/vector-icons";
 
 export default function ButtonWithIcon({
   onPress,
-  iconName = "create",
+  iconName = "add",
+  iconColor = Colors.DARK,
   style,
   disabled = false,
 }: ButtonProps) {
@@ -19,7 +20,7 @@ export default function ButtonWithIcon({
         onPress={onPress}
         disabled={disabled}
       >
-        <Ionicons name={iconName} color={Colors.DARK} size={24} />
+        <Ionicons name={iconName} color={iconColor} size={24} />
       </Pressable>
     </View>
   );

@@ -97,6 +97,7 @@ export type ButtonProps = {
   iconName?: keyof typeof Ionicons.glyphMap;
   disabled?: boolean;
   style?: ViewStyle;
+  iconColor?: string;
 };
 
 export type MoviePage = {

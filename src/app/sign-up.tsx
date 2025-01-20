@@ -1,4 +1,4 @@
-import { Keyboard, StyleSheet, Text, TextInput, View } from "react-native";
+import { Keyboard, KeyboardAvoidingView, StyleSheet, Text, TextInput } from "react-native";
 import { Colors } from "@/src/constants/Colors";
 import Button from "@/src/components/ui/Button";
 import { Stack, router } from "expo-router";
@@ -75,7 +75,7 @@ export default function signUpPage() {
   }
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={100}>
       <Stack.Screen options={{ title: "Sign Up" }} />
 
       <Text style={styles.label}>User Name</Text>
@@ -144,7 +144,7 @@ export default function signUpPage() {
       <Button onPress={handleSubmit(signUp)} disabled={loading} style={styles.button}>
         {loading ? "Signing up..." : "Sign Up"}
       </Button>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 

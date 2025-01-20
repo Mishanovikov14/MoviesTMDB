@@ -112,3 +112,23 @@ export const useMovieDetails = (id: string) => {
     queryFn: () => fetchMovieDetails(id),
   });
 };
+
+export const fetchSearchedMovies = async (query: string) => {
+  const detailsUrl = `${baseUrl}/search/movie?query=${query}&language=en-US`;
+  const response = await fetch(detailsUrl, options);
+
+  if (!response.ok) {
+    throw new Error("Error while fetching searched movies!");
+  }
+
+  const data = await response.json();
+
+  return data;
+};
+
+export const useSearchMovies = (query: string) => {
+  return useQuery({
+    queryKey: ["searchedMovies", query],
+    queryFn: () => fetchSearchedMovies(query),
+  });
+};

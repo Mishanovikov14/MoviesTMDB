@@ -111,3 +111,23 @@ export const useTVShowDetails = (id: string) => {
     queryFn: () => fetchShowDetails(id),
   });
 };
+
+export const fetchSearchedTVShow = async (query: string) => {
+  const detailsUrl = `${baseUrl}/search/tv?query=${query}&language=en-US`;
+  const response = await fetch(detailsUrl, options);
+
+  if (!response.ok) {
+    throw new Error("Error while fetching searched TV Show!");
+  }
+
+  const data = await response.json();
+
+  return data;
+};
+
+export const useSearchTVShows = (query: string) => {
+  return useQuery({
+    queryKey: ["searchedTVShow", query],
+    queryFn: () => fetchSearchedTVShow(query),
+  });
+};
