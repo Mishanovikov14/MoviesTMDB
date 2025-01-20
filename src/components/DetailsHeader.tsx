@@ -45,7 +45,7 @@ export default function DetailsHeader({
             style={styles.poster}
             resizeMode="contain"
           />
-          <View style={styles.defaultContainer}>
+          <View style={styles.textContainer}>
             <Text style={styles.title}>{title}</Text>
 
             <View style={styles.rate}>
@@ -69,7 +69,7 @@ export default function DetailsHeader({
 }
 
 const styles = StyleSheet.create({
-  defaultContainer: {
+  textContainer: {
     flex: 1,
   },
 
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    color: Colors.PRIMARY,
+    color: Colors.SECONDARY,
     fontSize: MainStyles.FONTSIZE,
     fontWeight: "bold",
   },

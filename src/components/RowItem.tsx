@@ -3,15 +3,15 @@ import { Colors } from "../constants/Colors";
 import { ListItem } from "@/src/constants/Types";
 import { Href, Link } from "expo-router";
 import { MainStyles } from "../constants/Style";
+import { formatDate } from "../utils/dateFormating";
 
 export default function RowItem({ data, dynamicPath }: ListItem) {
   const title = "title" in data ? data.title : data.name;
-  const link = dynamicPath + data.id as Href;
+  const releaseDate = "first_air_date" in data ? data.first_air_date : data.release_date;
+  const link = (dynamicPath + data.id) as Href;
 
   return (
     <Link href={link} asChild>
-
-    {/* // <Link href={`/(tabs)/${tab}/${data.id}`} asChild> */}
       <Pressable style={styles.itemContainer}>
         <Image
           source={
@@ -25,7 +25,10 @@ export default function RowItem({ data, dynamicPath }: ListItem) {
           <Text style={styles.itemTitle} numberOfLines={2}>
             {title}
           </Text>
-          <Text style={styles.itemDescription} numberOfLines={8}>
+          {releaseDate && <Text style={styles.itemDate} numberOfLines={2}>
+            {formatDate(releaseDate)}
+          </Text>}
+          <Text style={styles.itemDescription} numberOfLines={7}>
             {data.overview}
           </Text>
         </View>
@@ -53,13 +56,19 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 5,
     borderColor: Colors.LIGHT_GREY,
-    borderWidth: 2,
+    borderWidth: 1,
   },
 
   itemTitle: {
     fontSize: MainStyles.FONTSIZE,
     color: Colors.SECONDARY,
-    marginBottom: 10,
+    marginBottom: 5,
+  },
+
+  itemDate: {
+    fontSize: MainStyles.SMALL_FONTSIZE,
+    color: Colors.SECONDARY,
+    marginBottom: 5,
   },
 
   itemDescription: {

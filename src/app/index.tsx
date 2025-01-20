@@ -1,4 +1,4 @@
-import { Keyboard, StyleSheet, Text, TextInput, View } from "react-native";
+import { Keyboard, KeyboardAvoidingView, StyleSheet, Text, TextInput } from "react-native";
 import { Colors } from "@/src/constants/Colors";
 import Button from "@/src/components/ui/Button";
 import { Link, Redirect, Stack, router } from "expo-router";
@@ -123,7 +123,7 @@ export default function signInPage() {
   }
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container} behavior="padding">
       <Stack.Screen options={{ title: "Sign in", headerShown: true }} />
 
       <Text style={styles.label}>Email</Text>
@@ -159,7 +159,7 @@ export default function signInPage() {
       <Link href={"/sign-up"} style={styles.link} onPress={handleNavigation}>
         Create an account
       </Link>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 

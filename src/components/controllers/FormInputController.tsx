@@ -25,7 +25,7 @@ const FormInputController = forwardRef(
             <TextInput
               ref={ref}
               value={value}
-              placeholderTextColor={Colors.DARK_GREY}
+              placeholderTextColor={Colors.GREY}
               onChangeText={onChange}
               onBlur={onBlur}
               placeholder={placeholder}
