@@ -6,7 +6,7 @@ import { Video } from "../../constants/Types";
 
 export default function VideoList({ title, videos }: {title: string, videos: Video[]}) {
   return (
-    <View>
+    <View pointerEvents={"none"}>
       <Text style={styles.sectionTitleText}>{title}</Text>
 
       {videos.map((video: Video) => <YoutubeVideo key={video.id} videoId={video.key} />)}
