@@ -19,5 +19,6 @@ const styles = StyleSheet.create({
     
       text: {
         color: Colors.PRIMARY,
+        textAlign: "center",
       },
 });

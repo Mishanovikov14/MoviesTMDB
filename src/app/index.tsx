@@ -1,4 +1,4 @@
-import { Keyboard, KeyboardAvoidingView, StyleSheet, Text, TextInput } from "react-native";
+import { Image, Keyboard, KeyboardAvoidingView, StyleSheet, Text, TextInput } from "react-native";
 import { Colors } from "@/src/constants/Colors";
 import Button from "@/src/components/ui/Button";
 import { Link, Redirect, Stack, router } from "expo-router";
@@ -123,8 +123,8 @@ export default function signInPage() {
   }
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="padding">
-      <Stack.Screen options={{ title: "Sign in", headerShown: true }} />
+    <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={100}>
+      <Image source={require("../../assets/images/logo.png")} style={styles.logo} />
 
       <Text style={styles.label}>Email</Text>
       <FormInputController
@@ -187,5 +187,12 @@ const styles = StyleSheet.create({
     color: Colors.PRIMARY,
     fontSize: MainStyles.FONTSIZE,
     marginTop: 10,
+  },
+
+  logo: {
+    width: 250,
+    height: 250,
+    alignSelf: "center",
+    marginTop: 30,
   },
 });

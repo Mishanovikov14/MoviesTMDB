@@ -8,7 +8,6 @@ export default function VideoList({ title, videos }: {title: string, videos: Vid
   return (
     <View>
       <Text style={styles.sectionTitleText}>{title}</Text>
-
       {videos.map((video: Video) => <YoutubeVideo key={video.id} videoId={video.key} />)}
     </View>
   );
