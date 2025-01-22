@@ -57,7 +57,7 @@ export function MainLayout() {
           headerTitleAlign: "center",
         }}
       >
-        <Stack.Screen name="index" options={{ title: "Sign In" }} />
+        <Stack.Screen name="index" options={{ headerShown: false}} />
         <Stack.Screen name="sign-up" options={{ title: "Sign Up" }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       </Stack>
