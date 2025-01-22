@@ -33,7 +33,8 @@ const styles = StyleSheet.create({
     minWidth: 30,
     minHeight: 30,
     alignItems: "center",
-    justifyContent:"center"
+    justifyContent:"center",
+    zIndex: 10,
   },
 
   pressable: {

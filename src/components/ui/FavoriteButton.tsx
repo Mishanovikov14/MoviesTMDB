@@ -10,10 +10,14 @@ export default function FavoriteButton({
   onPress: () => void;
 }) {
   return (
-    <Pressable onPress={onPress}>
+    <Pressable onPress={onPress} style={styles.button}>
       <Ionicons name={isFavorite ? "heart" : "heart-outline"} size={24} color={Colors.FAVORITE} />
     </Pressable>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  button: {
+    zIndex: 10
+  }
+});
