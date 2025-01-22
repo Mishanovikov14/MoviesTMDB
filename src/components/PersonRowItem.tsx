@@ -9,7 +9,6 @@ export default function PersonRowItem({ data, dynamicPath }: PersonListItem) {
 
   return (
     <Link href={link} asChild>
-    {/* <Link href={`/(tabs)/${tab}/(persons)/${data.id}`} asChild> */}
       <Pressable style={styles.itemContainer}>
         <Image
           source={

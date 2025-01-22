@@ -17,7 +17,7 @@ export default function ButtonWithIcon({
             styles.pressable,
             pressed && styles.pressed
           ]}
-        onPress={onPress}
+        onPressIn={onPress} //onPressIn solves the problem of the header button being triggered
         disabled={disabled}
       >
         <Ionicons name={iconName} color={iconColor} size={24} />

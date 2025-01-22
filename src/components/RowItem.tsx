@@ -28,7 +28,7 @@ export default function RowItem({ data, dynamicPath }: ListItem) {
           {releaseDate && <Text style={styles.itemDate} numberOfLines={2}>
             {formatDate(releaseDate)}
           </Text>}
-          <Text style={styles.itemDescription} numberOfLines={7}>
+          <Text style={styles.itemDescription} numberOfLines={6}>
             {data.overview}
           </Text>
         </View>

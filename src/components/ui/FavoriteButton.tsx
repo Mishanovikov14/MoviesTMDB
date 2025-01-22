@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet} from "react-native";
+import { Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "@/src/constants/Colors";
 
@@ -10,14 +10,9 @@ export default function FavoriteButton({
   onPress: () => void;
 }) {
   return (
-    <Pressable onPress={onPress} style={styles.button}>
-      <Ionicons name={isFavorite ? "heart" : "heart-outline"} size={24} color={Colors.FAVORITE} />
+    //onPressIn solves the problem of the header button being triggered
+    <Pressable onPressIn={onPress}>
+        <Ionicons name={isFavorite ? "heart" : "heart-outline"} size={24} color={Colors.FAVORITE} />
     </Pressable>
   );
 }
-
-const styles = StyleSheet.create({
-  button: {
-    zIndex: 10
-  }
-});
