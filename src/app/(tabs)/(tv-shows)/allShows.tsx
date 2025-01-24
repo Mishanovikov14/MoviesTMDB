@@ -1,5 +1,5 @@
 import { useSearchParams } from "expo-router/build/hooks";
-import { useAllTVShows } from "@/src/api/tv-Shows";
+import { useAllTVShows } from "@/src/api/tv-shows";
 import AllItemsScreen from "@/src/components/screens/AllItemsScreen";
 
 export default function AllMoviesScreen() {

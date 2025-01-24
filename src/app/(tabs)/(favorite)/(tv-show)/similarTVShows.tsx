@@ -1,6 +1,6 @@
 import { useSearchParams } from "expo-router/build/hooks";
 import AllItemsScreen from "@/src/components/screens/AllItemsScreen";
-import { useAllTVShows } from "@/src/api/tv-Shows";
+import { useAllTVShows } from "@/src/api/tv-shows";
 
 export default function SimilarTVShowScreen() {
   const searchParams = useSearchParams();

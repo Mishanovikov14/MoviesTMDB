@@ -13,7 +13,6 @@ export default function MovieLayout() {
       <Stack.Screen name="(list)" options={{title: "Favorite"}}/>
       <Stack.Screen name="(movie)" options={{headerShown: false}}/>
       <Stack.Screen name="(tv-show)" options={{headerShown: false}}/>
-      <Stack.Screen name="(persons)" options={{headerShown: false}}/>
     </Stack>
   );
 }

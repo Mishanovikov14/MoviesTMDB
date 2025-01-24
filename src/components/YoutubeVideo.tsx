@@ -3,8 +3,8 @@ import YoutubePlayer from "react-native-youtube-iframe";
 import { Colors } from "../constants/Colors";
 
 export default function YoutubeVideo({ videoId }: { videoId: string }) {
-  const screenWidth = Dimensions.get("window").width - 40;
-  const playerHeight = (screenWidth * 9) / 16 + 12;
+  const screenWidth = Dimensions.get("window").width -40;
+  const playerHeight = (screenWidth * 9) / 16;
 
   return (
     <View style={styles.container}>

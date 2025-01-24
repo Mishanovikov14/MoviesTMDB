@@ -59,10 +59,10 @@ export default function DetailsHeader({
             {releaseDate.length > 0 && (
               <Text style={styles.releaseText}>{`Released: ${formatDate(releaseDate)}`}</Text>
             )}
-
-            <Text style={styles.overview}>{details.overview}</Text>
           </View>
         </View>
+
+        <Text style={styles.overview}>{details.overview}</Text>
       </View>
     </>
   );
@@ -74,6 +74,7 @@ const styles = StyleSheet.create({
   },
 
   movieDetailsContainer: {
+    flex: 1,
     width: "100%",
     marginTop: -60,
     padding: 20,
@@ -82,7 +83,7 @@ const styles = StyleSheet.create({
 
   movieDetails: {
     flexDirection: "row",
-    marginBottom: 24,
+    marginBottom: 10,
   },
 
   backdrop: {

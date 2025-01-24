@@ -2,13 +2,6 @@ import { AuthState } from "@/src/constants/Types";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-// export interface CounterState {
-//   value: number;
-// }
-
-// const initialState: CounterState = {
-//   value: 0,
-// };
 
 const initialState: AuthState = {
   user: null,
@@ -25,18 +18,6 @@ export const counterSlice = createSlice({
     clearUser(state) {
       state.user = null;
     },
-
-    // increment: (state) => {
-    //   state.value += 1;
-    // },
-
-    // decrement: (state) => {
-    //   state.value -= 1;
-    // },
-
-    // incrementByAmount: (state, action: PayloadAction<number>) => {
-    //   state.value += action.payload;
-    // },
   },
 });
 

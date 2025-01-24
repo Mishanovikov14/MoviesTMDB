@@ -4,14 +4,12 @@ import { Colors } from "../../constants/Colors";
 import { ListItem } from "@/src/constants/Types";
 import { Href, Link } from "expo-router";
 
-export default function HorizontalCard({ data, dynamicPath }: ListItem) {
+export default function HorizontalCard({ data, dynamicPath, type }: ListItem) {
   const title = "title" in data ? data.title : data.name;
-  const link = dynamicPath + data.id as Href;
+  const link = `${dynamicPath}${data.id}?type=${type}` as Href;
 
   return (
     <Link href={link} asChild>
-
-    {/* <Link href={`/(tabs)/${tab}/${data.id}`} asChild> */}
       <Pressable style={styles.itemContainer}>
         <Image
           source={
