@@ -4,12 +4,11 @@ import { Colors } from "../../constants/Colors";
 import { PersonListItem } from "@/src/constants/Types";
 import { Href, Link } from "expo-router";
 
-export default function PersonCard({ data, dynamicPath }: PersonListItem) {
-  const link = dynamicPath + data.id as Href;
+export default function PersonCard({ data, dynamicPath, type }: PersonListItem) {
+  const link = `${dynamicPath}${data.id}?type=${type}` as Href;
 
   return (
     <Link href={link} asChild>
-    {/* <Link href={`/(tabs)/${tab}/(persons)/${data.id}`} asChild> */}
       <Pressable style={styles.itemContainer}>
         <Image
           source={

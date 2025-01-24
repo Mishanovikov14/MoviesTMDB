@@ -68,11 +68,13 @@ export type Video = {
 export type ListItem = {
   data: MovieCard | TVShowCard;
   dynamicPath: string;
+  type?: string;
 };
 
 export type PersonListItem = {
   data: PersonCard;
   dynamicPath: string;
+  type: string;
 };
 
 export type AuthState = {
@@ -81,15 +83,15 @@ export type AuthState = {
     email: string | null;
     displayName: string | null;
     photoURL: string | null;
-  };
+  } | null;
 };
 
 export type CreditsState = {
   credits: null | {
     cast: PersonCard[];
     crew: PersonCard[];
-  }
-}
+  };
+};
 
 export type ButtonProps = {
   onPress: () => void;
@@ -106,7 +108,7 @@ export type MoviePage = {
   results: MovieCard[];
   total_pages: number;
   total_results: number;
-}
+};
 
 export type TVShowPage = {
   page: number;
@@ -114,7 +116,7 @@ export type TVShowPage = {
   results: TVShowCard[];
   total_pages: number;
   total_results: number;
-}
+};
 
 export type Favorites = {
   movieIds: string[];

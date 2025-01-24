@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import { Colors } from "@/src/constants/Colors";
 import { Stack, useLocalSearchParams } from "expo-router";
 import Loader from "@/src/components/ui/Loader";
@@ -20,11 +20,11 @@ import FavoriteButton from "@/src/components/ui/FavoriteButton";
 import { showModal } from "@/src/store/modal/modalSlice";
 import ErrorBlock from "../ui/ErrorBlock";
 import DetailsHeader from "../DetailsHeader";
-import { useTVShowDetails } from "@/src/api/tv-Shows";
+import { useTVShowDetails } from "@/src/api/tv-shows";
 import { useFocusEffect } from "@react-navigation/native";
 
 export default function TVShowDetailsScreen({ tab }: { tab: string }) {
-  const { tvShowId: idString } = useLocalSearchParams();
+  const { id: idString } = useLocalSearchParams();
   const { mutateAsync } = useAddToFavorite();
   const id = typeof idString === "string" ? idString : idString[0];
 
@@ -42,7 +42,7 @@ export default function TVShowDetailsScreen({ tab }: { tab: string }) {
   let path = `/(tabs)/${tab}/allShows?type=similar&id=${id}`;
 
   if (tab === "(favorite)") {
-    dynamicPath = `/(tabs)/${tab}/(tv-shows)/`;
+    dynamicPath = `/(tabs)/${tab}/(tv-show)/`;
     path = `/(tabs)/${tab}/(tv-show)/similarTVShows?id=${id}`;
   }
 
@@ -51,7 +51,7 @@ export default function TVShowDetailsScreen({ tab }: { tab: string }) {
       if (isLoading) {
         dispatch(clearCredits());
       }
-  
+
       if (details?.credits) {
         dispatch(setCredits(details.credits));
       }
@@ -130,27 +130,31 @@ export default function TVShowDetailsScreen({ tab }: { tab: string }) {
 
       <DetailsHeader details={details} genres={genres} />
 
-      {castData.length > 0 && (
-        <HorizontalFlatList
-          title={"Cast & Crew"}
-          data={castData}
-          Item={PersonCard}
-          path={`/(tabs)/${tab}/(persons)/(credits)/castList`}
-          dynamicPath={dynamicPath + "(persons)/"}
-        />
-      )}
+      <View style={styles.listsContainer}>
+        {castData.length > 0 && (
+          <HorizontalFlatList
+            title={"Cast & Crew"}
+            data={castData}
+            Item={PersonCard}
+            path={`/(tabs)/${tab}/(persons)/(credits)/castList`}
+            dynamicPath={dynamicPath + "(persons)/"}
+            type="person"
+          />
+        )}
 
-      {videos.length > 0 && <VideoList title="Trailers" videos={videos} />}
+        {videos.length > 0 && <VideoList title="Trailers" videos={videos} />}
 
-      {similar.length > 0 && (
-        <HorizontalFlatList
-          title={"Similar"}
-          data={similar}
-          Item={VerticalCard}
-          path={path}
-          dynamicPath={dynamicPath}
-        />
-      )}
+        {similar.length > 0 && (
+          <HorizontalFlatList
+            title={"Similar"}
+            data={similar}
+            Item={VerticalCard}
+            path={path}
+            dynamicPath={dynamicPath}
+            type="show"
+          />
+        )}
+      </View>
     </ScrollView>
   );
 }
@@ -159,5 +163,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.DARK,
+  },
+
+  listsContainer: {
+    paddingHorizontal: 20,
   },
 });

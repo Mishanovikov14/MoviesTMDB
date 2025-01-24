@@ -10,8 +10,9 @@ export default function MovieLayout() {
         headerTitleAlign: "center",
       }}
     >
-      <Stack.Screen name="[movieId]" options={{ title: "" }} />
+      <Stack.Screen name="[id]" options={{ title: "" }} />
       <Stack.Screen name="similarMovies" options={{ title: "" }} />
+      <Stack.Screen name="(persons)" options={{ headerShown: false }} />
     </Stack>
   );
 }

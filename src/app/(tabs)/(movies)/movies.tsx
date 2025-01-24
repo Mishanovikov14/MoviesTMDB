@@ -32,6 +32,7 @@ export default function MoviesScreen() {
         Item={VerticalCard}
         path="/(tabs)/(movies)/allMovies?type=popular"
         dynamicPath={dynamicPath}
+        type="movie"
       />
       <HorizontalFlatList
         title={"Now in Theaters"}
@@ -39,6 +40,7 @@ export default function MoviesScreen() {
         Item={HorizontalCard}
         path="/(tabs)/(movies)/allMovies?type=inTheater"
         dynamicPath={dynamicPath}
+        type="movie"
       />
       <HorizontalFlatList
         title={"Upcoming"}
@@ -46,6 +48,7 @@ export default function MoviesScreen() {
         Item={VerticalCard}
         path="/(tabs)/(movies)/allMovies?type=upcoming"
         dynamicPath={dynamicPath}
+        type="movie"
       />
       <HorizontalFlatList
         title={"Top Rated"}
@@ -53,6 +56,7 @@ export default function MoviesScreen() {
         Item={HorizontalCard}
         path="/(tabs)/(movies)/allMovies?type=topRated"
         dynamicPath={dynamicPath}
+        type="movie"
       />
     </ScrollView>
   );

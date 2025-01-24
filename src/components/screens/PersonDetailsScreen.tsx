@@ -1,6 +1,6 @@
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { Colors } from "@/src/constants/Colors";
-import { Stack, useLocalSearchParams } from "expo-router";
+import { Stack, useLocalSearchParams, useSegments } from "expo-router";
 import { usePersonDetails } from "@/src/api/persons";
 import Loader from "@/src/components/ui/Loader";
 import { MainStyles } from "@/src/constants/Style";
@@ -11,11 +11,17 @@ import HorizontalFlatList from "@/src/components/lists/HorizontalFlatList";
 import ErrorBlock from "../ui/ErrorBlock";
 
 export default function PersonDetailsScreen({ tab }: { tab: string }) {
-  const { personId: idString } = useLocalSearchParams();
+  const { id: idString } = useLocalSearchParams();
   const id = typeof idString === "string" ? idString : idString[0];
 
   const { data: details, error, isLoading } = usePersonDetails(id);
-  const isMovieTab = tab === "(movies)";
+  let isMovieTab = tab === "(movies)";
+
+  if (tab === "(favorite)") {
+    const segments = useSegments();
+
+    isMovieTab = segments[2] === "(movie)";
+  }
 
   if (isLoading) {
     return (
@@ -35,8 +41,8 @@ export default function PersonDetailsScreen({ tab }: { tab: string }) {
     );
   }
 
-  const tvCredits = details.tv_credits.cast; //? crew
-  const movieCredits = details.movie_credits.cast; //? crew
+  const tvCredits = details.tv_credits.cast;
+  const movieCredits = details.movie_credits.cast;
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
@@ -60,9 +66,11 @@ export default function PersonDetailsScreen({ tab }: { tab: string }) {
         </View>
       </View>
 
-      <View style={styles.biographyContainer}>
-        <TextWithTitle title="Biography" text={details.biography} />
-      </View>
+      {details.biography.length > 0 && (
+        <View style={styles.biographyContainer}>
+          <TextWithTitle title="Biography" text={details.biography} />
+        </View>
+      )}
 
       {isMovieTab && movieCredits.length > 0 && (
         <HorizontalFlatList
@@ -70,17 +78,19 @@ export default function PersonDetailsScreen({ tab }: { tab: string }) {
           data={movieCredits}
           Item={VerticalCard}
           path={``}
-          dynamicPath={`/(tabs)/${tab}/(persons)/`}
+          dynamicPath={`/(tabs)/${tab}/`}
+          type="movie"
         />
       )}
 
       {!isMovieTab && tvCredits.length > 0 && (
         <HorizontalFlatList
-          title={"Movies"}
+          title={"TV Shows"}
           data={tvCredits}
           Item={VerticalCard}
           path={``}
-          dynamicPath={`/(tabs)/${tab}/(persons)/`}
+          dynamicPath={`/(tabs)/${tab}/`}
+          type="show"
         />
       )}
     </ScrollView>

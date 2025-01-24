@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import { Colors } from "@/src/constants/Colors";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { useMovieDetails } from "@/src/api/movies";
@@ -24,7 +24,7 @@ import DetailsHeader from "../DetailsHeader";
 import { useFocusEffect } from "@react-navigation/native";
 
 export default function MovieDetailsScreen({ tab }: { tab: string }) {
-  const { movieId: idString } = useLocalSearchParams();
+  const { id: idString } = useLocalSearchParams();
   const { mutateAsync } = useAddToFavorite();
   const id = typeof idString === "string" ? idString : idString[0];
 
@@ -130,27 +130,31 @@ export default function MovieDetailsScreen({ tab }: { tab: string }) {
 
       <DetailsHeader details={details} genres={genres} />
 
-      {castData.length > 0 && (
-        <HorizontalFlatList
-          title={"Cast & Crew"}
-          data={castData}
-          Item={PersonCard}
-          path={`/(tabs)/${tab}/(persons)/(credits)/castList`}
-          dynamicPath={dynamicPath + "(persons)/"}
-        />
-      )}
+      <View style={styles.listsContainer}>
+        {castData.length > 0 && (
+          <HorizontalFlatList
+            title={"Cast & Crew"}
+            data={castData}
+            Item={PersonCard}
+            path={`/(tabs)/${tab}/(persons)/(credits)/castList`}
+            dynamicPath={dynamicPath + "(persons)/"}
+            type="person"
+          />
+        )}
 
-      {videos.length > 0 && <VideoList title="Trailers" videos={videos} />}
+        {videos.length > 0 && <VideoList title="Trailers" videos={videos} />}
 
-      {similar.length > 0 && (
-        <HorizontalFlatList
-          title={"Similar"}
-          data={similar}
-          Item={VerticalCard}
-          path={path}
-          dynamicPath={dynamicPath}
-        />
-      )}
+        {similar.length > 0 && (
+          <HorizontalFlatList
+            title={"Similar"}
+            data={similar}
+            Item={VerticalCard}
+            path={path}
+            dynamicPath={dynamicPath}
+            type="movie"
+          />
+        )}
+      </View>
     </ScrollView>
   );
 }
@@ -159,5 +163,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.DARK,
+  },
+
+  listsContainer: {
+    paddingHorizontal: 20,
   },
 });

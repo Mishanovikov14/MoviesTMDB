@@ -1,4 +1,4 @@
-import { useSearchTVShows } from "@/src/api/tv-Shows";
+import { useSearchTVShows } from "@/src/api/tv-shows";
 import SearchScreen from "@/src/components/screens/SearchScreen";
 
 export default function Search() {

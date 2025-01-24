@@ -11,6 +11,7 @@ export default function PersonLayout() {
       }}
     >
       <Stack.Screen name="(credits)" options={{title: "Cust & Crew"}}/>
+      <Stack.Screen name="[id]" options={{title: ""}}/>
     </Stack>
   );
 }
