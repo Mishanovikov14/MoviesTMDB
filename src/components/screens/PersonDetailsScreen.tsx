@@ -9,12 +9,19 @@ import { formatDate } from "@/src/utils/dateFormating";
 import VerticalCard from "@/src/components/cards/VerticalCard";
 import HorizontalFlatList from "@/src/components/lists/HorizontalFlatList";
 import ErrorBlock from "../ui/ErrorBlock";
+import { useAppSelector } from "@/src/store/store";
+import { selectProfileLanguage } from "@/src/store/profile/profileSlice";
+import { useTranslation } from "react-i18next";
 
 export default function PersonDetailsScreen({ tab }: { tab: string }) {
+  const appLanguage = useAppSelector(selectProfileLanguage);
+
+  const { t } = useTranslation();
+
   const { id: idString } = useLocalSearchParams();
   const id = typeof idString === "string" ? idString : idString[0];
 
-  const { data: details, error, isLoading } = usePersonDetails(id);
+  const { data: details, error, isLoading } = usePersonDetails(id, appLanguage);
   let isMovieTab = tab === "(movies)";
 
   if (tab === "(favorite)") {
@@ -36,7 +43,7 @@ export default function PersonDetailsScreen({ tab }: { tab: string }) {
     return (
       <>
         <Stack.Screen options={{ title: "" }} />
-        <ErrorBlock text="Failed to fetch Person Details. Please try again!" />
+        <ErrorBlock text={t("personDetailsFetchError")} />
       </>
     );
   }
@@ -58,23 +65,23 @@ export default function PersonDetailsScreen({ tab }: { tab: string }) {
         />
         <View>
           <Text style={styles.personName}>{details.name}</Text>
-          <TextWithTitle title="Birthplace" text={details.place_of_birth} />
-          <TextWithTitle title="Date of birth" text={formatDate(details.birthday)} />
+          <TextWithTitle title={t("birthplace")} text={details.place_of_birth} />
+          <TextWithTitle title={t("dateOfBirth")} text={formatDate(details.birthday, appLanguage)} />
           {details.deathday && (
-            <TextWithTitle title="Date of death" text={formatDate(details.deathday)} />
+            <TextWithTitle title={t("dateOfDeath")} text={formatDate(details.deathday, appLanguage)} />
           )}
         </View>
       </View>
 
       {details.biography.length > 0 && (
         <View style={styles.biographyContainer}>
-          <TextWithTitle title="Biography" text={details.biography} />
+          <TextWithTitle title={t("biography")} text={details.biography} />
         </View>
       )}
 
       {isMovieTab && movieCredits.length > 0 && (
         <HorizontalFlatList
-          title={"Movies"}
+          title={t("movies")}
           data={movieCredits}
           Item={VerticalCard}
           path={``}
@@ -85,7 +92,7 @@ export default function PersonDetailsScreen({ tab }: { tab: string }) {
 
       {!isMovieTab && tvCredits.length > 0 && (
         <HorizontalFlatList
-          title={"TV Shows"}
+          title={t("tvShows")}
           data={tvCredits}
           Item={VerticalCard}
           path={``}

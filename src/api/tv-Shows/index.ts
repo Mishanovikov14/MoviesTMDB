@@ -14,11 +14,12 @@ const options = {
 
 export const fetchTVShowByType = async (
   type: string,
+  language: string,
   pageParam = 1,
   id?: string
 ): Promise<TVShowPage> => {
   const response = await fetch(
-    `${baseUrl}/tv/${id ? id + "/" + type : type}?language=en-US&page=${pageParam}&region=UA`,
+    `${baseUrl}/tv/${id ? id + "/" + type : type}?language=${language}&page=${pageParam}&region=UA`,
     options
   );
 
@@ -31,25 +32,25 @@ export const fetchTVShowByType = async (
   return data;
 };
 
-const fetchTVShows = async () => {
+const fetchTVShows = async (language: string) => {
   const [popular, topRated, airingToday, onTheAir ] = await Promise.all([
-    fetchTVShowByType("popular"),
-    fetchTVShowByType("top_rated"),
-    fetchTVShowByType("airing_today"),
-    fetchTVShowByType("on_the_air"),
+    fetchTVShowByType("popular", language),
+    fetchTVShowByType("top_rated", language),
+    fetchTVShowByType("airing_today", language),
+    fetchTVShowByType("on_the_air", language),
   ]);
 
   return { popular, topRated, airingToday, onTheAir };
 };
 
-export const useTVShows = () => {
+export const useTVShows = (language: string) => {
   return useQuery({
-    queryKey: ["tvShows"],
-    queryFn: fetchTVShows,
+    queryKey: ["tvShows", language],
+    queryFn: () => fetchTVShows(language),
   });
 };
 
-export const useAllTVShows = (type: string, id?: string) => {
+export const useAllTVShows = (type: string, language: string, id?: string) => {
   const All_SHOW_TYPE: Record<string, { key: string; queryParam: string }> = {
     popular: {
       key: "popularshow",
@@ -82,9 +83,9 @@ export const useAllTVShows = (type: string, id?: string) => {
   const key = All_SHOW_TYPE[type].key;
 
   return useInfiniteQuery<TVShowPage>({
-    queryKey: [key, id],
+    queryKey: [key, id, language],
     // @ts-ignore
-    queryFn: ({ pageParam }: { pageParam: number }) => fetchTVShowByType(queryParam, pageParam, id),
+    queryFn: ({ pageParam }: { pageParam: number }) => fetchTVShowByType(queryParam, language, pageParam, id),
     getNextPageParam: (lastPage: TVShowPage) => {
       const nextPage = lastPage.page + 1;
       return nextPage <= lastPage.total_pages ? nextPage : undefined;
@@ -92,8 +93,8 @@ export const useAllTVShows = (type: string, id?: string) => {
   });
 };
 
-export const fetchShowDetails = async (id: string) => {
-  const detailsUrl = `${baseUrl}/tv/${id}?append_to_response=credits,videos,similar&language=en-US`;
+export const fetchShowDetails = async (id: string, language: string) => {
+  const detailsUrl = `${baseUrl}/tv/${id}?append_to_response=credits,videos,similar&language=${language}`;
   const response = await fetch(detailsUrl, options);
 
   if (!response.ok) {
@@ -105,15 +106,15 @@ export const fetchShowDetails = async (id: string) => {
   return data;
 };
 
-export const useTVShowDetails = (id: string) => {
+export const useTVShowDetails = (id: string, language: string) => {
   return useQuery({
-    queryKey: ["tvShowDetails", id],
-    queryFn: () => fetchShowDetails(id),
+    queryKey: ["tvShowDetails", id, language],
+    queryFn: () => fetchShowDetails(id, language),
   });
 };
 
-export const fetchSearchedTVShow = async (query: string) => {
-  const detailsUrl = `${baseUrl}/search/tv?query=${query}&language=en-US`;
+export const fetchSearchedTVShow = async (query: string, language: string) => {
+  const detailsUrl = `${baseUrl}/search/tv?query=${query}&language=${language}`;
   const response = await fetch(detailsUrl, options);
 
   if (!response.ok) {
@@ -125,9 +126,9 @@ export const fetchSearchedTVShow = async (query: string) => {
   return data;
 };
 
-export const useSearchTVShows = (query: string) => {
+export const useSearchTVShows = (query: string, language: string) => {
   return useQuery({
-    queryKey: ["searchedTVShow", query],
-    queryFn: () => fetchSearchedTVShow(query),
+    queryKey: ["searchedTVShow", query, language],
+    queryFn: () => fetchSearchedTVShow(query, language),
   });
 };

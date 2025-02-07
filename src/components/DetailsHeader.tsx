@@ -6,6 +6,9 @@ import { Colors } from "../constants/Colors";
 import { MainStyles } from "../constants/Style";
 import { Genre, MovieCard, TVShowCard } from "../constants/Types";
 import { formatDate } from "../utils/dateFormating";
+import { useTranslation } from "react-i18next";
+import { useAppSelector } from "../store/store";
+import { selectProfileLanguage } from "../store/profile/profileSlice";
 
 export default function DetailsHeader({
   details,
@@ -14,6 +17,9 @@ export default function DetailsHeader({
   details: MovieCard | TVShowCard;
   genres: Genre[];
 }) {
+  const { t } = useTranslation();
+  const locale = useAppSelector(selectProfileLanguage);
+
   const title = "title" in details ? details.title : details.name;
   const releaseDate = "release_date" in details ? details.release_date : details.first_air_date;
 
@@ -57,7 +63,7 @@ export default function DetailsHeader({
             <GenreList genres={genres} />
 
             {releaseDate.length > 0 && (
-              <Text style={styles.releaseText}>{`Released: ${formatDate(releaseDate)}`}</Text>
+              <Text style={styles.releaseText}>{`${t("released")}: ${formatDate(releaseDate, locale)}`}</Text>
             )}
           </View>
         </View>

@@ -22,8 +22,11 @@ import ErrorBlock from "../ui/ErrorBlock";
 import DetailsHeader from "../DetailsHeader";
 import { useTVShowDetails } from "@/src/api/tv-shows";
 import { useFocusEffect } from "@react-navigation/native";
+import { selectProfileLanguage } from "@/src/store/profile/profileSlice";
+import { useTranslation } from "react-i18next";
 
 export default function TVShowDetailsScreen({ tab }: { tab: string }) {
+  const appLanguage = useAppSelector(selectProfileLanguage);
   const { id: idString } = useLocalSearchParams();
   const { mutateAsync } = useAddToFavorite();
   const id = typeof idString === "string" ? idString : idString[0];
@@ -34,9 +37,11 @@ export default function TVShowDetailsScreen({ tab }: { tab: string }) {
   const [isFavorite, setIsFavorite] = useState(favoriteTVIds.includes(id));
   const [isReverting, setIsReverting] = useState(false);
 
+  const { t } = useTranslation();
+
   const dispatch = useAppDispatch();
 
-  const { data: details, error, isLoading } = useTVShowDetails(id);
+  const { data: details, error, isLoading } = useTVShowDetails(id, appLanguage);
 
   let dynamicPath = `/(tabs)/${tab}/`;
   let path = `/(tabs)/${tab}/allShows?type=similar&id=${id}`;
@@ -62,8 +67,8 @@ export default function TVShowDetailsScreen({ tab }: { tab: string }) {
     if (isReverting) {
       dispatch(
         showModal({
-          title: "Something went wrong",
-          message: "Plese try again!",
+          title: t("defaultErrorTitle"),
+          message: t("pleaseTryAgain"),
           borderColor: Colors.ERROR,
         })
       );
@@ -83,7 +88,7 @@ export default function TVShowDetailsScreen({ tab }: { tab: string }) {
     return (
       <>
         <Stack.Screen options={{ title: "" }} />
-        <ErrorBlock text="Failed to fetch Movie Details. Please try again!" />
+        <ErrorBlock text={t("tvShowDetailsFetchError")} />
       </>
     );
   }
@@ -133,7 +138,7 @@ export default function TVShowDetailsScreen({ tab }: { tab: string }) {
       <View style={styles.listsContainer}>
         {castData.length > 0 && (
           <HorizontalFlatList
-            title={"Cast & Crew"}
+            title={t("castAndCrew")}
             data={castData}
             Item={PersonCard}
             path={`/(tabs)/${tab}/(persons)/(credits)/castList`}
@@ -142,11 +147,11 @@ export default function TVShowDetailsScreen({ tab }: { tab: string }) {
           />
         )}
 
-        {videos.length > 0 && <VideoList title="Trailers" videos={videos} />}
+        {videos.length > 0 && <VideoList title={t("trailers")}  videos={videos} />}
 
         {similar.length > 0 && (
           <HorizontalFlatList
-            title={"Similar"}
+            title={t("similar")}
             data={similar}
             Item={VerticalCard}
             path={path}

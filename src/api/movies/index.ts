@@ -12,14 +12,14 @@ const options = {
   },
 };
 
-//Ukrainian language = uk
 export const fetchMoviesByType = async (
   type: string,
+  language = "en-US",
   pageParam = 1,
   id?: string
 ): Promise<MoviePage> => {
   const response = await fetch(
-    `${baseUrl}/movie/${id ? id + "/" + type : type}?language=en-US&page=${pageParam}&region=UA`,
+    `${baseUrl}/movie/${id ? id + "/" + type : type}?language=${language}&page=${pageParam}&region=UA`,
     options
   );
 
@@ -32,25 +32,25 @@ export const fetchMoviesByType = async (
   return data;
 };
 
-const fetchMovies = async () => {
+const fetchMovies = async (language: string) => {
   const [popular, inTheater, upcoming, topRated] = await Promise.all([
-    fetchMoviesByType("popular"),
-    fetchMoviesByType("now_playing"),
-    fetchMoviesByType("upcoming"),
-    fetchMoviesByType("top_rated"),
+    fetchMoviesByType("popular", language),
+    fetchMoviesByType("now_playing", language),
+    fetchMoviesByType("upcoming", language),
+    fetchMoviesByType("top_rated", language),
   ]);
 
   return { popular, inTheater, upcoming, topRated };
 };
 
-export const useMovies = () => {
+export const useMovies = (language: string) => {
   return useQuery({
-    queryKey: ["movies"],
-    queryFn: fetchMovies,
+    queryKey: ["movies", language],
+    queryFn: () => fetchMovies(language),
   });
 };
 
-export const useAllMovies = (type: string, id?: string) => {
+export const useAllMovies = (type: string, language: string, id?: string) => {
   const All_MOVIES_TYPE: Record<string, { key: string; queryParam: string }> = {
     popular: {
       key: "popularmovie",
@@ -83,9 +83,9 @@ export const useAllMovies = (type: string, id?: string) => {
   const key = All_MOVIES_TYPE[type].key;
 
   return useInfiniteQuery<MoviePage>({
-    queryKey: [key, id],
+    queryKey: [key, id, language],
     // @ts-ignore
-    queryFn: ({ pageParam }: { pageParam: number }) => fetchMoviesByType(queryParam, pageParam, id),
+    queryFn: ({ pageParam }: { pageParam: number }) => fetchMoviesByType(queryParam, language, pageParam, id),
     getNextPageParam: (lastPage: MoviePage) => {
       const nextPage = lastPage.page + 1;
       return nextPage <= lastPage.total_pages ? nextPage : undefined;
@@ -93,8 +93,8 @@ export const useAllMovies = (type: string, id?: string) => {
   });
 };
 
-export const fetchMovieDetails = async (id: string) => {
-  const detailsUrl = `${baseUrl}/movie/${id}?append_to_response=credits,videos,similar&language=en-US`;
+export const fetchMovieDetails = async (id: string, language: string) => {
+  const detailsUrl = `${baseUrl}/movie/${id}?append_to_response=credits,videos,similar&language=${language}`;
   const response = await fetch(detailsUrl, options);
 
   if (!response.ok) {
@@ -106,15 +106,15 @@ export const fetchMovieDetails = async (id: string) => {
   return data;
 };
 
-export const useMovieDetails = (id: string) => {
+export const useMovieDetails = (id: string, language: string) => {
   return useQuery({
-    queryKey: ["movieDetails", id],
-    queryFn: () => fetchMovieDetails(id),
+    queryKey: ["movieDetails", id, language],
+    queryFn: () => fetchMovieDetails(id, language),
   });
 };
 
-export const fetchSearchedMovies = async (query: string) => {
-  const detailsUrl = `${baseUrl}/search/movie?query=${query}&language=en-US`;
+export const fetchSearchedMovies = async (query: string, language: string) => {
+  const detailsUrl = `${baseUrl}/search/movie?query=${query}&language=${language}`;
   const response = await fetch(detailsUrl, options);
 
   if (!response.ok) {
@@ -126,9 +126,9 @@ export const fetchSearchedMovies = async (query: string) => {
   return data;
 };
 
-export const useSearchMovies = (query: string) => {
+export const useSearchMovies = (query: string, language: string) => {
   return useQuery({
-    queryKey: ["searchedMovies", query],
-    queryFn: () => fetchSearchedMovies(query),
+    queryKey: ["searchedMovies", query, language],
+    queryFn: () => fetchSearchedMovies(query, language),
   });
 };

@@ -5,8 +5,15 @@ import RowItem from "@/src/components/RowItem";
 import { Stack } from "expo-router";
 import ErrorBlock from "@/src/components/ui/ErrorBlock";
 import { UseInfiniteQueryResult } from "@tanstack/react-query";
+import { useAppSelector } from "@/src/store/store";
+import { selectProfileLanguage } from "@/src/store/profile/profileSlice";
+import { useTranslation } from "react-i18next";
 
-type FetchFunction<T> = (type: string, id: string) => UseInfiniteQueryResult<T>;
+type FetchFunction<T> = (
+  type: string,
+  appLanguage: string,
+  id: string
+) => UseInfiniteQueryResult<T>;
 
 type Props<T> = {
   type: string;
@@ -23,8 +30,13 @@ export default function AllMoviesScreen<T>({
   fetchFunction,
   dynamicPath,
 }: Props<T>) {
+  const appLanguage = useAppSelector(selectProfileLanguage);
+
+  const { t } = useTranslation();
+
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, error } = fetchFunction(
     type,
+    appLanguage,
     id
   );
 
@@ -33,7 +45,7 @@ export default function AllMoviesScreen<T>({
   }
 
   if (error) {
-    return <ErrorBlock text="Failed to fetch. Please try again!" />;
+    return <ErrorBlock text={t("fetchError")} />;
   }
 
   const seen = new Set<string>();

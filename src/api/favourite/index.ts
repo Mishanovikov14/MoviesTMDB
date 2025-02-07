@@ -31,38 +31,38 @@ export const fetchFavorites = async (userId: string) => {
   return favorites.data();
 };
 
-const fetchFavoriteMovies = async (favoriteMoviesIds: string[]) => {
-  const movieCallbacks = favoriteMoviesIds.map((id) => fetchMovieDetails(id));
+const fetchFavoriteMovies = async (favoriteMoviesIds: string[], language: string) => {
+  const movieCallbacks = favoriteMoviesIds.map((id) => fetchMovieDetails(id, language));
 
   const data = await Promise.all(movieCallbacks);
 
   return data;
 };
 
-const fetchFavoriteShows = async (favoriteShowIds: string[]) => {
-  const showCallbacks = favoriteShowIds.map((id) => fetchShowDetails(id));
+const fetchFavoriteShows = async (favoriteShowIds: string[], language: string) => {
+  const showCallbacks = favoriteShowIds.map((id) => fetchShowDetails(id, language));
 
   const data = await Promise.all(showCallbacks);
 
   return data;
 };
 
-export const useFavoriteMovies = (favoriteMoviesIds: string[]) => {
+export const useFavoriteMovies = (favoriteMoviesIds: string[], language: string) => {
   return useQuery({
     queryKey: ["favoriteMovies", favoriteMoviesIds],
     queryFn: async () => {
-      const response = await fetchFavoriteMovies(favoriteMoviesIds);
+      const response = await fetchFavoriteMovies(favoriteMoviesIds, language);
       return response;
     },
     enabled: favoriteMoviesIds.length > 0,
   });
 };
 
-export const useFavoriteShows = (favoriteShowIds: string[]) => {
+export const useFavoriteShows = (favoriteShowIds: string[], language: string) => {
   return useQuery({
     queryKey: ["favoriteShows", favoriteShowIds],
     queryFn: async () => {
-      const response = await fetchFavoriteShows(favoriteShowIds);
+      const response = await fetchFavoriteShows(favoriteShowIds, language);
       return response;
     },
     enabled: favoriteShowIds.length > 0,

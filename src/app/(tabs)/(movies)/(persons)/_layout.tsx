@@ -1,7 +1,10 @@
 import { Colors } from "@/src/constants/Colors";
 import { Stack } from "expo-router";
+import { useTranslation } from "react-i18next";
 
 export default function PersonLayout() {
+  const { t } = useTranslation();
+
   return (
     <Stack
       screenOptions={{
@@ -10,8 +13,8 @@ export default function PersonLayout() {
         headerTitleAlign: "center",
       }}
     >
-      <Stack.Screen name="(credits)" options={{title: "Cust & Crew"}}/>
-      <Stack.Screen name="[id]" options={{title: ""}}/>
+      <Stack.Screen name="(credits)" options={{ title: t("castAndCrew") }} />
+      <Stack.Screen name="[id]" options={{ title: "" }} />
     </Stack>
   );
 }

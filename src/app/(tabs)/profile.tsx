@@ -14,16 +14,48 @@ import { addProfilePhoto } from "@/src/api/user";
 import { useState } from "react";
 import Loader from "@/src/components/ui/Loader";
 import { MainStyles } from "@/src/constants/Style";
+import ErrorBlock from "@/src/components/ui/ErrorBlock";
+import { selectProfileLanguage, setProfileLanguage } from "@/src/store/profile/profileSlice";
+import { useTranslation } from "react-i18next";
 
 export default function ProfileScreen() {
   const [isLoading, setIsLoading] = useState(false);
   const profileData = useAppSelector((state) => state.auth.user);
+  const appLanguage = useAppSelector(selectProfileLanguage);
   const dispatch = useAppDispatch();
+
+  const { t, i18n } = useTranslation();
 
   const handleSignOut = async () => {
     FIREBASE_AUTH.signOut();
     await AsyncStorage.setItem("isSignedIn", "false");
     router.replace("/");
+  };
+
+  const handleLanguageChange = async () => {
+    try {
+      if (appLanguage === "en-US") {
+        dispatch(setProfileLanguage({ language: "uk" }));
+
+        i18n.changeLanguage("uk");
+        
+        await AsyncStorage.setItem("appLanguage", "uk");
+      } else {
+        dispatch(setProfileLanguage({ language: "en-US" }));
+        
+        i18n.changeLanguage("un-US");
+
+        await AsyncStorage.setItem("appLanguage", "en-US");
+      }
+    } catch (error) {
+      dispatch(
+        showModal({
+          title: t("defaultErrorTitle"),
+          message: t("changeLanguageError"),
+          borderColor: Colors.ERROR,
+        })
+      );
+    }
   };
 
   const handlePickAndUploadImage = async () => {
@@ -50,7 +82,7 @@ export default function ProfileScreen() {
     } catch (error) {
       dispatch(
         showModal({
-          title: "Failed to upload profile photo",
+          title: t("failedToUploadProfilePhoto"),
           message: JSON.stringify(error),
           borderColor: Colors.ERROR,
         })
@@ -60,9 +92,18 @@ export default function ProfileScreen() {
     }
   };
 
+  if (profileData === null) {
+    return (
+      <>
+        <Tabs.Screen options={{ title: "" }} />
+        <ErrorBlock text={t("profileDetailsFetchError")} />
+      </>
+    );
+  }
+
   return (
     <View style={styles.container}>
-      <Tabs.Screen options={{title: profileData.displayName!, tabBarLabel: "Profile",}}/>
+      <Tabs.Screen options={{ title: profileData.displayName!, tabBarLabel: t("profile") }} />
       <View>
         <View style={styles.imageContainer}>
           {isLoading ? (
@@ -85,13 +126,18 @@ export default function ProfileScreen() {
             </>
           )}
         </View>
-          <Text style={styles.titleText}>Profile Info</Text>
-        <TextWithTitleHorizontal title="Full Name:" text={profileData.displayName!} />
-        <TextWithTitleHorizontal title="Email:" text={profileData.email!} />
+        <Text style={styles.titleText}>{t("profileInfo")}</Text>
+        <TextWithTitleHorizontal title={`${t("fullname")}:`} text={profileData.displayName!} />
+        <TextWithTitleHorizontal title={`${t("email")}:`} text={profileData.email!} />
+        <TextWithTitleHorizontal title={`${t("appLanguage")}:`} text={appLanguage} />
       </View>
 
+      <Button onPress={handleLanguageChange} style={styles.button}>
+        Change Language
+      </Button>
+
       <Button onPress={handleSignOut} style={styles.button}>
-        Sign Out
+        {t("signOut")}
       </Button>
     </View>
   );
@@ -135,6 +181,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: Colors.PRIMARY,
     fontWeight: "bold",
-    marginBottom: 12
+    marginBottom: 12,
   },
 });

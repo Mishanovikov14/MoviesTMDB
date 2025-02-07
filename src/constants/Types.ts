@@ -74,7 +74,7 @@ export type ListItem = {
 export type PersonListItem = {
   data: PersonCard;
   dynamicPath: string;
-  type: string;
+  type?: string;
 };
 
 export type AuthState = {

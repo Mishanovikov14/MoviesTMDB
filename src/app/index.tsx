@@ -16,6 +16,7 @@ import { useAppDispatch } from "../store/store";
 import { showModal } from "../store/modal/modalSlice";
 import { setFavorites } from "../store/favorites/favoriteSlice";
 import { fetchFavorites } from "../api/favourite";
+import { useTranslation } from "react-i18next";
 
 type FormData = {
   email: string;
@@ -27,6 +28,7 @@ export default function signInPage() {
   const [loading, setLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  const { t } = useTranslation();
   const passwordRef = useRef<TextInput>(null);
   const auth = FIREBASE_AUTH;
   const dispatch = useAppDispatch();
@@ -54,11 +56,19 @@ export default function signInPage() {
       reset();
 
       router.replace("/(tabs)/(movies)/movies");
-    } catch (error) {
+    } catch (error: any) {
+      let errorMessage = JSON.stringify(error);
+      let title = t("defaultErrorTitle");
+
+      if (error.code === "auth/invalid-credential") {
+        title = t("invalidCredentials");
+        errorMessage = t("credentialsError");
+      }
+
       dispatch(
         showModal({
-          title: "Something went wrong",
-          message: JSON.stringify(error),
+          title: title,
+          message: errorMessage,
           borderColor: Colors.ERROR,
         })
       );
@@ -88,7 +98,7 @@ export default function signInPage() {
     } catch (error) {
       dispatch(
         showModal({
-          title: "Something went wrong",
+          title: t("defaultErrorTitle"),
           message: JSON.stringify(error),
           borderColor: Colors.ERROR,
         })
@@ -126,12 +136,12 @@ export default function signInPage() {
     <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={100}>
       <Image source={require("../../assets/images/logo.png")} style={styles.logo} />
 
-      <Text style={styles.label}>Email</Text>
+      <Text style={styles.label}>{t("email")}</Text>
       <FormInputController
         name={"email"}
         // @ts-ignore
         control={control}
-        placeholder={"Email"}
+        placeholder={t("email")}
         errors={errors}
         props={{
           blurOnSubmit: false,
@@ -142,22 +152,22 @@ export default function signInPage() {
         }}
       />
 
-      <Text style={styles.label}>Password</Text>
+      <Text style={styles.label}>{t("password")}</Text>
       <FormInputController
         ref={passwordRef}
         name={"password"}
         // @ts-ignore
         control={control}
-        placeholder={"Password"}
+        placeholder={t("password")}
         errors={errors}
         props={{ secureTextEntry: true, onSubmitEditing: handleSubmit(signInWithEmail) }}
       />
 
       <Button onPress={handleSubmit(signInWithEmail)} disabled={loading} style={styles.button}>
-        {loading ? "Signing in..." : "Sign in"}
+        {loading ? t("signingIn") : t("signIn")}
       </Button>
       <Link href={"/sign-up"} style={styles.link} onPress={handleNavigation}>
-        Create an account
+        {t("createAccount")}
       </Link>
     </KeyboardAvoidingView>
   );

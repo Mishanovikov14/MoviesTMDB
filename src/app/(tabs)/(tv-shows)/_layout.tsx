@@ -1,8 +1,11 @@
 import HeaderWithSearch from "@/src/components/HeaderWithSearch";
 import { Colors } from "@/src/constants/Colors";
 import { router, Stack } from "expo-router";
+import { useTranslation } from "react-i18next";
 
 export default function MovieLayout() {
+  const { t } = useTranslation();
+
   return (
     <Stack
       screenOptions={{
@@ -16,7 +19,10 @@ export default function MovieLayout() {
         options={{
           headerTitleAlign: "left",
           headerTitle: () => (
-            <HeaderWithSearch title="TV Shows" onPress={() => router.push("/(tabs)/(tv-shows)/search")} />
+            <HeaderWithSearch
+              title={t("tvShows")}
+              onPress={() => router.push("/(tabs)/(tv-shows)/search")}
+            />
           ),
         }}
       />
