@@ -11,8 +11,8 @@ const options = {
   },
 };
 
-const fetchPersonDetails = async (id: string) => {
-  const detailsUrl = `${baseUrl}/person/${id}?append_to_response=movie_credits,tv_credits&language=en-US`;
+const fetchPersonDetails = async (id: string, language: string) => {
+  const detailsUrl = `${baseUrl}/person/${id}?append_to_response=movie_credits,tv_credits&language=${language}`;
   const response = await fetch(detailsUrl, options);
 
   if (!response.ok) {
@@ -24,9 +24,9 @@ const fetchPersonDetails = async (id: string) => {
   return data;
 };
 
-export const usePersonDetails = (id: string) => {
+export const usePersonDetails = (id: string, language: string) => {
   return useQuery({
     queryKey: ["person", id],
-    queryFn: () => fetchPersonDetails(id),
+    queryFn: () => fetchPersonDetails(id, language),
   });
 };

@@ -6,9 +6,16 @@ import HorizontalFlatList from "@/src/components/lists/HorizontalFlatList";
 import VerticalCard from "@/src/components/cards/VerticalCard";
 import HorizontalCard from "@/src/components/cards/HorizontalCard";
 import ErrorBlock from "@/src/components/ui/ErrorBlock";
+import { useAppSelector } from "@/src/store/store";
+import { selectProfileLanguage } from "@/src/store/profile/profileSlice";
+import { useTranslation } from "react-i18next";
 
 export default function MoviesScreen() {
-  const { data: movies, error, isLoading } = useMovies();
+  const appLanguage = useAppSelector(selectProfileLanguage);
+
+  const { t } = useTranslation();
+
+  const { data: movies, error, isLoading } = useMovies(appLanguage);
   const dynamicPath = "/(tabs)/(movies)/";
 
   if (isLoading) {
@@ -16,7 +23,7 @@ export default function MoviesScreen() {
   }
 
   if (error) {
-    return <ErrorBlock text="Failed to fetch Movies. Please try again!" />;
+    return <ErrorBlock text={t("movieFetchError")} />;
   }
 
   const popularData = movies?.popular?.results || [];
@@ -27,7 +34,7 @@ export default function MoviesScreen() {
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <HorizontalFlatList
-        title={"Popular"}
+        title={t("popular")}
         data={popularData}
         Item={VerticalCard}
         path="/(tabs)/(movies)/allMovies?type=popular"
@@ -35,7 +42,7 @@ export default function MoviesScreen() {
         type="movie"
       />
       <HorizontalFlatList
-        title={"Now in Theaters"}
+        title={t("nowInTheaters")}
         data={inTheaterData}
         Item={HorizontalCard}
         path="/(tabs)/(movies)/allMovies?type=inTheater"
@@ -43,7 +50,7 @@ export default function MoviesScreen() {
         type="movie"
       />
       <HorizontalFlatList
-        title={"Upcoming"}
+        title={t("upcoming")}
         data={upcomingData}
         Item={VerticalCard}
         path="/(tabs)/(movies)/allMovies?type=upcoming"
@@ -51,7 +58,7 @@ export default function MoviesScreen() {
         type="movie"
       />
       <HorizontalFlatList
-        title={"Top Rated"}
+        title={t("topRated")}
         data={topRatedData}
         Item={HorizontalCard}
         path="/(tabs)/(movies)/allMovies?type=topRated"

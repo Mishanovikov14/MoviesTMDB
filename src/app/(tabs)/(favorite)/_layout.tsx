@@ -1,7 +1,10 @@
 import { Colors } from "@/src/constants/Colors";
 import { Stack } from "expo-router";
+import { useTranslation } from "react-i18next";
 
 export default function MovieLayout() {
+  const { t } = useTranslation();
+
   return (
     <Stack
       screenOptions={{
@@ -10,7 +13,7 @@ export default function MovieLayout() {
         headerTitleAlign: "center",
       }}
     >
-      <Stack.Screen name="(list)" options={{title: "Favorite"}}/>
+      <Stack.Screen name="(list)" options={{title: t("favorite")}}/>
       <Stack.Screen name="(movie)" options={{headerShown: false}}/>
       <Stack.Screen name="(tv-show)" options={{headerShown: false}}/>
     </Stack>

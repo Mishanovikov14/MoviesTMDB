@@ -1,8 +1,11 @@
 import { Colors } from "@/src/constants/Colors";
 import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import { useTranslation } from "react-i18next";
 
 export default function AuthLayout() {
+  const {t} = useTranslation();
+
   return (
     <Tabs
       screenOptions={{
@@ -15,7 +18,7 @@ export default function AuthLayout() {
       <Tabs.Screen
         name="(movies)"
         options={{
-          title: "Movies",
+          title: t("movies"),
           tabBarIcon: ({ color }) => <Ionicons name="film" size={24} color={color} />,
           headerShown: false,
         }}
@@ -23,7 +26,7 @@ export default function AuthLayout() {
       <Tabs.Screen
         name="(tv-shows)"
         options={{
-          title: "TV Shows",
+          title: t("tvShows"),
           tabBarIcon: ({ color }) => <Ionicons name="tv" size={24} color={color} />,
           headerShown: false,
         }}
@@ -31,7 +34,7 @@ export default function AuthLayout() {
       <Tabs.Screen
         name="(favorite)"
         options={{
-          title: "Favorite",
+          title: t("favorite"),
           tabBarIcon: ({ color }) => <Ionicons name="heart" size={24} color={color} />,
           headerShown: false,
         }}
@@ -39,7 +42,7 @@ export default function AuthLayout() {
       <Tabs.Screen
         name="profile"
         options={{
-          title: "Profile",
+          title: t("profile"),
           tabBarIcon: ({ color }) => <Ionicons name="person" size={24} color={color} />,
           headerTintColor: Colors.PRIMARY,
           headerTitleAlign: "center",

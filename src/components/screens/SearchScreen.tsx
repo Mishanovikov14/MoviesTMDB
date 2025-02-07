@@ -4,6 +4,8 @@ import ButtonWithIcon from "@/src/components/ui/ButtonWithIcon";
 import ErrorBlock from "@/src/components/ui/ErrorBlock";
 import { Colors } from "@/src/constants/Colors";
 import { MovieCard, TVShowCard } from "@/src/constants/Types";
+import { selectProfileLanguage } from "@/src/store/profile/profileSlice";
+import { useAppSelector } from "@/src/store/store";
 import { Ionicons } from "@expo/vector-icons";
 import { UseQueryResult } from "@tanstack/react-query";
 import { useState } from "react";
@@ -21,14 +23,16 @@ export default function SearchScreen({
   dynamicPath,
   placeholder,
 }: {
-  fetchFunction: (query: string) => UseQueryResult<{ results: (MovieCard | TVShowCard)[] }, Error>;
+  fetchFunction: (query: string, language: string) => UseQueryResult<{ results: (MovieCard | TVShowCard)[] }, Error>;
   dynamicPath: string;
   placeholder: string;
 }) {
   const [searchValue, setSearchValue] = useState("");
   const [queryString, setQueryString] = useState("");
 
-  const { data, error } = fetchFunction(queryString);
+  const appLanguage = useAppSelector(selectProfileLanguage);
+
+  const { data, error } = fetchFunction(queryString, appLanguage);
 
   const handleSearchTextChange = (text: string) => {
     setSearchValue(text);

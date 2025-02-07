@@ -4,8 +4,12 @@ import { ListItem } from "@/src/constants/Types";
 import { Href, Link } from "expo-router";
 import { MainStyles } from "../constants/Style";
 import { formatDate } from "../utils/dateFormating";
+import { useAppSelector } from "../store/store";
+import { selectProfileLanguage } from "../store/profile/profileSlice";
 
 export default function RowItem({ data, dynamicPath }: ListItem) {
+  const locale = useAppSelector(selectProfileLanguage);
+
   const title = "title" in data ? data.title : data.name;
   const releaseDate = "first_air_date" in data ? data.first_air_date : data.release_date;
   const link = (dynamicPath + data.id) as Href;
@@ -26,7 +30,7 @@ export default function RowItem({ data, dynamicPath }: ListItem) {
             {title}
           </Text>
           {releaseDate && <Text style={styles.itemDate} numberOfLines={2}>
-            {formatDate(releaseDate)}
+            {formatDate(releaseDate, locale)}
           </Text>}
           <Text style={styles.itemDescription} numberOfLines={6}>
             {data.overview}

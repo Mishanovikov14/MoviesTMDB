@@ -15,6 +15,7 @@ import { useAppDispatch } from "../store/store";
 import { showModal } from "../store/modal/modalSlice";
 import { useAddToFavorite } from "../api/favourite";
 import { setFavorites } from "../store/favorites/favoriteSlice";
+import { useTranslation } from "react-i18next";
 
 type FormData = {
   userName: string;
@@ -31,6 +32,8 @@ export default function signUpPage() {
   const auth = FIREBASE_AUTH;
   const dispatch = useAppDispatch();
   const { mutateAsync } = useAddToFavorite();
+
+  const { t } = useTranslation();
 
   const {
     control,
@@ -62,7 +65,7 @@ export default function signUpPage() {
     } catch (error) {
       dispatch(
         showModal({
-          title: "Something went wrong",
+          title: t("defaultErrorTitle"),
           message: JSON.stringify(error),
           borderColor: Colors.ERROR,
         })
@@ -76,14 +79,14 @@ export default function signUpPage() {
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={100}>
-      <Stack.Screen options={{ title: "Sign Up" }} />
+      <Stack.Screen options={{ title: t("signUp") }} />
 
-      <Text style={styles.label}>User Name</Text>
+      <Text style={styles.label}>{t("username")}</Text>
       <FormInputController
         name={"userName"}
         // @ts-ignore
         control={control}
-        placeholder={"User Name"}
+        placeholder={t("username")}
         errors={errors}
         props={{
           blurOnSubmit: false,
@@ -92,13 +95,13 @@ export default function signUpPage() {
         }}
       />
 
-      <Text style={styles.label}>Email</Text>
+      <Text style={styles.label}>{t("email")}</Text>
       <FormInputController
         ref={emailRef}
         name={"email"}
         // @ts-ignore
         control={control}
-        placeholder={"Email"}
+        placeholder={t("email")}
         errors={errors}
         props={{
           keyboardType: "email-address",
@@ -109,13 +112,13 @@ export default function signUpPage() {
         }}
       />
 
-      <Text style={styles.label}>Password</Text>
+      <Text style={styles.label}>{t("password")}</Text>
       <FormInputController
         ref={passwordRef}
         name={"password"}
         // @ts-ignore
         control={control}
-        placeholder={"Password"}
+        placeholder={t("password")}
         errors={errors}
         props={{
           secureTextEntry: true,
@@ -126,13 +129,13 @@ export default function signUpPage() {
         }}
       />
 
-      <Text style={styles.label}>Confirm Password</Text>
+      <Text style={styles.label}>{t("confirmPassword")}</Text>
       <FormInputController
         ref={confirmPasswordRef}
         name={"confirmPassword"}
         // @ts-ignore
         control={control}
-        placeholder={"Confirm Password"}
+        placeholder={t("confirmPassword")}
         errors={errors}
         props={{
           secureTextEntry: true,
@@ -142,7 +145,7 @@ export default function signUpPage() {
       />
 
       <Button onPress={handleSubmit(signUp)} disabled={loading} style={styles.button}>
-        {loading ? "Signing up..." : "Sign Up"}
+        {loading ? t("signingUp") : t("signUp")}
       </Button>
     </KeyboardAvoidingView>
   );

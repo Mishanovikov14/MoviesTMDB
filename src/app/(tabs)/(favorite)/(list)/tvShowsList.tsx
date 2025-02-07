@@ -4,20 +4,25 @@ import ErrorBlock from "@/src/components/ui/ErrorBlock";
 import Loader from "@/src/components/ui/Loader";
 import { Colors } from "@/src/constants/Colors";
 import { selectFavoriteTVShows } from "@/src/store/favorites/favoriteSlice";
+import { selectProfileLanguage } from "@/src/store/profile/profileSlice";
 import { useAppSelector } from "@/src/store/store";
+import { useTranslation } from "react-i18next";
 import { FlatList, StyleSheet, View } from "react-native";
 
 export default function FavouriteTVShowsScreen() {
+  const appLanguage = useAppSelector(selectProfileLanguage);
   const favoriteIds = useAppSelector(selectFavoriteTVShows) || [];
 
-  const { data: tvShows, isLoading, error } = useFavoriteShows(favoriteIds);
+  const { t } = useTranslation();
+
+  const { data: tvShows, isLoading, error } = useFavoriteShows(favoriteIds, appLanguage);
 
   if (isLoading) {
     return <Loader />;
   }
 
   if (error) {
-    return <ErrorBlock text="Failed to fetch Favorites Movies. Please try again!" />;
+    return <ErrorBlock text={t("tvShowFetchError")} />;
   }
 
   return (

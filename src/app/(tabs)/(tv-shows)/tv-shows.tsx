@@ -6,9 +6,16 @@ import VerticalCard from "@/src/components/cards/VerticalCard";
 import HorizontalCard from "@/src/components/cards/HorizontalCard";
 import ErrorBlock from "@/src/components/ui/ErrorBlock";
 import { useTVShows } from "@/src/api/tv-shows";
+import { useAppSelector } from "@/src/store/store";
+import { selectProfileLanguage } from "@/src/store/profile/profileSlice";
+import { useTranslation } from "react-i18next";
 
 export default function TVShowsScreen() {
-  const { data: tvShows, error, isLoading } = useTVShows();
+  const appLanguage = useAppSelector(selectProfileLanguage);
+
+  const { t } = useTranslation();
+
+  const { data: tvShows, error, isLoading } = useTVShows(appLanguage);
   const dynamicPath = "/(tabs)/(tv-shows)/";
 
   if (isLoading) {
@@ -16,7 +23,7 @@ export default function TVShowsScreen() {
   }
 
   if (error) {
-    return <ErrorBlock text="Failed to fetch TV Shows. Please try again!" />;
+    return <ErrorBlock text={t("tvShowFetchError")} />;
   }
 
   const popularData = tvShows?.popular?.results || [];
@@ -27,32 +34,36 @@ export default function TVShowsScreen() {
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <HorizontalFlatList
-        title={"Popular"}
+        title={t("popular")}
         data={popularData}
         Item={VerticalCard}
         path="/(tabs)/(tv-shows)/allShows?type=popular"
         dynamicPath={dynamicPath}
+        type="show"
       />
       <HorizontalFlatList
-        title={"Top Rated"}
+        title={t("topRated")}
         data={topRatedData}
         Item={HorizontalCard}
         path="/(tabs)/(tv-shows)/allShows?type=topRated"
         dynamicPath={dynamicPath}
+        type="show"
       />
       <HorizontalFlatList
-        title={"Airing today"}
+        title={t("airingToday")}
         data={airingTodayData}
         Item={VerticalCard}
         path="/(tabs)/(tv-shows)/allShows?type=airingToday"
         dynamicPath={dynamicPath}
+        type="show"
       />
       <HorizontalFlatList
-        title={"On the Air"}
+        title={t("onTheAir")}
         data={onTheAirData}
         Item={VerticalCard}
         path="/(tabs)/(tv-shows)/allShows?type=onTheAir"
         dynamicPath={dynamicPath}
+        type="show"
       />
     </ScrollView>
   );
