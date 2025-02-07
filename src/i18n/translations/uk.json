@@ -49,5 +49,7 @@
   "profileInfo": "Інформація профілю",
   "appLanguage": "Мова додатка",
   "fullname": "Повне Ім'я",
-  "released": "Дата випуску"
+  "released": "Дата випуску",
+  "english": "Англійська",
+  "ukrainian": "Українська"
 }

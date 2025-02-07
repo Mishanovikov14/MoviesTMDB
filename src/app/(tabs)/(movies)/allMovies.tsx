@@ -13,7 +13,7 @@ export default function AllMoviesScreen() {
 
   const All_TYPE: Record<string, string> = {
     popular: t("popular"),
-    inTheater: t("inTheater"),
+    inTheater: t("inTheaters"),
     topRated: t("topRated"),
     upcoming: t("upcommingMovies"),
     similar: t("similar"),

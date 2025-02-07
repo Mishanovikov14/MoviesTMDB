@@ -17,6 +17,7 @@ import { MainStyles } from "@/src/constants/Style";
 import ErrorBlock from "@/src/components/ui/ErrorBlock";
 import { selectProfileLanguage, setProfileLanguage } from "@/src/store/profile/profileSlice";
 import { useTranslation } from "react-i18next";
+import Dropdown from "@/src/components/ui/Dropdown";
 
 export default function ProfileScreen() {
   const [isLoading, setIsLoading] = useState(false);
@@ -32,21 +33,13 @@ export default function ProfileScreen() {
     router.replace("/");
   };
 
-  const handleLanguageChange = async () => {
+  const handleLanguageChange = async (language: string) => {
     try {
-      if (appLanguage === "en-US") {
-        i18n.changeLanguage("uk");
+      i18n.changeLanguage(language);
 
-        dispatch(setProfileLanguage({ language: "uk" }));
+      dispatch(setProfileLanguage({ language: language }));
 
-        await AsyncStorage.setItem("appLanguage", "uk");
-      } else {
-        i18n.changeLanguage("un-US");
-        
-        dispatch(setProfileLanguage({ language: "en-US" }));
-
-        await AsyncStorage.setItem("appLanguage", "en-US");
-      }
+      await AsyncStorage.setItem("appLanguage", language);
     } catch (error) {
       dispatch(
         showModal({
@@ -129,12 +122,14 @@ export default function ProfileScreen() {
         <Text style={styles.titleText}>{t("profileInfo")}</Text>
         <TextWithTitleHorizontal title={`${t("fullname")}:`} text={profileData.displayName!} />
         <TextWithTitleHorizontal title={`${t("email")}:`} text={profileData.email!} />
-        <TextWithTitleHorizontal title={`${t("appLanguage")}:`} text={appLanguage} />
+        {/* <TextWithTitleHorizontal title={`${t("appLanguage")}:`} text={appLanguage} /> */}
+
+        <Dropdown onSelect={(lang) => handleLanguageChange(lang)} />
       </View>
 
-      <Button onPress={handleLanguageChange} style={styles.button}>
+      {/* <Button onPress={handleLanguageChange} style={styles.button}>
         Change Language
-      </Button>
+      </Button> */}
 
       <Button onPress={handleSignOut} style={styles.button}>
         {t("signOut")}
@@ -182,5 +177,11 @@ const styles = StyleSheet.create({
     color: Colors.PRIMARY,
     fontWeight: "bold",
     marginBottom: 12,
+  },
+
+  languagePicker: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 24,
   },
 });
