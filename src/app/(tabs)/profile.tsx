@@ -35,15 +35,15 @@ export default function ProfileScreen() {
   const handleLanguageChange = async () => {
     try {
       if (appLanguage === "en-US") {
+        i18n.changeLanguage("uk");
+
         dispatch(setProfileLanguage({ language: "uk" }));
 
-        i18n.changeLanguage("uk");
-        
         await AsyncStorage.setItem("appLanguage", "uk");
       } else {
-        dispatch(setProfileLanguage({ language: "en-US" }));
-        
         i18n.changeLanguage("un-US");
+        
+        dispatch(setProfileLanguage({ language: "en-US" }));
 
         await AsyncStorage.setItem("appLanguage", "en-US");
       }
