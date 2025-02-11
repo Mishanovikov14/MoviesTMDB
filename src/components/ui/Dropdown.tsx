@@ -1,48 +1,37 @@
 import { useState } from "react";
-import {
-  View,
-  Text,
-  FlatList,
-  Pressable,
-  StyleSheet,
-  TouchableWithoutFeedback,
-} from "react-native";
+import { View, Text, FlatList, Pressable, StyleSheet } from "react-native";
 import { Colors } from "@/src/constants/Colors";
 import { MainStyles } from "@/src/constants/Style";
-import { MaterialIcons } from "@expo/vector-icons"; // Иконка стрелки
-import { useTranslation } from "react-i18next";
+import { MaterialIcons } from "@expo/vector-icons";
 import Animated, {
   Easing,
   withTiming,
   useSharedValue,
   useAnimatedStyle,
+  FadeIn,
+  FadeOut,
 } from "react-native-reanimated";
+import { LANGUAGES } from "@/src/constants/Languages";
 
-const LANGUAGES = [
-  { code: "en-US", label: "🇺🇸 English" }, // Флаг США
-  { code: "uk", label: "🇺🇦 Українська" },
-];
-
-export default function Dropdown({ onSelect }: { onSelect: (langCode: string) => void }) {
+export default function Dropdown({
+  onSelect,
+  labelText,
+  data,
+}: {
+  onSelect: (langCode: string) => void;
+  labelText: string;
+  data: { code: string; label: string }[];
+}) {
   const [visible, setVisible] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState(LANGUAGES[0]);
+  const [selectedLanguage, setSelectedLanguage] = useState(data[0]);
 
-  const { t } = useTranslation();
-
-  // Создание анимаций
-  const fadeAnim = useSharedValue(0);
   const rotateAnim = useSharedValue(0);
 
   const toggleDropdown = () => {
-    setVisible(!visible);
-    // Анимация появления/исчезновения меню
-    fadeAnim.value = withTiming(visible ? 0 : 1, {
-      duration: 300,
-      easing: Easing.ease,
-    });
-    // Поворот стрелки
+    setVisible((prevState) => !prevState);
+
     rotateAnim.value = withTiming(visible ? 0 : 1, {
-      duration: 300,
+      duration: 200,
       easing: Easing.ease,
     });
   };
@@ -50,26 +39,11 @@ export default function Dropdown({ onSelect }: { onSelect: (langCode: string) =>
   const handleSelect = (item: { code: string; label: string }) => {
     setSelectedLanguage(item);
     onSelect(item.code);
-    // Скрыть меню с анимацией после выбора
-    fadeAnim.value = withTiming(0, { duration: 300, easing: Easing.ease });
+
     rotateAnim.value = withTiming(0, { duration: 300, easing: Easing.ease });
     setVisible(false);
   };
 
-  const closeDropdown = () => {
-    setVisible(false);
-    fadeAnim.value = withTiming(0, { duration: 300, easing: Easing.ease });
-    rotateAnim.value = withTiming(0, { duration: 300, easing: Easing.ease });
-  };
-
-  // Стиль для анимации прозрачности
-  const dropdownStyle = useAnimatedStyle(() => {
-    return {
-      opacity: fadeAnim.value,
-    };
-  });
-
-  // Стиль для анимации поворота стрелки
   const arrowStyle = useAnimatedStyle(() => {
     return {
       transform: [
@@ -81,39 +55,37 @@ export default function Dropdown({ onSelect }: { onSelect: (langCode: string) =>
   });
 
   return (
-    <TouchableWithoutFeedback onPress={closeDropdown}>
-      <View style={styles.container}>
-        <Pressable
-          style={styles.dropdownContainer}
-          onPress={(e) => {
-            e.stopPropagation(); // Остановка всплытия
-            toggleDropdown();
-          }}
-        >
-          <Text style={styles.label}>{`${t("appLanguage")}:`}</Text>
-          <View style={styles.languageContainer}>
-            <Text style={styles.buttonText}>{selectedLanguage.label}</Text>
-            <Animated.View style={arrowStyle}>
-              <MaterialIcons name="arrow-drop-down" size={24} color={Colors.DARK} />
-            </Animated.View>
-          </View>
-        </Pressable>
-
-        {visible && (
-          <Animated.View style={[styles.dropdown, dropdownStyle]}>
-            <FlatList
-              data={LANGUAGES}
-              keyExtractor={(item) => item.code}
-              renderItem={({ item }) => (
-                <Pressable style={styles.item} onPress={() => handleSelect(item)}>
-                  <Text style={styles.itemText}>{item.label}</Text>
-                </Pressable>
-              )}
-            />
+    <View style={styles.container}>
+      <Pressable
+        style={styles.dropdownContainer}
+        onPress={(e) => {
+          e.stopPropagation();
+          toggleDropdown();
+        }}
+      >
+        <Text style={styles.label}>{labelText}</Text>
+        <View style={styles.languageContainer}>
+          <Text style={styles.buttonText}>{selectedLanguage.label}</Text>
+          <Animated.View style={arrowStyle}>
+            <MaterialIcons name="arrow-drop-down" size={24} color={Colors.DARK} />
           </Animated.View>
-        )}
-      </View>
-    </TouchableWithoutFeedback>
+        </View>
+      </Pressable>
+
+      {visible && (
+        <Animated.View entering={FadeIn} exiting={FadeOut} style={styles.dropdown}>
+          <FlatList
+            data={LANGUAGES}
+            keyExtractor={(item) => item.code}
+            renderItem={({ item }) => (
+              <Pressable style={styles.item} onPress={() => handleSelect(item)}>
+                <Text style={styles.itemText}>{item.label}</Text>
+              </Pressable>
+            )}
+          />
+        </Animated.View>
+      )}
+    </View>
   );
 }
 

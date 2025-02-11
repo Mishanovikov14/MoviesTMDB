@@ -18,6 +18,7 @@ import ErrorBlock from "@/src/components/ui/ErrorBlock";
 import { selectProfileLanguage, setProfileLanguage } from "@/src/store/profile/profileSlice";
 import { useTranslation } from "react-i18next";
 import Dropdown from "@/src/components/ui/Dropdown";
+import { LANGUAGES } from "@/src/constants/Languages";
 
 export default function ProfileScreen() {
   const [isLoading, setIsLoading] = useState(false);
@@ -119,17 +120,17 @@ export default function ProfileScreen() {
             </>
           )}
         </View>
+
         <Text style={styles.titleText}>{t("profileInfo")}</Text>
         <TextWithTitleHorizontal title={`${t("fullname")}:`} text={profileData.displayName!} />
         <TextWithTitleHorizontal title={`${t("email")}:`} text={profileData.email!} />
-        {/* <TextWithTitleHorizontal title={`${t("appLanguage")}:`} text={appLanguage} /> */}
 
-        <Dropdown onSelect={(lang) => handleLanguageChange(lang)} />
+        <Dropdown
+          onSelect={(lang) => handleLanguageChange(lang)}
+          labelText={`${t("appLanguage")}:`}
+          data={LANGUAGES}
+        />
       </View>
-
-      {/* <Button onPress={handleLanguageChange} style={styles.button}>
-        Change Language
-      </Button> */}
 
       <Button onPress={handleSignOut} style={styles.button}>
         {t("signOut")}
