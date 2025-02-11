@@ -11,7 +11,6 @@ import Animated, {
   FadeIn,
   FadeOut,
 } from "react-native-reanimated";
-import { LANGUAGES } from "@/src/constants/Languages";
 
 export default function Dropdown({
   onSelect,
@@ -75,7 +74,7 @@ export default function Dropdown({
       {visible && (
         <Animated.View entering={FadeIn} exiting={FadeOut} style={styles.dropdown}>
           <FlatList
-            data={LANGUAGES}
+            data={data}
             keyExtractor={(item) => item.code}
             renderItem={({ item }) => (
               <Pressable style={styles.item} onPress={() => handleSelect(item)}>
