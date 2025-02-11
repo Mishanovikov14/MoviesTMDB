@@ -49,5 +49,7 @@
   "profileInfo": "Profile Info",
   "appLanguage": "App Language",
   "fullname": "Full Name",
-  "released": "Release date"
+  "released": "Release date",
+  "english": "English",
+  "ukrainian": "Ukrainian"
 }

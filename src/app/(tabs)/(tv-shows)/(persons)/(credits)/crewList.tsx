@@ -1,28 +1,9 @@
-import { Colors } from "@/src/constants/Colors";
-import { StyleSheet, FlatList, View } from "react-native";
 import { useAppSelector } from "@/src/store/store";
 import { selectCrew } from "@/src/store/credits/creditsSlice";
-import PersonRowItem from "@/src/components/PersonRowItem";
+import AllPersonsScreen from "@/src/components/screens/AllPersonScreen";
 
 export default function PersonsScreen() {
   const crew = useAppSelector(selectCrew) || [];
 
-  return (
-    <View style={styles.container}>
-      <FlatList
-        data={crew}
-        keyExtractor={(item, index) => item.id.toString() + index}
-        renderItem={({ item }) => <PersonRowItem data={item} dynamicPath="/(tabs)/(tv-shows)/(persons)/" />}
-      />
-    </View>
-  );
+  return <AllPersonsScreen data={crew} dynamicPath="/(tabs)/(tv-shows)/(persons)/" />;
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    padding: 20,
-    backgroundColor: Colors.DARK,
-  },
-});
