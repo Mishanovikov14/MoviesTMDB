@@ -56,21 +56,21 @@ export default function Dropdown({
 
   return (
     <View style={styles.container}>
-      <Pressable
-        style={styles.dropdownContainer}
-        onPress={(e) => {
-          e.stopPropagation();
-          toggleDropdown();
-        }}
-      >
+      <View style={styles.dropdownContainer}>
         <Text style={styles.label}>{labelText}</Text>
-        <View style={styles.languageContainer}>
+        <Pressable
+          style={styles.languageContainer}
+          onPress={(e) => {
+            e.stopPropagation();
+            toggleDropdown();
+          }}
+        >
           <Text style={styles.buttonText}>{selectedLanguage.label}</Text>
           <Animated.View style={arrowStyle}>
             <MaterialIcons name="arrow-drop-down" size={24} color={Colors.DARK} />
           </Animated.View>
-        </View>
-      </Pressable>
+        </Pressable>
+      </View>
 
       {visible && (
         <Animated.View entering={FadeIn} exiting={FadeOut} style={styles.dropdown}>
