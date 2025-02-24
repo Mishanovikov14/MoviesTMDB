@@ -3,7 +3,7 @@ import { setDoc, doc, getDoc } from "firebase/firestore";
 import { FIREBASE_AUTH, FIREBASE_DB } from "@/src/lib/FirebaseConfig";
 import { Favorites } from "@/src/constants/Types";
 import { fetchMovieDetails } from "../movies";
-import { fetchShowDetails } from "../tv-shows";
+import { fetchShowDetails } from "../tvShows";
 
 const auth = FIREBASE_AUTH;
 const db = FIREBASE_DB;

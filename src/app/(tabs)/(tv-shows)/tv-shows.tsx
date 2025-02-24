@@ -5,7 +5,7 @@ import HorizontalFlatList from "@/src/components/lists/HorizontalFlatList";
 import VerticalCard from "@/src/components/cards/VerticalCard";
 import HorizontalCard from "@/src/components/cards/HorizontalCard";
 import ErrorBlock from "@/src/components/ui/ErrorBlock";
-import { useTVShows } from "@/src/api/tv-shows";
+import { useTVShows } from "@/src/api/tvShows";
 import { useAppSelector } from "@/src/store/store";
 import { selectProfileLanguage } from "@/src/store/profile/profileSlice";
 import { useTranslation } from "react-i18next";

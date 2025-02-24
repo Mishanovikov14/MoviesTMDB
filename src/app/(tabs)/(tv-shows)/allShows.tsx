@@ -1,5 +1,5 @@
 import { useSearchParams } from "expo-router/build/hooks";
-import { useAllTVShows } from "@/src/api/tv-shows";
+import { useAllTVShows } from "@/src/api/tvShows";
 import AllItemsScreen from "@/src/components/screens/AllItemsScreen";
 import { useTranslation } from "react-i18next";
 

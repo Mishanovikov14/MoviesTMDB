@@ -20,7 +20,7 @@ import FavoriteButton from "@/src/components/ui/FavoriteButton";
 import { showModal } from "@/src/store/modal/modalSlice";
 import ErrorBlock from "../ui/ErrorBlock";
 import DetailsHeader from "../DetailsHeader";
-import { useTVShowDetails } from "@/src/api/tv-shows";
+import { useTVShowDetails } from "@/src/api/tvShows";
 import { useFocusEffect } from "@react-navigation/native";
 import { selectProfileLanguage } from "@/src/store/profile/profileSlice";
 import { useTranslation } from "react-i18next";
