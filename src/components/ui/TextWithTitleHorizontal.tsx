@@ -13,8 +13,7 @@ export default function TextWithTitleHorizontal({ title, text }: { title: string
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
-    alignItems: "center",
+    justifyContent: "center",
     marginBottom: 10,
   },
 
